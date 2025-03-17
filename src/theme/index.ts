@@ -1,6 +1,13 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, ThemeConfig } from '@chakra-ui/react';
+
+// Cấu hình chế độ màu - đặt chế độ tối làm mặc định
+const config: ThemeConfig = {
+  initialColorMode: 'dark',
+  useSystemColorMode: false,
+};
 
 const theme = extendTheme({
+  config,
   colors: {
     brand: {
       50: '#f0f9ff',
@@ -20,12 +27,12 @@ const theme = extendTheme({
     body: '"Noto Sans", sans-serif',
   },
   styles: {
-    global: {
+    global: (props: any) => ({
       body: {
-        bg: 'gray.50',
-        color: 'gray.800',
+        bg: props.colorMode === 'dark' ? 'gray.800' : 'gray.50',
+        color: props.colorMode === 'dark' ? 'white' : 'gray.800',
       },
-    },
+    }),
   },
   components: {
     Button: {

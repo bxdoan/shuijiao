@@ -92,33 +92,33 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
       <Stack spacing={4}>
         <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
           <FormControl>
-            <FormLabel>Difficulty</FormLabel>
+            <FormLabel>Độ khó</FormLabel>
             <Select name="type" value={filters.type || 'easy'} onChange={handleChange}>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              <option value="easy">Dễ</option>
+              <option value="medium">Trung bình</option>
+              <option value="hard">Khó</option>
             </Select>
           </FormControl>
 
           <FormControl>
-            <FormLabel>Topic</FormLabel>
+            <FormLabel>Chủ đề</FormLabel>
             <Select name="topic" value={filters.topic || ''} onChange={handleChange}>
-              <option value="">All Topics</option>
-              <option value="World">World</option>
-              <option value="China">China</option>
-              <option value="Business">Business</option>
-              <option value="Technology">Technology</option>
-              <option value="Science">Science</option>
-              <option value="Health">Health</option>
-              <option value="Sports">Sports</option>
-              <option value="Showbiz">Entertainment</option>
+              <option value="">Tất cả chủ đề</option>
+              <option value="World">Thế giới</option>
+              <option value="China">Trung Quốc</option>
+              <option value="Business">Kinh doanh</option>
+              <option value="Technology">Công nghệ</option>
+              <option value="Science">Khoa học</option>
+              <option value="Health">Sức khỏe</option>
+              <option value="Sports">Thể thao</option>
+              <option value="Showbiz">Giải trí</option>
             </Select>
           </FormControl>
 
           <FormControl>
-            <FormLabel>Source</FormLabel>
+            <FormLabel>Nguồn</FormLabel>
             <Select name="source" value={filters.source || ''} onChange={handleChange}>
-              <option value="">All Sources</option>
+              <option value="">Tất cả nguồn</option>
               <option value="环球时报">Global Times</option>
               <option value="人民日报">People's Daily</option>
               <option value="新华社">Xinhua</option>
@@ -128,7 +128,7 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
         </Stack>
 
         <FormControl>
-          <FormLabel>Date</FormLabel>
+          <FormLabel>Ngày</FormLabel>
           <Flex gap={2} alignItems="center">
             <ButtonGroup size="sm" isAttached variant="outline">
               <Button 
@@ -170,7 +170,7 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
             >
               <PopoverTrigger>
                 <IconButton
-                  aria-label="Select date"
+                  aria-label="Chọn ngày"
                   icon={<CalendarIcon />}
                   onClick={() => setIsCalendarOpen(!isCalendarOpen)}
                   size="sm"
@@ -193,7 +193,7 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
 
         <Box alignSelf="flex-end">
           <Button colorScheme="blue" onClick={handleReset}>
-            Reset Filters
+            Đặt lại bộ lọc
           </Button>
         </Box>
       </Stack>

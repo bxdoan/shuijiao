@@ -8,7 +8,8 @@ import {
   HStack,
   useBreakpointValue,
   useColorMode,
-  IconButton
+  IconButton,
+  Image
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
@@ -31,20 +32,32 @@ const Header: React.FC = () => {
       {/* @ts-ignore - Suppress complex union type error */}
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center">
-          <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
-            <Link to="/">
-              <Box 
-                as="span" 
-                fontSize="2xl" 
-                fontWeight="bold" 
-                color="yellow.400"
-                mr={1}
-              >
-                Kim Én
-              </Box>
-              <Box as="span">Chinese</Box>
-            </Link>
-          </Heading>
+          <Flex align="center">
+            <Image 
+              src={process.env.PUBLIC_URL + '/shuijiao.png'} 
+              alt="Logo" 
+              boxSize="40px" 
+              mr={2}
+              borderRadius="full"
+              boxShadow="0 0 0 2px #ECC94B"
+              transition="transform 0.3s"
+              _hover={{ transform: 'scale(1.1)' }}
+            />
+            <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
+              <Link to="/">
+                <Box 
+                  as="span" 
+                  fontSize="2xl" 
+                  fontWeight="bold" 
+                  color="yellow.400"
+                  mr={1}
+                >
+                  Kim Én
+                </Box>
+                <Box as="span">Chinese</Box>
+              </Link>
+            </Heading>
+          </Flex>
 
           <HStack spacing="4">
             <Button 

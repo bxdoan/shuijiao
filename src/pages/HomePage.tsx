@@ -1,49 +1,155 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Heading, Text, Alert, AlertTitle, AlertDescription, CloseButton } from '@chakra-ui/react';
+import { 
+    Box, 
+    Container, 
+    Heading, 
+    Text, 
+    CloseButton,
+    Alert,
+    AlertDescription,
+    Button,
+    Center,
+    Spinner,
+    SimpleGrid
+} from '@chakra-ui/react';
 import NewsFilter from '../components/NewsFilter';
-import NewsList from '../components/NewsList';
-import Pagination from '../components/Pagination';
-import { NewsFilterParams } from '../types';
+import NewsCard from '../components/NewsCard';
+import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
 
 const HomePage: React.FC = () => {
+  const [allNews, setAllNews] = useState<NewsItem[]>([]);
+  const [loadedDates, setLoadedDates] = useState<string[]>([]);
+  const [currentDate, setCurrentDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [filters, setFilters] = useState<NewsFilterParams>({
     topic: '',
     source: '',
     type: 'easy',
     page: 1,
-    limit: 9,
+    limit: 40, // Tăng limit để lấy tất cả tin tức trong ngày
     date: new Date().toISOString().split('T')[0],
     timestamp: new Date().toISOString().split('T')[0],
   });
   
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMoreDates, setHasMoreDates] = useState(true);
 
-  const { data, isError, error } = useNews(filters);
-  const totalPages = data && data.total ? Math.ceil(data.total / (filters.limit || 9)) : 0;
+  const { data, isError, error, isLoading } = useNews(filters);
+
+  // Tải tin tức ban đầu
+  useEffect(() => {
+    if (data && data.data && !isLoadingMore) {
+      // Nếu đây là lần tải đầu tiên hoặc khi thay đổi bộ lọc
+      if (loadedDates.length === 0 || !loadedDates.includes(filters.date || '')) {
+        setAllNews(data.data);
+        setLoadedDates([filters.date || '']);
+        setCurrentDate(filters.date || new Date().toISOString().split('T')[0]);
+      }
+    }
+  }, [data, filters.topic, filters.source, filters.type]);
+
+  // Xử lý khi tải thêm tin tức từ ngày trước đó
+  useEffect(() => {
+    if (isLoadingMore && data && data.data) {
+      // Thêm tin tức mới vào danh sách hiện tại
+      setAllNews(prevNews => [...prevNews, ...data.data]);
+      
+      // Cập nhật danh sách ngày đã tải
+      if (!loadedDates.includes(filters.date || '')) {
+        setLoadedDates(prev => [...prev, filters.date || '']);
+      }
+      
+      setIsLoadingMore(false);
+      
+      // Kiểm tra xem có còn tin tức để tải không
+      setHasMoreDates(data.data.length > 0);
+    }
+  }, [data, isLoadingMore]);
 
   useEffect(() => {
     if (isError && error) {
       setShowAlert(true);
-      setAlertMessage('Error loading news. Please try again later.');
+      setAlertMessage('Lỗi khi tải tin tức. Vui lòng thử lại sau.');
       console.error('HomePage error:', error);
+      setIsLoadingMore(false);
     }
   }, [isError, error]);
 
   const handleFilterChange = (newFilters: NewsFilterParams) => {
-    setFilters({ ...filters, ...newFilters, page: 1 });
+    // Reset tất cả khi thay đổi bộ lọc
+    setAllNews([]);
+    setLoadedDates([]);
+    setHasMoreDates(true);
+    setIsLoadingMore(false);
+    
+    const newDate = newFilters.date || new Date().toISOString().split('T')[0];
+    setCurrentDate(newDate);
+    
+    setFilters({ 
+      ...filters, 
+      ...newFilters, 
+      page: 1,
+      date: newDate,
+      timestamp: newDate
+    });
   };
 
-  const handlePageChange = (page: number) => {
-    setFilters({ ...filters, page });
+  // Hàm tải thêm tin tức từ ngày trước đó
+  const handleLoadMore = () => {
+    setIsLoadingMore(true);
+    
+    // Tính toán ngày trước đó
+    const previousDay = new Date(currentDate);
+    previousDay.setDate(previousDay.getDate() - 1);
+    const previousDayStr = previousDay.toISOString().split('T')[0];
+    
+    // Cập nhật ngày hiện tại
+    setCurrentDate(previousDayStr);
+    
+    // Tải tin tức từ ngày trước đó
+    setFilters(prev => ({ 
+      ...prev, 
+      page: 1, 
+      date: previousDayStr,
+      timestamp: previousDayStr
+    }));
+  };
+
+  const renderNewsContent = () => {
+    if (allNews.length === 0) {
+      if (isLoading) {
+        return (
+          <Center py={10}>
+            <Spinner size="xl" color="blue.500" thickness="4px" />
+          </Center>
+        );
+      }
+      return (
+        <Center py={10}>
+          <Text>Không tìm thấy tin tức. Hãy thử thay đổi bộ lọc.</Text>
+        </Center>
+      );
+    }
+
+    return (
+      <Box py={4}>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+          {allNews.map((item, index) => {
+            const key = `news-${index}-${item.id || ''}`;
+            return <NewsCard key={key} news={item} />;
+          })}
+        </SimpleGrid>
+      </Box>
+    );
   };
 
   return (
     <Container maxW="container.xl" py={8}>
       {showAlert && (
         <Box bg="red.500" color="white" p={4} mb={4} borderRadius="md" position="relative">
-          <Heading as="h3" size="md">Error!</Heading>
+          <Heading as="h3" size="md">Lỗi!</Heading>
           <Text>{alertMessage}</Text>
           <CloseButton position="absolute" right="8px" top="8px" onClick={() => setShowAlert(false)} />
         </Box>
@@ -51,22 +157,27 @@ const HomePage: React.FC = () => {
 
       <Box textAlign="center" mb={8}>
         <Heading as="h1" size="2xl" mb={2}>
-          Kim Én Chinese
+          Học tiếng Trung qua các bài báo thực tế
         </Heading>
-        <Text fontSize="lg" color="gray.600">
-          Learn Chinese with real-world news articles
-        </Text>
       </Box>
 
       <NewsFilter filters={filters} onFilterChange={handleFilterChange} />
-      <NewsList filters={filters} />
       
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={filters.page || 1}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+      {renderNewsContent()}
+      
+      {hasMoreDates && (
+        <Center py={6}>
+          <Button 
+            colorScheme="blue" 
+            isLoading={isLoadingMore}
+            loadingText="Đang tải..."
+            onClick={handleLoadMore}
+            size="lg"
+            width={{ base: "full", md: "auto" }}
+          >
+            Xem Thêm
+          </Button>
+        </Center>
       )}
     </Container>
   );

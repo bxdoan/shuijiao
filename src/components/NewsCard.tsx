@@ -21,6 +21,17 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
+  // Đảm bảo news.value tồn tại để tránh lỗi
+  const newsValue = news?.value || {};
+  const imageUrl = typeof newsValue.image === 'string' ? newsValue.image : '';
+  const title = typeof newsValue.title === 'string' ? newsValue.title : '';
+  const type = typeof newsValue.type === 'string' ? newsValue.type : '';
+  const kind = typeof newsValue.kind === 'string' ? newsValue.kind : '';
+  const source = typeof newsValue.source === 'string' ? newsValue.source : '';
+  const desc = typeof newsValue.desc === 'string' ? newsValue.desc : '';
+  const body = typeof newsValue.body === 'string' ? newsValue.body : '';
+  const date = newsValue.date || '';
+
   const getTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
       case 'easy':
@@ -68,6 +79,20 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     return body.substring(0, cutIndex) + '...';
   };
 
+  // Chuyển đổi tên độ khó sang tiếng Việt
+  const getVietnameseType = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'easy':
+        return 'DỄ';
+      case 'medium':
+        return 'TRUNG BÌNH';
+      case 'hard':
+        return 'KHÓ';
+      default:
+        return type.toUpperCase();
+    }
+  };
+
   return (
     <Box
       borderWidth="1px"
@@ -79,10 +104,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
       transition="all 0.3s"
       _hover={{ transform: 'translateY(-4px)', boxShadow: 'lg' }}
     >
-      {news.value.image && (
+      {imageUrl && (
         <Image
-          src={news.value.image}
-          alt={news.value.title}
+          src={imageUrl}
+          alt={title}
           objectFit="cover"
           height="200px"
           width="100%"
@@ -91,33 +116,33 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
 
       <Box p={4}>
         <Stack direction="row" spacing={2} mb={2}>
-          <Badge colorScheme={getTypeColor(news.value.type)}>
-            {news.value.type.toUpperCase()}
+          <Badge colorScheme={getTypeColor(type)}>
+            {getVietnameseType(type)}
           </Badge>
-          <Badge colorScheme="blue">{news.value.kind}</Badge>
-          <Badge colorScheme="purple">{news.value.source}</Badge>
+          <Badge colorScheme="blue">{kind}</Badge>
+          <Badge colorScheme="purple">{source}</Badge>
         </Stack>
 
-        <Heading as="h3" size="md" mb={2} dangerouslySetInnerHTML={{ __html: news.value.title }} />
+        <Heading as="h3" size="md" mb={2} dangerouslySetInnerHTML={{ __html: title }} />
         
         <Box mb={4}>
-          <Text fontSize="md" mb={2} dangerouslySetInnerHTML={{ __html: news.value.desc }} />
+          <Text fontSize="md" mb={2} dangerouslySetInnerHTML={{ __html: desc }} />
           
           {showFullContent ? (
-            <Box mt={4} dangerouslySetInnerHTML={{ __html: news.value.body }} />
+            <Box mt={4} dangerouslySetInnerHTML={{ __html: body }} />
           ) : (
             <Text 
               fontSize="sm" 
               color="gray.600" 
               mt={2} 
-              dangerouslySetInnerHTML={{ __html: getShortDescription(news.value.body) }}
+              dangerouslySetInnerHTML={{ __html: getShortDescription(body) }}
             />
           )}
         </Box>
 
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="sm" color="gray.500">
-            {new Date(news.value.date).toLocaleDateString()}
+            {new Date(date).toLocaleDateString()}
           </Text>
           <Button
             size="sm"
@@ -125,7 +150,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             variant="outline"
             onClick={() => setShowFullContent(!showFullContent)}
           >
-            {showFullContent ? 'Show Less' : 'Read More'}
+            {showFullContent ? 'Thu gọn' : 'Đọc thêm'}
           </Button>
         </Flex>
       </Box>
