@@ -31,8 +31,8 @@
 
 1. Clone repository
 ```bash
-git clone https://github.com/yourusername/kim-en-chinese.git
-cd kim-en-chinese
+git clone https://github.com/bxdoan/shuijiao.git
+cd shuijiao
 ```
 
 2. Cài đặt dependencies
@@ -55,15 +55,7 @@ yarn start
 
 Dự án này được cấu hình để triển khai trên Vercel. Chỉ cần kết nối repository GitHub của bạn với Vercel và nó sẽ tự động triển khai ứng dụng của bạn.
 
-## API
-
-Ứng dụng này sử dụng API EasyChinese.io để lấy các bài báo. API cung cấp các bài báo tiếng Trung với pinyin và bản dịch tiếng Anh.
-
 ## Giấy phép
 
 Dự án này được cấp phép theo Giấy phép MIT - xem file LICENSE để biết chi tiết.
 
-## Lời cảm ơn
-
-- Lấy cảm hứng từ [EasyChinese.io](https://easychinese.io)
-- Cảm ơn tất cả những người đóng góp đã giúp đỡ với dự án này

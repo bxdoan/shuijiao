@@ -7,7 +7,8 @@ import {
   Button,
   HStack,
   useBreakpointValue,
-  useColorMode
+  useColorMode,
+  IconButton
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
@@ -45,26 +46,19 @@ const Header: React.FC = () => {
           </Heading>
 
           <HStack spacing="4">
-            <Button as={Link} to="/" variant="ghost" color="white" _hover={{ bg: 'red.800' }}>
-              Home
-            </Button>
-            <Button as={Link} to="/about" variant="ghost" color="white" _hover={{ bg: 'red.800' }}>
-              About
-            </Button>
-            <Button as={Link} to="/lessons" variant="ghost" color="white" _hover={{ bg: 'red.800' }}>
-              Lessons
-            </Button>
-            <Button as={Link} to="/dictionary" variant="ghost" color="white" _hover={{ bg: 'red.800' }}>
-              Dictionary
-            </Button>
             <Button 
               onClick={toggleColorMode} 
               variant="ghost" 
               color="white"
               _hover={{ bg: 'red.800' }}
-              leftIcon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             >
-              {isMobile ? '' : (colorMode === 'light' ? 'Dark' : 'Light')}
+               <IconButton
+                icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                aria-label="Toggle color mode"
+                variant="ghost"
+                color="white"
+                _hover={{ bg: 'red.800' }}
+               />
             </Button>
           </HStack>
         </Flex>

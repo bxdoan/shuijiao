@@ -23,7 +23,7 @@ const AboutPage: React.FC = () => {
       <VStack spacing={8} align="stretch">
         <Box textAlign="center">
           <Heading as="h1" size="2xl" mb={4}>
-            About Easy Chinese News
+            About Kim Én Chinese
           </Heading>
           <Text fontSize="lg" color="gray.600">
             A platform designed to help you learn Chinese through real-world news
@@ -42,7 +42,7 @@ const AboutPage: React.FC = () => {
             Our Mission
           </Heading>
           <Text mb={4}>
-            Easy Chinese News is dedicated to making Chinese language learning accessible,
+            Kim Én Chinese is dedicated to making Chinese language learning accessible,
             engaging, and effective through authentic news content. We believe that
             learning a language through real-world materials is one of the most effective
             ways to achieve fluency.
