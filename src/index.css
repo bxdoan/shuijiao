@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Tùy chỉnh hiển thị nội dung HTML từ API */
+ruby {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  text-align: center;
+  line-height: 1.5;
+}
+
+rt {
+  font-size: 0.7em;
+  color: #666;
+  line-height: 1.2;
+}
+
+.unknown {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.hsk-1 {
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+.hsk-2 {
+  background-color: rgba(0, 200, 0, 0.1);
+}
+
+.hsk-3 {
+  background-color: rgba(0, 150, 0, 0.1);
+}
+
+.hsk-4 {
+  background-color: rgba(0, 100, 0, 0.1);
+}
+
+.hsk-5 {
+  background-color: rgba(0, 50, 0, 0.1);
+}
+
+.hsk-6 {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tocfl-1, .tocfl-2, .tocfl-3, .tocfl-4, .tocfl-5 {
+  border-bottom: 1px dotted #999;
+}
