@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Container, Flex, Text, Link, Stack } from '@chakra-ui/react';
-import SocialIcons from './SocialIcons';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
