@@ -28,6 +28,7 @@ const Header: React.FC = () => {
       top="0"
       zIndex="1"
     >
+      {/* @ts-ignore - Suppress complex union type error */}
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center">
           <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">

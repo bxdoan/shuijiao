@@ -1,12 +1,13 @@
 import React from 'react';
-import { Box, Container, Flex, Text, Link, Stack, IconButton } from '@chakra-ui/react';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaGithub } from 'react-icons/fa';
+import { Box, Container, Flex, Text, Link, Stack } from '@chakra-ui/react';
+import SocialIcons from './SocialIcons';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
   return (
     <Box as="footer" bg="gray.800" color="white" py={8} mt={10}>
+      {/* @ts-ignore - Suppress complex union type error */}
       <Container maxW="container.xl">
         <Flex direction={{ base: 'column', md: 'row' }} justify="space-between" align="start" gap={8}>
           <Stack spacing={3} align="flex-start">
@@ -32,63 +33,7 @@ const Footer: React.FC = () => {
           
           <Stack spacing={3} align="flex-start">
             <Text fontSize="lg" fontWeight="bold">Follow Us</Text>
-            <Flex gap={4}>
-              <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria-label="Facebook"
-                  icon={<FaFacebook />}
-                  size="md"
-                  fontSize="20px"
-                  variant="ghost"
-                  color="white"
-                  _hover={{ bg: 'blue.500' }}
-                />
-              </Link>
-              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria-label="Twitter"
-                  icon={<FaTwitter />}
-                  size="md"
-                  fontSize="20px"
-                  variant="ghost"
-                  color="white"
-                  _hover={{ bg: 'blue.400' }}
-                />
-              </Link>
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria-label="Instagram"
-                  icon={<FaInstagram />}
-                  size="md"
-                  fontSize="20px"
-                  variant="ghost"
-                  color="white"
-                  _hover={{ bg: 'pink.500' }}
-                />
-              </Link>
-              <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria-label="YouTube"
-                  icon={<FaYoutube />}
-                  size="md"
-                  fontSize="20px"
-                  variant="ghost"
-                  color="white"
-                  _hover={{ bg: 'red.500' }}
-                />
-              </Link>
-              <Link href="https://github.com/bxdoan" target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria-label="GitHub"
-                  icon={<FaGithub />}
-                  size="md"
-                  fontSize="20px"
-                  variant="ghost"
-                  color="white"
-                  _hover={{ bg: 'gray.600' }}
-                />
-              </Link>
-            </Flex>
+            <SocialIcons />
           </Stack>
         </Flex>
         
