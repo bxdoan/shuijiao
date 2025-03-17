@@ -149,27 +149,43 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
         cursor: 'pointer'
       }}>
         <div onClick={handleToggleExpand} style={{ flex: 1, display: 'flex' }}>
-          <HStack spacing={2}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <SearchIcon />
             <Text fontWeight="medium">Bộ lọc tin tức</Text>
+            
+            {/* Tính trước các giá trị để giảm độ phức tạp */}
             {!isExpanded && (
-              <HStack spacing={2} ml={2}>
+              <div style={{ display: 'flex', marginLeft: '8px', gap: '8px' }}>
                 {filters.type && (
-                  <Badge colorScheme={filters.type === 'easy' ? 'green' : filters.type === 'medium' ? 'orange' : 'red'}>
-                    {filters.type === 'easy' ? 'Dễ' : filters.type === 'medium' ? 'Trung bình' : 'Khó'}
+                  <Badge colorScheme={
+                    filters.type === 'easy' ? 'green' : 
+                    filters.type === 'medium' ? 'orange' : 'red'
+                  }>
+                    {filters.type === 'easy' ? 'Dễ' : 
+                     filters.type === 'medium' ? 'Trung bình' : 'Khó'}
                   </Badge>
                 )}
-                {filters.topic && <Badge colorScheme="blue">{filters.topic}</Badge>}
-                {filters.source && <Badge colorScheme="purple">{filters.source}</Badge>}
+                
+                {filters.topic && (
+                  <Badge colorScheme="blue">{filters.topic}</Badge>
+                )}
+                
+                {filters.source && (
+                  <Badge colorScheme="purple">{filters.source}</Badge>
+                )}
+                
                 {filters.date && (
                   <Badge colorScheme="teal">
-                    {filters.date === new Date().toISOString().split('T')[0] ? 'Hôm nay' : formatDateMMDD(filters.date)}
+                    {filters.date === new Date().toISOString().split('T')[0] 
+                      ? 'Hôm nay' 
+                      : formatDateMMDD(filters.date)}
                   </Badge>
                 )}
-              </HStack>
+              </div>
             )}
-          </HStack>
+          </div>
         </div>
+        
         <IconButton
           aria-label={isExpanded ? "Thu gọn bộ lọc" : "Mở rộng bộ lọc"}
           icon={isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
