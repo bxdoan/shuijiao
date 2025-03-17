@@ -33,7 +33,9 @@ const Footer: React.FC = () => {
           
           <Stack spacing={3} align="flex-start">
             <Text fontSize="lg" fontWeight="bold">Follow Us</Text>
-            <SocialIcons />
+            <Link href="https://www.facebook.com">Facebook</Link>
+            <Link href="https://www.instagram.com/">Instagram</Link>
+            <Link href="https://github.com/bxdoan">GitHub</Link>
           </Stack>
         </Flex>
         
