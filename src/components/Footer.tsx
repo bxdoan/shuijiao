@@ -17,20 +17,6 @@ const Footer: React.FC = () => {
           </Stack>
           
           <Stack spacing={3} align="flex-start">
-            <Text fontSize="lg" fontWeight="bold">Quick Links</Text>
-            <Link href="/">Home</Link>
-            <Link href="/about">About Us</Link>
-            <Link href="/contact">Contact</Link>
-          </Stack>
-          
-          <Stack spacing={3} align="flex-start">
-            <Text fontSize="lg" fontWeight="bold">Resources</Text>
-            <Link href="/lessons">Lessons</Link>
-            <Link href="/dictionary">Dictionary</Link>
-            <Link href="/grammar">Grammar</Link>
-          </Stack>
-          
-          <Stack spacing={3} align="flex-start">
             <Text fontSize="lg" fontWeight="bold">Follow Us</Text>
             <Link href="https://www.facebook.com">Facebook</Link>
             <Link href="https://www.instagram.com/">Instagram</Link>
