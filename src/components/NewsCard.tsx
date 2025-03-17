@@ -42,8 +42,30 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
 
   // Lấy mô tả ngắn từ body
   const getShortDescription = (body: string) => {
-    const plainText = stripHtml(body);
-    return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
+    // Đơn giản hóa: Giữ nguyên HTML và chỉ giới hạn độ dài
+    // Sử dụng một giới hạn lớn hơn cho HTML vì HTML có thể dài hơn văn bản thuần túy
+    const maxLength = 500;
+    
+    if (body.length <= maxLength) return body;
+    
+    // Tìm vị trí an toàn để cắt (sau thẻ đóng gần nhất)
+    let cutIndex = maxLength;
+    
+    // Tìm thẻ đóng gần nhất sau vị trí cắt
+    const nextClosingTagIndex = body.indexOf('>', cutIndex);
+    if (nextClosingTagIndex !== -1) {
+      cutIndex = nextClosingTagIndex + 1;
+    }
+    
+    // Tìm thẻ mở gần nhất trước vị trí cắt
+    const lastOpeningTagIndex = body.lastIndexOf('<', cutIndex);
+    
+    // Nếu có thẻ mở nhưng không có thẻ đóng tương ứng, cắt trước thẻ mở
+    if (lastOpeningTagIndex > body.lastIndexOf('>', lastOpeningTagIndex) && lastOpeningTagIndex < cutIndex) {
+      cutIndex = lastOpeningTagIndex;
+    }
+    
+    return body.substring(0, cutIndex) + '...';
   };
 
   return (
@@ -84,9 +106,12 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
           {showFullContent ? (
             <Box mt={4} dangerouslySetInnerHTML={{ __html: news.value.body }} />
           ) : (
-            <Text fontSize="sm" color="gray.600" mt={2}>
-              {getShortDescription(news.value.body)}
-            </Text>
+            <Text 
+              fontSize="sm" 
+              color="gray.600" 
+              mt={2} 
+              dangerouslySetInnerHTML={{ __html: getShortDescription(news.value.body) }}
+            />
           )}
         </Box>
 

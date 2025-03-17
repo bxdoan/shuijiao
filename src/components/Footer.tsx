@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Container, Flex, Text, Link, Stack } from '@chakra-ui/react';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { Box, Container, Flex, Text, Link, Stack, Icon } from '@chakra-ui/react';
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaGithub } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -34,16 +34,19 @@ const Footer: React.FC = () => {
             <Text fontSize="lg" fontWeight="bold">Follow Us</Text>
             <Flex gap={4}>
               <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <Box as={FaFacebook} boxSize={6} />
+                <Icon as={FaFacebook} boxSize={6} />
               </Link>
               <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <Box as={FaTwitter} boxSize={6} />
+                <Icon as={FaTwitter} boxSize={6} />
               </Link>
               <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <Box as={FaInstagram} boxSize={6} />
+                <Icon as={FaInstagram} boxSize={6} />
               </Link>
               <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer">
-                <Box as={FaYoutube} boxSize={6} />
+                <Icon as={FaYoutube} boxSize={6} />
+              </Link>
+              <Link href="https://github.com/bxdoan" target="_blank" rel="noopener noreferrer">
+                <Icon as={FaGithub} boxSize={6} />
               </Link>
             </Flex>
           </Stack>
