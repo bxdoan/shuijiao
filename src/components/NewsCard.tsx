@@ -53,12 +53,6 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     }
   };
 
-  // Hàm để chuyển đổi HTML thành text thuần túy
-  const stripHtml = (html: string) => {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || '';
-  };
-
   // Lấy mô tả ngắn từ body
   const getShortDescription = (body: string) => {
     // Đơn giản hóa: Giữ nguyên HTML và chỉ giới hạn độ dài
@@ -337,9 +331,6 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     
     // Tìm tất cả các phần tử cấp cao nhất (block-level elements)
     const blockElements = Array.from(doc.body.children);
-    
-    // Đối với mỗi khóa trong object translation, chúng ta cần index tương ứng
-    const translationKeys = Object.keys(translation).sort((a, b) => parseInt(a) - parseInt(b));
     
     // Tạo mảng các phần tử đã được xử lý để hiển thị
     const processedContent = [];

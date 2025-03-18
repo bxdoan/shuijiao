@@ -79,7 +79,7 @@ export const fetchTranslation = async (newsId: string, language: string = 'vi', 
 export const fetchGoogleTranslation = async (text: string, targetLang: string) => {
   try {
     const response = await fetch(
-      `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&sl=auto&tl=${targetLang}&q=${encodeURIComponent(text)}`
+      `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&sl=zh&tl=${targetLang}&q=${encodeURIComponent(text)}`
     );
     
     if (!response.ok) {
