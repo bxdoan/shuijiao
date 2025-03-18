@@ -16,6 +16,7 @@ import NewsCard from '../components/NewsCard';
 import ScrollToTopBottom from '../components/ScrollToTopBottom';
 import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 const HomePage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
@@ -174,6 +175,7 @@ const HomePage: React.FC = () => {
             onClick={handleLoadMore}
             size="lg"
             width={{ base: "full", md: "auto" }}
+            leftIcon={<ChevronDownIcon />}
           >
             Xem Thêm
           </Button>
