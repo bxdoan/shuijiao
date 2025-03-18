@@ -10,7 +10,6 @@ import {
   Flex,
   Button,
   useColorModeValue,
-  Spinner,
   useToast,
 } from '@chakra-ui/react';
 import { NewsItem } from '../types';

@@ -4,9 +4,7 @@ import {
   Container, 
   Flex, 
   Heading, 
-  Button,
   HStack,
-  useBreakpointValue,
   useColorMode,
   IconButton,
   Image
@@ -16,7 +14,6 @@ import { Link } from 'react-router-dom';
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box 

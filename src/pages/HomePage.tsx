@@ -6,8 +6,6 @@ import {
     Heading, 
     Text, 
     CloseButton,
-    Alert,
-    AlertDescription,
     Button,
     Center,
     Spinner,
@@ -50,7 +48,7 @@ const HomePage: React.FC = () => {
         setCurrentDate(filters.date || new Date().toISOString().split('T')[0]);
       }
     }
-  }, [data, filters.topic, filters.source, filters.type]);
+  }, [data, filters.topic, filters.source, filters.type, filters.date, isLoadingMore, loadedDates]);
 
   // Xử lý khi tải thêm tin tức từ ngày trước đó
   useEffect(() => {
@@ -68,7 +66,7 @@ const HomePage: React.FC = () => {
       // Kiểm tra xem có còn tin tức để tải không
       setHasMoreDates(data.data.length > 0);
     }
-  }, [data, isLoadingMore]);
+  }, [data, isLoadingMore, filters.date, loadedDates]);
 
   useEffect(() => {
     if (isError && error) {
