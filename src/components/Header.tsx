@@ -22,12 +22,14 @@ const Header: React.FC = () => {
     <Box 
       as="header" 
       py={4} 
-      bg="red.700" 
+      bgGradient="linear(to-r, red.800, red.600, yellow.600)"
       color="white"
-      boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+      boxShadow="0 4px 12px rgba(0, 0, 0, 0.2)"
       position="sticky"
       top="0"
       zIndex="1"
+      transition="all 0.3s ease-in-out"
+      _hover={{ boxShadow: "0 6px 16px rgba(236, 201, 75, 0.3)" }}
     >
       {/* @ts-ignore - Suppress complex union type error */}
       <Container maxW="container.xl">
@@ -36,12 +38,12 @@ const Header: React.FC = () => {
             <Image 
               src={process.env.PUBLIC_URL + '/shuijiao.png'} 
               alt="Logo" 
-              boxSize="40px" 
+              boxSize="45px" 
               mr={2}
               borderRadius="full"
-              boxShadow="0 0 0 2px #ECC94B"
-              transition="transform 0.3s"
-              _hover={{ transform: 'scale(1.1)' }}
+              boxShadow="0 0 0 3px #ECC94B"
+              transition="all 0.3s"
+              _hover={{ transform: 'scale(1.1)', boxShadow: "0 0 0 3px red.500, 0 0 15px yellow.400" }}
             />
             <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
               <Link to="/">
@@ -49,31 +51,41 @@ const Header: React.FC = () => {
                   as="span" 
                   fontSize="2xl" 
                   fontWeight="bold" 
-                  color="yellow.400"
+                  color="yellow.300"
+                  textShadow="1px 1px 2px rgba(0,0,0,0.3)"
                   mr={1}
+                  transition="color 0.3s"
+                  _hover={{ color: "yellow.200" }}
                 >
-                  Kim Én
+                  Shui Jiao
                 </Box>
-                <Box as="span">Chinese</Box>
+                <Box 
+                  as="span"
+                  textShadow="1px 1px 2px rgba(0,0,0,0.3)"
+                  transition="color 0.3s"
+                  _hover={{ color: "yellow.100" }}
+                >
+                  Chinese
+                </Box>
               </Link>
             </Heading>
           </Flex>
 
           <HStack spacing="4">
-            <Button 
-              onClick={toggleColorMode} 
-              variant="ghost" 
-              color="white"
-              _hover={{ bg: 'red.800' }}
-            >
-               <IconButton
-                icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                aria-label="Toggle color mode"
-                variant="ghost"
-                color="white"
-                _hover={{ bg: 'red.800' }}
-               />
-            </Button>
+            <IconButton
+              icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              aria-label="Toggle color mode"
+              variant="outline"
+              color="yellow.300"
+              borderColor="yellow.400"
+              _hover={{ 
+                bg: 'rgba(236, 201, 75, 0.15)', 
+                transform: 'rotate(15deg)',
+                borderColor: 'yellow.300'
+              }}
+              transition="all 0.3s"
+              onClick={toggleColorMode}
+            />
           </HStack>
         </Flex>
       </Container>
