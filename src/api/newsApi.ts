@@ -42,58 +42,71 @@ export interface TranslationResponse {
 }
 
 // Hàm gọi API để dịch bài viết
-export const fetchTranslation = async (newsId: string, language: string = 'vi'): Promise<Record<string, string> | null> => {
+export const fetchTranslation = async (newsId: string, language: string = 'vi', useCache: boolean = false): Promise<Record<string, string> | null> => {
   try {
-    console.log(`Fetching translation for news ID: ${newsId} in language: ${language}`);
+    console.log(`Fetching translation for news ID: ${newsId} in language: ${language}, useCache: ${useCache}`);
     
-    // Gọi API qua proxy server nội bộ để tránh vấn đề CORS
-    const response = await axios.get(`${API_PROXY_URL}/translate`, { 
+    // Xác định endpoint dựa vào tham số useCache
+    const endpoint = useCache ? 'cached-translate' : 'translate';
+    
+    // Gọi API qua proxy server để tránh vấn đề CORS
+    const response = await axios.get(`${API_PROXY_URL}/${endpoint}`, { 
       params: { 
         news_id: newsId, 
         lang: language 
       }
     });
-    
-    console.log('Translation API response:', response.data);
-    
+
     // Kiểm tra và xử lý dữ liệu
     if (response.data && response.data.length > 0) {
-      const translationData = response.data[0];
-      try {
-        // Parse JSON string in content field
-        return JSON.parse(translationData.content);
-      } catch (parseError) {
-        console.error('Error parsing translation content:', parseError);
-        // Trả về nội dung gốc nếu không parse được
-        return { "0": translationData.content }; 
-      }
+      return response.data[0];
     }
-    
-    // Nếu không có dữ liệu, sử dụng dữ liệu mẫu để ứng dụng không bị lỗi
-    console.warn('No translation data received. Using sample data.');
-    return {
-      "0": "Một máy bay đến Hồng Kong của Hàn Quốc phát hỏa, công bố quá trình điều tra",
-      "1": "Theo hãng tin Thông tấn xã Hàn Quốc, báo cáo ngày 14 của Ủy ban điều tra tai nạn hàng không và đường sắt của bộ giao thông Hàn Quốc, điều tra sự cố máy bay Busan bốc cháy chỉ ra, khả năng lớn là do sạc dự phòng hành khách mang theo bốc cháy dẫn đến tai nạn báy bay bốc cháy",
-      "2": "Theo báo cáo, kết quả phân tích điều tra của Viện Nghiên cứu Pháp y Quốc gia Hàn Quốc (NFS) chỉ ra, nơi xuất phát đám cháy rất có khả năng là chập mạch bên trong pin gây ra",
-      "3": "Theo báo cáo, Viện Nghiên cứu Pháp y Quốc gia Hàn Quốc nhận định khả năng bốc cháy trong bộ máy của máy bay rất thấp, bởi vì Không phát hiện bất thường về điện hoặc mảnh vỡ bất thường liên quan đến vụ cháy trong cấu trúc bên trong của máy bay",
-      "4": "Tối ngày 28 tháng 1 năm nay, một máy bay chở khách tại sân bay Gimhae, Busan, Hàn Quốc đã bốc cháy trong quá trình chuẩn bị cất cánh, thân máy bay bị hư hỏng nghiêm trọng do hỏa hoạn",
-      "5": "Sau khi xảy ra đám cháy, hành khách trên máy bay và nhân viên phi hành đoàn tổng cộng có 176 người toàn bộ khẩn trương sơ tán qua máng trượt, nhiều người bị thương trong quá trình chạy thoát"
-    };
+    // Trả về giá trị mặc định khi không có dữ liệu
+    return null;
     
   } catch (error) {
     console.error('Error fetching translation:', error);
-    
     // Hiển thị thông báo lỗi chi tiết hơn
     if (axios.isAxiosError(error)) {
       console.error('Response status:', error.response?.status);
       console.error('Response data:', error.response?.data);
       console.error('Response headers:', error.response?.headers);
     }
-    
-    // Trả về null để component xử lý
     return null;
   }
 };
+
+export const fetchGoogleTranslation = async (text: string, targetLang: string) => {
+  try {
+    const response = await fetch(
+      `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&sl=auto&tl=${targetLang}&q=${encodeURIComponent(text)}`
+    );
+    
+    if (!response.ok) {
+      throw new Error(`Google Translate error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Xử lý kết quả phức tạp từ Google
+    let translatedText = '';
+    
+    // Duyệt qua các phần tử trong mảng sentences
+    if (data.sentences) {
+      for (const sentence of data.sentences) {
+        if (sentence.trans) {
+          translatedText += sentence.trans;
+        }
+      }
+    }
+    
+    return translatedText;
+  } catch (error) {
+    console.error('Google Translate API error:', error);
+    throw error;
+  }
+};
+
 
 export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResponse> => {
   // Ensure we have today's date in the correct format

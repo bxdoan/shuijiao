@@ -179,29 +179,58 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   const renderInterleavedContent = () => {
     if (!body || !translation) return null;
 
-    // Tách body thành các câu
-    const bodySentences = splitTextIntoSentences(stripHtml(body));
+    // Phân tích HTML thành Document để giữ nguyên cấu trúc
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(body, 'text/html');
     
-    // Tạo mảng các cặp câu (gốc, dịch)
-    const pairs = [];
-    for (let i = 0; i < bodySentences.length; i++) {
-      if (translation[i]) {
-        pairs.push({
-          original: bodySentences[i],
-          translated: translation[i]
-        });
-      }
+    // Tìm tất cả các phần tử cấp cao nhất (block-level elements)
+    const blockElements = Array.from(doc.body.children);
+    
+    // Đối với mỗi khóa trong object translation, chúng ta cần index tương ứng
+    const translationKeys = Object.keys(translation).sort((a, b) => parseInt(a) - parseInt(b));
+    
+    // Tạo mảng các phần tử đã được xử lý để hiển thị
+    const processedContent = [];
+
+    // Xử lý description (index 1)
+    if (translation['1']) {
+      processedContent.push(
+        <Box key="desc-translation" mb={2} pl={4} borderLeft="2px" borderColor="blue.400">
+          <Text color="blue.600" fontStyle="italic">
+            {translation['1']}
+          </Text>
+        </Box>
+      );
     }
 
-    return (
-      <Box>
-        {pairs.map((pair, index) => (
-          <Box key={index} mb={3}>
-            <Text fontWeight="medium">{pair.original}</Text>
-            <Text color="blue.600" fontStyle="italic">{pair.translated}</Text>
+    // Xử lý nội dung chính (từ index 2 trở đi)
+    blockElements.forEach((element, index) => {
+      // Thêm phần tử gốc vào kết quả
+      processedContent.push(
+        <Box key={`original-${index}`} mb={2}>
+          <div dangerouslySetInnerHTML={{ __html: element.outerHTML }} />
+        </Box>
+      );
+      
+      // Lấy index dịch tương ứng (bắt đầu từ index 2)
+      const translationIndex = (index + 2).toString();
+      
+      // Nếu có bản dịch cho đoạn này, thêm nó vào
+      if (translation[translationIndex]) {
+        processedContent.push(
+          <Box key={`translation-${index}`} mb={3} pl={4} borderLeft="2px" borderColor="blue.400">
+            <Text color="blue.600" fontStyle="italic">
+              {translation[translationIndex]}
+            </Text>
           </Box>
-        ))}
-      </Box>
+        );
+      }
+    });
+
+    return (
+      <Stack spacing={2}>
+        {processedContent}
+      </Stack>
     );
   };
 
@@ -256,6 +285,14 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
         </Stack>
 
         <Heading as="h3" size="md" mb={2} dangerouslySetInnerHTML={{ __html: title }} />
+
+        {showTranslation && translation && (
+          <Box key="title-translation" mb={2} pl={4} borderLeft="2px" borderColor="blue.400">
+            <Text color="blue.600" fontStyle="italic" fontWeight="bold">
+              {translation['0']}
+            </Text>
+          </Box>
+        )}
         
         <Box mb={4}>
           <Text fontSize="md" mb={2} dangerouslySetInnerHTML={{ __html: desc }} />

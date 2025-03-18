@@ -4,13 +4,17 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 
-// Cấu hình CORS để cho phép truy cập từ front-end
-app.use(cors());
+// Cấu hình CORS để cho phép truy cập từ bất kỳ nguồn nào
+app.use(cors({
+  origin: '*', // Cho phép tất cả các nguồn
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With']
+}));
 
 // Parse JSON body
 app.use(express.json());
 
-// Các headers cần thiết cho API gọi đến easyChinese
+// Các headers cần thiết cho API gọi đến easyChinese - cập nhật theo curl command
 const EASYCHINESE_HEADERS = {
   'accept': 'application/json, text/plain, */*',
   'accept-language': 'en-US,en;q=0.9,vi;q=0.8',
@@ -48,10 +52,23 @@ app.get('/api/translate', async (req, res) => {
     // Thêm debug log
     console.log(`Received response from easyChinese API: ${response.status}`);
     
+    // Thêm CORS headers bổ sung để đảm bảo hoạt động trên mọi client
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
     // Cache control
     res.set('Cache-Control', 'public, max-age=300'); // Cache for 5 minutes
-    
-    return res.json(response.data);
+    // format console.log response.data and print key content
+
+    if (response.data.length > 0) {
+      // format content to dict
+      const content = JSON.parse(response.data[0].content);
+      console.log(`after content: `, content)
+      return res.json([content]);
+    }
+
+    return res.json([]);
   } catch (error) {
     console.error('Proxy error:', error.message);
     
