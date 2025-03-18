@@ -1,7 +1,8 @@
 {
   "name": "shuijiao",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.8.0",

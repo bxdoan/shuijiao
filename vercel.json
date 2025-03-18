@@ -23,6 +23,22 @@
       "dest": "server/proxy.js"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.+\\.[a-z0-9]{5}\\.(?:js|css)$)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*\\.[a-z0-9]{3,4}$)",
+      "dest": "/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
