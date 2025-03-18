@@ -11,10 +11,10 @@ import {
   IconButton,
   Image
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 
-const Header: React.FC = () => {
+export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -41,7 +41,6 @@ const Header: React.FC = () => {
               boxSize="45px" 
               mr={2}
               borderRadius="full"
-              boxShadow="0 0 0 3px #ECC94B"
               transition="all 0.3s"
               _hover={{ transform: 'scale(1.1)', boxShadow: "0 0 0 3px red.500, 0 0 15px yellow.400" }}
             />
@@ -57,7 +56,7 @@ const Header: React.FC = () => {
                   transition="color 0.3s"
                   _hover={{ color: "yellow.200" }}
                 >
-                  Shui Jiao
+                  Shuijiao
                 </Box>
                 <Box 
                   as="span"
@@ -92,5 +91,3 @@ const Header: React.FC = () => {
     </Box>
   );
 };
-
-export default Header; 
