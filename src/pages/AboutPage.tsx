@@ -23,10 +23,10 @@ const AboutPage: React.FC = () => {
       <VStack spacing={8} align="stretch">
         <Box textAlign="center">
           <Heading as="h1" size="2xl" mb={4}>
-            About Kim Én Chinese
+            Giới Thiệu Kim Én Chinese
           </Heading>
           <Text fontSize="lg" color="gray.600">
-            A platform designed to help you learn Chinese through real-world news
+            Nền tảng được thiết kế để giúp bạn học tiếng Trung qua tin tức thực tế
           </Text>
         </Box>
 
@@ -39,18 +39,18 @@ const AboutPage: React.FC = () => {
           boxShadow="md"
         >
           <Heading as="h2" size="lg" mb={4}>
-            Our Mission
+            Sứ Mệnh Của Chúng Tôi
           </Heading>
           <Text mb={4}>
-            Kim Én Chinese is dedicated to making Chinese language learning accessible,
-            engaging, and effective through authentic news content. We believe that
-            learning a language through real-world materials is one of the most effective
-            ways to achieve fluency.
+            Kim Én Chinese cam kết làm cho việc học tiếng Trung trở nên dễ tiếp cận,
+            hấp dẫn và hiệu quả thông qua nội dung tin tức thực tế. Chúng tôi tin rằng
+            học ngôn ngữ thông qua tài liệu thực tế là một trong những cách hiệu quả nhất
+            để đạt được sự thành thạo.
           </Text>
           <Text>
-            By providing news articles with Chinese text, pinyin, and English translations,
-            we help learners at all levels improve their reading comprehension, vocabulary,
-            and cultural understanding.
+            Bằng cách cung cấp các bài báo tin tức với văn bản tiếng Trung, pinyin và bản dịch tiếng Anh,
+            chúng tôi giúp người học ở mọi trình độ cải thiện khả năng đọc hiểu, từ vựng,
+            và hiểu biết văn hóa.
           </Text>
         </Box>
 
@@ -63,28 +63,28 @@ const AboutPage: React.FC = () => {
           boxShadow="md"
         >
           <Heading as="h2" size="lg" mb={4}>
-            Features
+            Tính Năng
           </Heading>
           <List spacing={3}>
             <ListItem>
               <ListIcon as={CheckCircleIcon} color="green.500" />
-              Articles in Chinese with pinyin and English translations
+              Bài viết bằng tiếng Trung kèm pinyin và bản dịch tiếng Anh
             </ListItem>
             <ListItem>
               <ListIcon as={CheckCircleIcon} color="green.500" />
-              Content categorized by difficulty level (Easy, Medium, Hard)
+              Nội dung được phân loại theo cấp độ khó (Dễ, Trung Bình, Khó)
             </ListItem>
             <ListItem>
               <ListIcon as={CheckCircleIcon} color="green.500" />
-              Diverse topics including culture, technology, business, and more
+              Đa dạng chủ đề bao gồm văn hóa, công nghệ, kinh doanh, và nhiều lĩnh vực khác
             </ListItem>
             <ListItem>
               <ListIcon as={CheckCircleIcon} color="green.500" />
-              Articles from various reputable sources
+              Bài viết từ nhiều nguồn uy tín khác nhau
             </ListItem>
             <ListItem>
               <ListIcon as={CheckCircleIcon} color="green.500" />
-              User-friendly interface with filtering options
+              Giao diện thân thiện với người dùng và có tùy chọn lọc
             </ListItem>
           </List>
         </Box>
@@ -93,11 +93,11 @@ const AboutPage: React.FC = () => {
 
         <Box textAlign="center">
           <Text>
-            This project is inspired by{' '}
+            Dự án này được lấy cảm hứng từ{' '}
             <Link href="https://easychinese.io" color="blue.500" isExternal>
               EasyChinese.io
             </Link>
-            , a great resource for Chinese language learners.
+            , một nguồn tài nguyên tuyệt vời cho người học tiếng Trung.
           </Text>
         </Box>
       </VStack>

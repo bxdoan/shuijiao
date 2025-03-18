@@ -24,7 +24,8 @@
       "./src/types"
     ],
     "maxNodeModuleJsDepth": 0,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "noErrorTruncation": true
   },
   "include": [
     "src"
