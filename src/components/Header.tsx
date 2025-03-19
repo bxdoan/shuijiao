@@ -23,17 +23,20 @@ import {
   VStack
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const location = useLocation();
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogoClick = () => {
     if (!isLargerThan768) {
       setIsDrawerOpen(true);
+    } else {
+      navigate('/');
     }
   };
 
@@ -54,18 +57,37 @@ export const Header = () => {
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center">
           <Flex align="center">
-            <Image 
-              src={process.env.PUBLIC_URL + '/shuijiao.png'} 
-              alt="Logo" 
-              boxSize="45px" 
-              mr={2}
-              borderRadius="full"
-              transition="all 0.3s"
-              _hover={{ transform: 'scale(1.1)', boxShadow: "0 0 0 3px red.500, 0 0 15px yellow.400" }}
-              cursor={!isLargerThan768 ? "pointer" : "default"}
-              onClick={handleLogoClick}
-            />
-            <Link to="/">
+          <Image 
+            src={process.env.PUBLIC_URL + '/shuijiao.png'} 
+            alt="Logo" 
+            boxSize="45px" 
+            mr={2}
+            borderRadius="full"
+            transition="all 0.3s"
+            _hover={{ transform: 'scale(1.1)', boxShadow: "0 0 0 3px red.500, 0 0 15px yellow.400" }}
+            cursor={!isLargerThan768 ? "pointer" : "default"}
+            onClick={handleLogoClick}
+          />
+            {isLargerThan768 ? (
+              <Link to="/">
+                <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
+                  <Box 
+                    as="span" 
+                    fontSize="2xl" 
+                    fontWeight="bold" 
+                    color="yellow.300"
+                    textShadow="1px 1px 2px rgba(0,0,0,0.3)"
+                    mr={1}
+                    transition="color 0.3s"
+                    _hover={{ color: "yellow.200" }}
+                    cursor={!isLargerThan768 ? "pointer" : "default"}
+                  >
+                    Shuijiao
+                  </Box>
+                </Heading>
+              </Link>
+            ) : (
+              <>
               <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
                 <Box 
                   as="span" 
@@ -82,8 +104,9 @@ export const Header = () => {
                   Shuijiao
                 </Box>
               </Heading>
-            </Link>
-            
+              </>
+            )}
+
             {isLargerThan768 && (
               <HStack spacing="4" ml={4}>
                 <Button
@@ -150,6 +173,7 @@ export const Header = () => {
                 fontSize="xl" 
                 fontWeight="bold" 
                 color="yellow.300"
+                onClick={() => navigate('/')}
               >
                 Shuijiao
               </Box>
