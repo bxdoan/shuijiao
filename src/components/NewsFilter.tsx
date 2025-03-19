@@ -29,18 +29,18 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange, source
   // Danh sách nguồn theo ngôn ngữ
   const sourceOptions = {
     zh: [
-      { value: "", label: "Tất cả nguồn" },
-      { value: "环球时报", label: "Global Times" },
-      { value: "人民日报", label: "People's Daily" },
-      { value: "新华社", label: "Xinhua" },
-      { value: "中国日报", label: "China Daily" }
+      { value: "", label: "Tất cả" },
+      { value: "Chinadaily", label: "Chinadaily" },
+      { value: "Netease", label: "Netease" },
+      { value: "Sina", label: "Sina" },
+      { value: "163.com", label: "163.com" }
     ],
     en: [
-      { value: "", label: "Tất cả nguồn" },
+      { value: "", label: "Tất cả" },
       { value: "voa", label: "VOA" },
       { value: "bbc", label: "BBC" },
       { value: "cnn", label: "CNN" },
-      { value: "todaii", label: "TODAII" },
+      { value: "TODAII", label: "TODAII" },
       { value: "inside-science", label: "Inside Science" }
     ]
   };
@@ -58,7 +58,7 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange, source
 
   const topicOptions = {
     zh: [
-      { value: "", label: "Tất cả chủ đề" },
+      { value: "", label: "Tất cả" },
       { value: "world", label: "Thế giới" },
       { value: "showbiz", label: "Giải trí" },
       { value: "economy", label: "Kinh tế" },
@@ -81,27 +81,25 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange, source
       { value: "shopping", label: "Mua sắm" }
     ],
     en: [
-      { value: "", label: "Tất cả chủ đề" },
-      { value: "world", label: "Thế giới" },
-      { value: "showbiz", label: "Giải trí" },
-      { value: "economy", label: "Kinh tế" },
-      { value: "animals", label: "Động vật" },
-      { value: "sports", label: "Thể thao" },
-      { value: "computers", label: "Máy tính" },
-      { value: "finance", label: "Tài chính" },
-      { value: "law", label: "Luật" },
-      { value: "military", label: "Quân sự" },
-      { value: "music", label: "Âm nhạc" },
-      { value: "food", label: "Đồ ăn" },
-      { value: "technology", label: "Công nghệ" },
+      { value: "", label: "Tất cả" },
+      { value: "science-and-technology", label: "Khoa học và công nghệ" },
       { value: "travel", label: "Du lịch" },
-      { value: "clothes", label: "Quần áo" },
-      { value: "school", label: "Trường học" },
-      { value: "jobs", label: "Việc làm" },
-      { value: "time", label: "Lịch trình" },
-      { value: "colors", label: "Màu sắc" },
-      { value: "weather", label: "Thời tiết" },
-      { value: "shopping", label: "Mua sắm" }
+      { value: "lifestyle", label: "Giải trí" },
+      { value: "world", label: "Thế giới" },
+      { value: "explore", label: "Có thể bạn chưa biết" },
+      { value: "stories", label: "Thể Truyện ngắn" },
+      { value: "funny-stories", label: "Truyện cười" },
+      { value: "health", label: "Sức khỏe" },
+      { value: "entertainment", label: "Giải trí" },
+      { value: "culture-and-art", label: "Văn hoá nghệ thuật" },
+      { value: "learn-english", label: "Học tập" },
+      { value: "work-and-business", label: "Kinh tế" },
+      { value: "sport", label: "Thể thao" },
+      { value: "animals", label: "Động vật" },
+      { value: "politics-and-society", label: "Chính trị và xã hội" },
+      { value: "natural-world", label: "Thế giới tự nhiên" },
+      { value: "food-and-drink", label: "Thực phẩm" },
+      { value: "general", label: "Chung" },
     ]
   };
 
