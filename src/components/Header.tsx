@@ -9,10 +9,6 @@ import {
   IconButton,
   Image,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useMediaQuery,
   Drawer,
   DrawerBody,
@@ -22,7 +18,7 @@ import {
   DrawerCloseButton,
   VStack
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export const Header = () => {
