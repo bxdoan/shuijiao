@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Box, 
   Container, 
@@ -13,7 +13,14 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  useMediaQuery
+  useMediaQuery,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  VStack
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Link, useLocation } from 'react-router-dom';
@@ -22,6 +29,13 @@ export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const location = useLocation();
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleLogoClick = () => {
+    if (!isLargerThan768) {
+      setIsDrawerOpen(true);
+    }
+  };
 
   return (
     <Box 
@@ -48,9 +62,11 @@ export const Header = () => {
               borderRadius="full"
               transition="all 0.3s"
               _hover={{ transform: 'scale(1.1)', boxShadow: "0 0 0 3px red.500, 0 0 15px yellow.400" }}
+              cursor={!isLargerThan768 ? "pointer" : "default"}
+              onClick={handleLogoClick}
             />
-            <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
-              <Link to="/">
+            <Link to="/">
+              <Heading as="h1" size="lg" fontFamily="'Noto Serif', serif">
                 <Box 
                   as="span" 
                   fontSize="2xl" 
@@ -60,17 +76,16 @@ export const Header = () => {
                   mr={1}
                   transition="color 0.3s"
                   _hover={{ color: "yellow.200" }}
+                  cursor={!isLargerThan768 ? "pointer" : "default"}
+                  onClick={handleLogoClick}
                 >
                   Shuijiao
                 </Box>
-              </Link>
-            </Heading>
-          </Flex>
-
-          <HStack spacing="4">
-            {isLargerThan768 ? (
-              // Desktop: Hiển thị các nút riêng biệt
-              <>
+              </Heading>
+            </Link>
+            
+            {isLargerThan768 && (
+              <HStack spacing="4" ml={4}>
                 <Button
                   as={Link}
                   to="/"
@@ -89,34 +104,11 @@ export const Header = () => {
                 >
                   Tiếng Anh
                 </Button>
-              </>
-            ) : (
-              // Mobile: Dùng dropdown menu
-              <Menu>
-                <MenuButton as={Button} rightIcon={<ChevronDownIcon />} colorScheme="yellow" variant="outline">
-                  Menu
-                </MenuButton>
-                <MenuList bg="red.800" borderColor="yellow.600">
-                  <MenuItem 
-                    as={Link} 
-                    to="/" 
-                    bg={location.pathname === '/' ? "red.600" : "transparent"}
-                    _hover={{ bg: "red.600" }}
-                  >
-                    Tiếng Trung
-                  </MenuItem>
-                  <MenuItem 
-                    as={Link} 
-                    to="/english" 
-                    bg={location.pathname === '/english' ? "red.600" : "transparent"}
-                    _hover={{ bg: "red.600" }}
-                  >
-                    Tiếng Anh
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              </HStack>
             )}
-            
+          </Flex>
+
+          <HStack spacing="4">
             <IconButton
               icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               aria-label="Toggle color mode"
@@ -134,6 +126,61 @@ export const Header = () => {
           </HStack>
         </Flex>
       </Container>
+
+      <Drawer
+        isOpen={isDrawerOpen}
+        placement="left"
+        onClose={() => setIsDrawerOpen(false)}
+        size="xs"
+      >
+        <DrawerOverlay />
+        <DrawerContent bg="red.800">
+          <DrawerCloseButton color="yellow.300" />
+          <DrawerHeader borderBottomWidth="1px" borderColor="yellow.600">
+            <Flex align="center">
+              <Image 
+                src={process.env.PUBLIC_URL + '/shuijiao.png'} 
+                alt="Logo" 
+                boxSize="40px" 
+                mr={2}
+                borderRadius="full"
+              />
+              <Box 
+                as="span" 
+                fontSize="xl" 
+                fontWeight="bold" 
+                color="yellow.300"
+              >
+                Shuijiao
+              </Box>
+            </Flex>
+          </DrawerHeader>
+          <DrawerBody>
+            <VStack spacing={4} align="stretch" mt={4}>
+              <Button
+                as={Link}
+                to="/"
+                variant={location.pathname === '/' ? "solid" : "ghost"}
+                colorScheme="yellow"
+                size="lg"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Tiếng Trung
+              </Button>
+              <Button
+                as={Link}
+                to="/english"
+                variant={location.pathname === '/english' ? "solid" : "ghost"}
+                colorScheme="yellow"
+                size="lg"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Tiếng Anh
+              </Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   );
 };
