@@ -164,7 +164,7 @@ const HomePage: React.FC = () => {
         </Heading>
       </Box>
 
-      <NewsFilter filters={filters} onFilterChange={handleFilterChange} />
+      <NewsFilter filters={filters} onFilterChange={handleFilterChange} sourceLang="zh" />
       
       {renderNewsContent()}
       

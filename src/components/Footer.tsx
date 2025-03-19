@@ -226,7 +226,7 @@ export const Footer: React.FC = () => {
                 style={styles.logoImage}
               />
             </div>
-            <h3 style={styles.brandText}>Shuijiao Learn</h3>
+            <h3 style={styles.brandText}>Shuijiao</h3>
           </div>
           <p style={styles.normalText}>Learn Languages with real-world news articles</p>
           <div style={styles.contactInfo}>

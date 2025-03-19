@@ -17,13 +17,93 @@ import { NewsFilterParams } from '../types';
 interface NewsFilterProps {
   filters: NewsFilterParams;
   onFilterChange: (filters: NewsFilterParams) => void;
+  sourceLang?: "zh" | "en"; // Thêm prop sourceLang để xác định ngôn ngữ nguồn
 }
 
-const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
+const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange, sourceLang = "zh" }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Danh sách nguồn theo ngôn ngữ
+  const sourceOptions = {
+    zh: [
+      { value: "", label: "Tất cả nguồn" },
+      { value: "环球时报", label: "Global Times" },
+      { value: "人民日报", label: "People's Daily" },
+      { value: "新华社", label: "Xinhua" },
+      { value: "中国日报", label: "China Daily" }
+    ],
+    en: [
+      { value: "", label: "Tất cả nguồn" },
+      { value: "voa", label: "VOA" },
+      { value: "bbc", label: "BBC" },
+      { value: "cnn", label: "CNN" },
+      { value: "todaii", label: "TODAII" },
+      { value: "inside-science", label: "Inside Science" }
+    ]
+  };
+
+  const typeOptions = {
+    zh: [
+      { value: "easy", label: "Easy" },
+      { value: "normal", label: "Normal" },
+    ],
+    en: [
+      { value: "easy", label: "Easy" },
+      { value: "normal", label: "Normal" },
+    ]
+  };
+
+  const topicOptions = {
+    zh: [
+      { value: "", label: "Tất cả chủ đề" },
+      { value: "world", label: "Thế giới" },
+      { value: "showbiz", label: "Giải trí" },
+      { value: "economy", label: "Kinh tế" },
+      { value: "animals", label: "Động vật" },
+      { value: "sports", label: "Thể thao" },
+      { value: "computers", label: "Máy tính" },
+      { value: "finance", label: "Tài chính" },
+      { value: "law", label: "Luật" },
+      { value: "military", label: "Quân sự" },
+      { value: "music", label: "Âm nhạc" },
+      { value: "food", label: "Đồ ăn" },
+      { value: "technology", label: "Công nghệ" },
+      { value: "travel", label: "Du lịch" },
+      { value: "clothes", label: "Quần áo" },
+      { value: "school", label: "Trường học" },
+      { value: "jobs", label: "Việc làm" },
+      { value: "time", label: "Lịch trình" },
+      { value: "colors", label: "Màu sắc" },
+      { value: "weather", label: "Thời tiết" },
+      { value: "shopping", label: "Mua sắm" }
+    ],
+    en: [
+      { value: "", label: "Tất cả chủ đề" },
+      { value: "world", label: "Thế giới" },
+      { value: "showbiz", label: "Giải trí" },
+      { value: "economy", label: "Kinh tế" },
+      { value: "animals", label: "Động vật" },
+      { value: "sports", label: "Thể thao" },
+      { value: "computers", label: "Máy tính" },
+      { value: "finance", label: "Tài chính" },
+      { value: "law", label: "Luật" },
+      { value: "military", label: "Quân sự" },
+      { value: "music", label: "Âm nhạc" },
+      { value: "food", label: "Đồ ăn" },
+      { value: "technology", label: "Công nghệ" },
+      { value: "travel", label: "Du lịch" },
+      { value: "clothes", label: "Quần áo" },
+      { value: "school", label: "Trường học" },
+      { value: "jobs", label: "Việc làm" },
+      { value: "time", label: "Lịch trình" },
+      { value: "colors", label: "Màu sắc" },
+      { value: "weather", label: "Thời tiết" },
+      { value: "shopping", label: "Mua sắm" }
+    ]
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -85,6 +165,10 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
     setIsExpanded(!isExpanded);
   };
 
+  // Lấy danh sách nguồn dựa vào ngôn ngữ
+  const currentSourceOptions = sourceOptions[sourceLang] || sourceOptions.zh;
+  const currentTypeOptions = typeOptions[sourceLang] || typeOptions.zh;
+  const currentTopicOptions = topicOptions[sourceLang] || topicOptions.zh;
   return (
     <Box
       p={4}
@@ -115,10 +199,10 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
                 {filters.type && (
                   <Badge colorScheme={
                     filters.type === 'easy' ? 'green' : 
-                    filters.type === 'medium' ? 'orange' : 'red'
+                    filters.type === 'normal' ? 'orange' : 'red'
                   }>
-                    {filters.type === 'easy' ? 'Dễ' : 
-                     filters.type === 'medium' ? 'Trung bình' : 'Khó'}
+                    {filters.type === 'easy' ? 'Easy' : 
+                     filters.type === 'normal' ? 'Normal' : 'Hard'}
                   </Badge>
                 )}
                 
@@ -167,35 +251,33 @@ const NewsFilter: React.FC<NewsFilterProps> = ({ filters, onFilterChange }) => {
               <FormControl>
                 <FormLabel>Độ khó</FormLabel>
                 <Select name="type" value={filters.type || 'easy'} onChange={handleChange}>
-                  <option value="easy">Dễ</option>
-                  <option value="medium">Trung bình</option>
-                  <option value="hard">Khó</option>
+                  {currentTypeOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
 
               <FormControl>
                 <FormLabel>Chủ đề</FormLabel>
                 <Select name="topic" value={filters.topic || ''} onChange={handleChange}>
-                  <option value="">Tất cả chủ đề</option>
-                  <option value="World">Thế giới</option>
-                  <option value="China">Trung Quốc</option>
-                  <option value="Business">Kinh doanh</option>
-                  <option value="Technology">Công nghệ</option>
-                  <option value="Science">Khoa học</option>
-                  <option value="Health">Sức khỏe</option>
-                  <option value="Sports">Thể thao</option>
-                  <option value="Showbiz">Giải trí</option>
+                  {currentTopicOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
 
               <FormControl>
                 <FormLabel>Nguồn</FormLabel>
                 <Select name="source" value={filters.source || ''} onChange={handleChange}>
-                  <option value="">Tất cả nguồn</option>
-                  <option value="环球时报">Global Times</option>
-                  <option value="人民日报">People's Daily</option>
-                  <option value="新华社">Xinhua</option>
-                  <option value="中国日报">China Daily</option>
+                  {currentSourceOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
             </div>
