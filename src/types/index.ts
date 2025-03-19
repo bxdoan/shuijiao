@@ -48,4 +48,5 @@ export interface NewsFilterParams {
   limit?: number;
   page?: number;
   timestamp?: string;
+  language?: string;
 } 

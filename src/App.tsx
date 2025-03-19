@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import EnglishPage from './pages/EnglishPage';
 
 // Create a client with default options
 const queryClient = new QueryClient({
@@ -28,6 +29,7 @@ function App() {
             <Box as="main" flex="1">
               <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/english" element={<EnglishPage />} />
                 <Route path="/about" element={<AboutPage />} />
               </Routes>
             </Box>

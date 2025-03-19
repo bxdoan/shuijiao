@@ -221,14 +221,14 @@ export const Footer: React.FC = () => {
               }}
             >
               <img 
-                src={process.env.PUBLIC_URL + '/shuijiao.png'} 
+                src={process.env.PUBLIC_URL + '/shuijiao.png'}
                 alt="Shuijiao Logo" 
                 style={styles.logoImage}
               />
             </div>
-            <h3 style={styles.brandText}>Shuijiao Chinese</h3>
+            <h3 style={styles.brandText}>Shuijiao Learn</h3>
           </div>
-          <p style={styles.normalText}>Learn Chinese with real-world news articles</p>
+          <p style={styles.normalText}>Learn Languages with real-world news articles</p>
           <div style={styles.contactInfo}>
             <a 
               href="mailto:contact@shuijiao.vn" 

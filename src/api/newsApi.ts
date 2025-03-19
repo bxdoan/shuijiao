@@ -1,8 +1,41 @@
 import axios from 'axios';
 import { NewsFilterParams, NewsResponse } from '../types';
 
-const API_BASE_URL = 'https://api.easychinese.io/api';
-const API_KEY = 'qidKNYDRnnbXYyUNnXKiYvRrJveH4CCS';
+// Định nghĩa interface cho cấu hình của mỗi ngôn ngữ
+interface LanguageConfigItem {
+  apiBaseUrl: string;
+  origin: string;
+  referer: string;
+  apiKey: string;
+}
+
+// Định nghĩa interface cho đối tượng cấu hình ngôn ngữ
+interface LanguageConfigMap {
+  [key: string]: LanguageConfigItem;
+}
+
+// Tạo một cấu trúc để quản lý cấu hình cho nhiều ngôn ngữ
+const languageConfig: LanguageConfigMap = {
+  zh: {
+    apiBaseUrl: 'https://api.easychinese.io/api',
+    origin: 'https://easychinese.io',
+    referer: 'https://easychinese.io/',
+    apiKey: 'qidKNYDRnnbXYyUNnXKiYvRrJveH4CCS'
+  },
+  en: {
+    apiBaseUrl: 'https://api.todaienglish.com/api',
+    origin: 'https://todaienglish.com',
+    referer: 'https://todaienglish.com/',
+    apiKey: ''
+  },
+  // Thêm ngôn ngữ mới ở đây
+  // de: {
+  //   apiBaseUrl: 'https://api.todaigerman.com/api',
+  //   origin: 'https://todaigerman.com',
+  //   referer: 'https://todaigerman.com/',
+  //   apiKey: ''
+  // },
+};
 
 // API proxy URL - dựa vào môi trường hiện tại
 const isProduction = process.env.NODE_ENV === 'production';
@@ -12,18 +45,38 @@ export const API_PROXY_URL = isProduction
   ? '/api' 
   : 'http://localhost:3001/api';
 
-// Cập nhật đầy đủ headers cho tất cả các API calls
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': API_KEY,
-    'Accept': 'application/json, text/plain, */*',
-    'Origin': 'https://easychinese.io',
-    'Referer': 'https://easychinese.io/',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
+// Định nghĩa interface cho apiClients
+interface ApiClientMap {
+  [key: string]: any; // any vì axios client không có interface rõ ràng
+}
+
+// Hàm tạo API client dựa trên ngôn ngữ
+const createApiClient = (language: string) => {
+  const config = languageConfig[language] || languageConfig.en;
+  
+  return axios.create({
+    baseURL: config.apiBaseUrl,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*',
+      'Origin': config.origin,
+      'Referer': config.referer,
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
+      ...(config.apiKey && { 'Authorization': config.apiKey })
+    }
+  });
+};
+
+// Cache các API client để không tạo mới mỗi lần gọi API
+const apiClients: ApiClientMap = {};
+
+// Lấy API client cho ngôn ngữ cụ thể, tạo mới nếu chưa có
+const getApiClient = (language: string) => {
+  if (!apiClients[language]) {
+    apiClients[language] = createApiClient(language);
   }
-});
+  return apiClients[language];
+};
 
 // Interface cho dữ liệu trả về từ API dịch
 export interface TranslationResponse {
@@ -76,10 +129,14 @@ export const fetchTranslation = async (newsId: string, language: string = 'vi', 
   }
 };
 
-export const fetchGoogleTranslation = async (text: string, targetLang: string) => {
+export const fetchGoogleTranslation = async (text: string, targetLang: string = 'vi', srcLang: string = 'auto') => {
   try {
+    // Xác định ngôn ngữ nguồn dựa vào nội dung
+    // Mặc định sẽ tự động phát hiện ngôn ngữ nguồn
+    const sourceLang = srcLang === 'auto' ? (containsChineseCharacters(text) ? 'zh' : 'en') : srcLang;
+    
     const response = await fetch(
-      `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&sl=zh&tl=${targetLang}&q=${encodeURIComponent(text)}`
+      `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&sl=${sourceLang}&tl=${targetLang}&q=${encodeURIComponent(text)}`
     );
     
     if (!response.ok) {
@@ -107,6 +164,12 @@ export const fetchGoogleTranslation = async (text: string, targetLang: string) =
   }
 };
 
+// Hàm hỗ trợ kiểm tra xem văn bản có chứa ký tự tiếng Trung không
+function containsChineseCharacters(text: string): boolean {
+  // Phạm vi Unicode cho các ký tự Hán
+  const chineseRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/;
+  return chineseRegex.test(text);
+}
 
 export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResponse> => {
   // Ensure we have today's date in the correct format
@@ -119,15 +182,30 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
     type: 'easy',
     limit: 40,
     page: 1,
-    timestamp: today
+    timestamp: today,
+    language: params.language || 'zh' // Mặc định là tiếng Trung nếu không chỉ định
   };
 
   const mergedParams = { ...defaultParams, ...params };
+  const { language, ...apiParams } = mergedParams; // Tách language ra để chọn API client phù hợp
+  let targetLanguage = language || 'zh';
   
   try {
-    console.log('Fetching news with params:', mergedParams);
-    const response = await apiClient.post('/news/filter', mergedParams);
-    console.log('API response:', response.data);
+    // Kiểm tra nếu ngôn ngữ được hỗ trợ
+    if (!languageConfig[targetLanguage]) {
+      console.warn(`Language ${targetLanguage} is not supported. Falling back to English.`);
+      targetLanguage = 'en';
+    }
+    
+    console.log(`Fetching ${targetLanguage} news with params:`, apiParams);
+    
+    // Lấy API client phù hợp cho ngôn ngữ đã chọn
+    const apiClient = getApiClient(targetLanguage);
+    
+    // Gọi API endpoint chung cho tất cả ngôn ngữ
+    const response = await apiClient.post('/news/filter', apiParams);
+    
+    console.log(`${targetLanguage.toUpperCase()} API response:`, response.data);
     
     // API trả về mảng các NewsItem trực tiếp
     if (Array.isArray(response.data)) {
@@ -152,7 +230,7 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
     
     return response.data;
   } catch (error) {
-    console.error('Error fetching news:', error);
+    console.error(`Error fetching ${targetLanguage} news:`, error);
     // Return a default response on error
     return {
       data: [],

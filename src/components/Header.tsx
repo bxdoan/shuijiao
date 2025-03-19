@@ -7,13 +7,21 @@ import {
   HStack,
   useColorMode,
   IconButton,
-  Image
+  Image,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  useMediaQuery
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Link } from 'react-router-dom';
+import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const location = useLocation();
+  const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
 
   return (
     <Box 
@@ -55,19 +63,60 @@ export const Header = () => {
                 >
                   Shuijiao
                 </Box>
-                <Box 
-                  as="span"
-                  textShadow="1px 1px 2px rgba(0,0,0,0.3)"
-                  transition="color 0.3s"
-                  _hover={{ color: "yellow.100" }}
-                >
-                  Chinese
-                </Box>
               </Link>
             </Heading>
           </Flex>
 
           <HStack spacing="4">
+            {isLargerThan768 ? (
+              // Desktop: Hiển thị các nút riêng biệt
+              <>
+                <Button
+                  as={Link}
+                  to="/"
+                  variant={location.pathname === '/' ? "solid" : "ghost"}
+                  colorScheme="yellow"
+                  size="md"
+                >
+                  Tiếng Trung
+                </Button>
+                <Button
+                  as={Link}
+                  to="/english"
+                  variant={location.pathname === '/english' ? "solid" : "ghost"}
+                  colorScheme="yellow"
+                  size="md"
+                >
+                  Tiếng Anh
+                </Button>
+              </>
+            ) : (
+              // Mobile: Dùng dropdown menu
+              <Menu>
+                <MenuButton as={Button} rightIcon={<ChevronDownIcon />} colorScheme="yellow" variant="outline">
+                  Menu
+                </MenuButton>
+                <MenuList bg="red.800" borderColor="yellow.600">
+                  <MenuItem 
+                    as={Link} 
+                    to="/" 
+                    bg={location.pathname === '/' ? "red.600" : "transparent"}
+                    _hover={{ bg: "red.600" }}
+                  >
+                    Tiếng Trung
+                  </MenuItem>
+                  <MenuItem 
+                    as={Link} 
+                    to="/english" 
+                    bg={location.pathname === '/english' ? "red.600" : "transparent"}
+                    _hover={{ bg: "red.600" }}
+                  >
+                    Tiếng Anh
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            )}
+            
             <IconButton
               icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               aria-label="Toggle color mode"

@@ -18,7 +18,7 @@ import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
-const HomePage: React.FC = () => {
+const EnglishPage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
   const [loadedDates, setLoadedDates] = useState<string[]>([]);
   const [currentDate, setCurrentDate] = useState<string>(new Date().toISOString().split('T')[0]);
@@ -27,10 +27,10 @@ const HomePage: React.FC = () => {
     source: '',
     type: 'easy',
     page: 1,
-    limit: 40, // Tăng limit để lấy tất cả tin tức trong ngày
+    limit: 40,
     date: new Date().toISOString().split('T')[0],
     timestamp: new Date().toISOString().split('T')[0],
-    language: 'zh' // Chỉ định rõ là tiếng Trung
+    language: 'en' // Chỉ định là tiếng Anh
   });
   
   const [showAlert, setShowAlert] = useState(false);
@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
     if (isError && error) {
       setShowAlert(true);
       setAlertMessage('Lỗi khi tải tin tức. Vui lòng thử lại sau.');
-      console.error('HomePage error:', error);
+      console.error('EnglishPage error:', error);
       setIsLoadingMore(false);
     }
   }, [isError, error]);
@@ -95,7 +95,7 @@ const HomePage: React.FC = () => {
       page: 1,
       date: newDate,
       timestamp: newDate,
-      language: 'zh' // Đảm bảo vẫn là tiếng Trung khi cập nhật filter
+      language: 'en' // Đảm bảo vẫn là tiếng Anh khi cập nhật filter
     });
   };
 
@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
           {allNews.map((item, index) => {
             const key = `news-${index}-${item.id || ''}`;
-            return <NewsCard key={key} news={item} sourceLang="zh" />;
+            return <NewsCard key={key} news={item} sourceLang="en" />;
           })}
         </SimpleGrid>
       </Box>
@@ -160,7 +160,7 @@ const HomePage: React.FC = () => {
 
       <Box textAlign="center" mb={8}>
         <Heading as="h1" size="2xl" mb={2}>
-          Học tiếng Trung qua các bài báo thực tế
+          Học tiếng Anh qua các bài báo thực tế
         </Heading>
       </Box>
 
@@ -189,4 +189,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage; 
+export default EnglishPage; 
