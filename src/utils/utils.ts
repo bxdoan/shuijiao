@@ -24,6 +24,17 @@ export const getVietnameseType = (type: string) => {
   }
 };
 
+export const getSource = (source: string) => {
+  switch (source.toLowerCase()) {
+    case 'todaii':
+      return 'SHUIJIAO';
+    case 'todai':
+      return 'SHUIJIAO';
+    default:
+      return source;
+  }
+};
+
 export const splitTextIntoSentences = (text: string, sourceLang: string) => {
   // Trích xuất văn bản thuần túy từ HTML
   const stripHtmlTags = (html: string) => {

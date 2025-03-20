@@ -158,7 +158,7 @@ export const fetchGoogleTranslation = async (text: string, targetLang: string = 
 };
 
 export const translateSentences = async (
-  text: string, sourceLang: string, targetLang: string = 'vi'
+  text: string, sourceLang: string = 'zh', targetLang: string = 'vi'
 ) => {
   const sentences = utils.splitTextIntoSentences(text, sourceLang);
   const translatedSentences = [];
@@ -268,7 +268,17 @@ export const getNewsDetails = async (newsId: string, language: string = 'zh'): P
     
     console.log(`Fetching news details for ID: ${newsId} in language: ${targetLanguage}`);
     
-    const response = await apiClient.get(`/detail/${newsId}`);
+    // Endpoint khác nhau tùy theo ngôn ngữ
+    let endpoint = '';
+    if (targetLanguage === 'en') {
+      // Endpoint cho tiếng Anh sử dụng query parameter
+      endpoint = `/news/detail?news_id=${newsId}`;
+    } else {
+      // Endpoint cho tiếng Trung và các ngôn ngữ khác
+      endpoint = `/detail/${newsId}`;
+    }
+    
+    const response = await apiClient.get(endpoint);
     
     if (response.data) {
       return response.data;

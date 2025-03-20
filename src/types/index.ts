@@ -73,6 +73,7 @@ export interface NewsDetail {
   date: string;
   tag: string;
   source: string;
+  image?: string;
   content: {
     audio: {
       [key: string]: string[];

@@ -1,6 +1,6 @@
 // @ts-nocheck - Bỏ qua kiểm tra TypeScript để tránh lỗi Union Type phức tạp
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -24,12 +24,13 @@ import {
     fetchTranslation, 
     translateSentences
 } from '../api/newsApi';
-import { NewsDetail } from '../api/newsApi';
+import { NewsDetail } from '../types';
 import * as utils from '../utils/utils';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const toast = useToast();
   const [newsDetail, setNewsDetail] = useState<NewsDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +38,17 @@ const NewsDetailPage: React.FC = () => {
   const [translation, setTranslation] = useState<Record<string, string> | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
-  const [currentAudioKey, setCurrentAudioKey] = useState<string>('');
+  
+  // Xác định ngôn ngữ dựa vào đường dẫn
+  const getLanguageFromPath = () => {
+    if (location.pathname.includes('/english/')) {
+      return 'en';
+    }
+    // Có thể mở rộng thêm các ngôn ngữ khác
+    return 'zh'; // Mặc định là tiếng Trung
+  };
+  
+  const currentLanguage = getLanguageFromPath();
   
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -50,16 +61,9 @@ const NewsDetailPage: React.FC = () => {
       setIsError(false);
       
       try {
-        const data = await getNewsDetails(newsId);
+        const data = await getNewsDetails(newsId, currentLanguage);
         if (data) {
           setNewsDetail(data);
-          // Khởi tạo audio key khi có dữ liệu
-          if (data.content.audio) {
-            const audioKeys = Object.keys(data.content.audio);
-            if (audioKeys.length > 0) {
-              setCurrentAudioKey(audioKeys[0]);
-            }
-          }
         } else {
           setIsError(true);
           toast({
@@ -86,7 +90,7 @@ const NewsDetailPage: React.FC = () => {
     };
     
     fetchNewsDetail();
-  }, [newsId, toast]);
+  }, [newsId, toast, currentLanguage]);
 
   // Hàm dịch tin tức
   const translateNews = async () => {
@@ -130,7 +134,7 @@ const NewsDetailPage: React.FC = () => {
         // Dịch tiêu đề
         (async () => {
             try {
-              const translatedTitle = await translateSentences(newsDetail.title || '');
+              const translatedTitle = await translateSentences(newsDetail.title || '', currentLanguage);
               updateTranslation('0', translatedTitle);
             } catch (error) {
               console.error("Error translating title:", error);
@@ -140,7 +144,7 @@ const NewsDetailPage: React.FC = () => {
         // Dịch mô tả
         (async () => {
           try {
-            const translatedDesc = await translateSentences(newsDetail.description || '');
+            const translatedDesc = await translateSentences(newsDetail.description || '', currentLanguage);
             updateTranslation('1', translatedDesc);
           } catch (error) {
             console.error("Error translating description:", error);
@@ -161,7 +165,7 @@ const NewsDetailPage: React.FC = () => {
         // Tạo closure để giữ index cho mỗi phần tử
         (async (index) => {    
           try {
-            const translatedBlock = await translateSentences(textContent);
+            const translatedBlock = await translateSentences(textContent, currentLanguage);
             updateTranslation((index + 2).toString(), translatedBlock);
           } catch (error) {
             console.error(`Error translating block ${index}:`, error);
@@ -230,33 +234,32 @@ const NewsDetailPage: React.FC = () => {
   };
 
   const renderAudioPlayer = () => {
-    if (!newsDetail?.content.audio || !currentAudioKey) return null;
+    if (!newsDetail?.content.audio) return null;
 
-    const audioKeys = Object.keys(newsDetail.content.audio);
-    const currentAudio = newsDetail.content.audio[currentAudioKey];
-    const audioUrl = `https://easychinese.io/audios/${currentAudioKey}/${currentAudio}`;
-    
+    let audioUrl = '';
+    if (currentLanguage === 'en') {
+      audioUrl = `https://admin.todaienglish.com/${newsDetail.content.audio}`;
+    } else {
+      const audioKeys = Object.keys(newsDetail.content.audio)[0];
+      const currentAudio = newsDetail.content.audio[audioKeys];
+      audioUrl = `https://easychinese.io/audios/${audioKeys}/${currentAudio}`;
+    }
     return (
       <Box my={4}>
         <audio controls style={{ width: '100%' }}>
           <source src={audioUrl} type="audio/mp3" />
           Trình duyệt của bạn không hỗ trợ phát âm thanh.
         </audio>
-        
-        <Flex mt={2} justify="center" gap={2}>
-          {audioKeys.map((key, index) => (
-            <Button 
-              key={key}
-              size="sm"
-              colorScheme={currentAudioKey === key ? "blue" : "gray"}
-              onClick={() => setCurrentAudioKey(key)}
-            >
-              Link {index + 1}
-            </Button>
-          ))}
-        </Flex>
       </Box>
     );
+  };
+
+  const imageUrl = () => {
+    if (currentLanguage === 'en') {
+      return `${newsDetail.image}`;
+    } else {
+      return `${newsDetail.content.image}`;
+    }
   };
 
   if (isLoading) {
@@ -317,13 +320,20 @@ const NewsDetailPage: React.FC = () => {
             <Badge colorScheme="blue">{newsDetail.kind}</Badge>
           )}
           {newsDetail.source && (
-            <Badge colorScheme="purple">{newsDetail.source}</Badge>
+            <Badge 
+              colorScheme="purple" 
+              cursor={newsDetail.link ? "pointer" : "default"}
+              onClick={() => newsDetail.link && window.open(newsDetail.link, "_blank")}
+              _hover={newsDetail.link ? { opacity: 0.8 } : {}}
+            >
+              {utils.getSource(newsDetail.source)}
+            </Badge>
           )}
         </Stack>
 
-        {newsDetail.content.image && (
+        {imageUrl() && (
           <Image 
-            src={newsDetail.content.image} 
+            src={imageUrl()} 
             alt={newsDetail.title || "News image"} 
             my={4}
             maxH="400px"

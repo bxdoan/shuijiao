@@ -33,6 +33,7 @@ function App() {
                 <Route path="/english" element={<EnglishPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/chinese/:newsId" element={<NewsDetailPage />} />
+                <Route path="/english/:newsId" element={<NewsDetailPage />} />
               </Routes>
             </Box>
             <Footer />

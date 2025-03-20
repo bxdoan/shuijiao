@@ -52,6 +52,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const type = typeof newsValue.type === 'string' ? newsValue.type : '';
   const kind = typeof newsValue.kind === 'string' ? newsValue.kind : '';
   const source = typeof newsValue.source === 'string' ? newsValue.source : '';
+  const link = typeof newsValue.link === 'string' ? newsValue.link : '';
   const desc = typeof newsValue.desc === 'string' ? newsValue.desc : '';
   const body = typeof newsValue.body === 'string' ? newsValue.body : '';
   const date = newsValue.date || '';
@@ -283,7 +284,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
   // Hàm chuyển hướng đến trang chi tiết
   const goToNewsDetail = () => {
     if (id) {
-      navigate(`/chinese/${id}`);
+      if (sourceLang === 'zh') {
+        navigate(`/chinese/${id}`);
+      } else {
+        navigate(`/english/${id}`);
+      }
     } else {
       toast({
         title: 'Lỗi',
@@ -314,7 +319,14 @@ const NewsCard: React.FC<NewsCardProps> = ({
             {utils.getVietnameseType(type)}
           </Badge>
           <Badge colorScheme="blue">{kind}</Badge>
-          <Badge colorScheme="purple">{source}</Badge>
+          <Badge 
+            colorScheme="purple" 
+            cursor={link ? "pointer" : "default"}
+            onClick={() => link && window.open(link, "_blank")}
+            _hover={link ? { opacity: 0.8 } : {}}
+          >
+            {utils.getSource(source)}
+          </Badge>
           <Box ml="auto">
             <Button
               size="xs"
