@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import NewsRelatedCard from './NewsRelatedCard';
-import { NewsItem } from '../types';
+import { NewsItem } from '../../types';
 
 interface NewsRelatedListProps {
   news: NewsItem[];

@@ -25,10 +25,10 @@ import { useNavigate } from 'react-router-dom';
 import {
   fetchTranslation, 
   translateSentences
-} from '../api/newsApi';
-import { NewsItem } from '../types';
-import * as utils from '../utils/utils';
-import { ShareModal } from './Common/ShareModal';
+} from '../../api/newsApi';
+import { NewsItem } from '../../types';
+import * as utils from '../../utils/utils';
+import { ShareModal } from '../Common/ShareModal';
 
 
 interface NewsCardProps {

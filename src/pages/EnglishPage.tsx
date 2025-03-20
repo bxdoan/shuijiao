@@ -11,8 +11,8 @@ import {
     Spinner,
     SimpleGrid
 } from '@chakra-ui/react';
-import NewsFilter from '../components/NewsFilter';
-import NewsCard from '../components/NewsCard';
+import NewsFilter from '../components/News/NewsFilter';
+import NewsCard from '../components/News/NewsCard';
 import ScrollToTopBottom from '../components/Common/ScrollToTopBottom';
 import { DonationBoxCompact } from '../components/Common/DonationBox';
 import { NewsFilterParams, NewsItem } from '../types';

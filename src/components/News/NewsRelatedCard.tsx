@@ -10,8 +10,8 @@ import {
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
-import { NewsItem } from '../types';
-import * as utils from '../utils/utils';
+import { NewsItem } from '../../types';
+import * as utils from '../../utils/utils';
 
 interface NewsRelatedCardProps {
   news: NewsItem;

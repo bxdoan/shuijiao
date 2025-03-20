@@ -12,7 +12,7 @@ import {
   Badge
 } from '@chakra-ui/react';
 import { CalendarIcon, ChevronDownIcon, ChevronUpIcon, SearchIcon } from '@chakra-ui/icons';
-import { NewsFilterParams } from '../types';
+import { NewsFilterParams } from '../../types';
 
 interface NewsFilterProps {
   filters: NewsFilterParams;
