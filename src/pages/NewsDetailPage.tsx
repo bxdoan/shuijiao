@@ -38,6 +38,7 @@ import DonationBox from '../components/Common/DonationBox';
 import HSKVocabularyBox from '../components/Vocabulary/HSKVocabularyBox';
 import IELTSVocabularyBox from '../components/Vocabulary/IELTSVocabularyBox';
 import SEO from '../components/Common/SEO';
+import ScrollToTopBottom from '../components/Common/ScrollToTopBottom';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
@@ -603,6 +604,7 @@ const NewsDetailPage: React.FC = () => {
           title="Chia sẻ bài viết này"
           shareText={utils.splitTextIntoSentences(newsDetail?.title || "", currentLanguage) || "Tin tức từ Shuijiao"}
         />
+        <ScrollToTopBottom />
       </Container>
     </>
   );

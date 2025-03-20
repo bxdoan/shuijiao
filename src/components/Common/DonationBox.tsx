@@ -178,16 +178,6 @@ export const DonationBoxCompact: React.FC<DonationBoxProps> = ({
     });
   };
 
-  const bankDetails = {
-    bankId: bankName,
-    accountNumber: accountNumber,
-    accountHolder: accountHolder,
-    transferContent: transferMessage,
-    template: "compact2",
-  };
-
-  const qrUrl = qrCodeUrl(bankDetails);
-
   return (
     <Box
       borderWidth="1px"
@@ -250,12 +240,12 @@ export const DonationBoxCompact: React.FC<DonationBoxProps> = ({
             alignSelf={{ base: "center", md: "flex-start" }}
           >
             <Image 
-              src={qrUrl} 
+              src={process.env.PUBLIC_URL + '/assets/MBBank-compact.png'} 
               alt="QR Code chuyển khoản" 
               objectFit="cover"
               borderRadius="md"
               boxSize={{ base: "180px", md: "180px" }}
-              maxH={{ md: "200px" }}
+              maxH={{ md: "180px" }}
             />
           </Box>
           
