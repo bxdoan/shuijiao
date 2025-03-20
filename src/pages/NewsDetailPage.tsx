@@ -92,8 +92,9 @@ const NewsDetailPage: React.FC = () => {
         
         if (response && response.data) {
           // Lọc bỏ bài viết hiện tại và các bài đã có trong danh sách
+          const existingIds = new Set(allRelatedNews.map(item => item.id));
           const newRelatedNews = response.data.filter(item => 
-            item.id !== newsId && !allRelatedNews.some(existing => existing.id === item.id)
+            item.id !== newsId && !existingIds.has(item.id)
           );
           
           // Thêm tin mới vào danh sách
