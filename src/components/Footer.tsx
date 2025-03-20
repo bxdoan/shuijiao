@@ -347,7 +347,7 @@ export const Footer: React.FC = () => {
               </svg>
             </a>
             <a 
-              href="https://github.com/bxdoan" 
+              href="https://github.com/bxdoan/shuijiao"
               target="_blank" 
               rel="noopener noreferrer"
               aria-label="GitHub"
