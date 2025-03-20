@@ -63,4 +63,30 @@ export interface NewsFilterParams {
   page?: number;
   timestamp?: string;
   language?: string;
-} 
+}
+
+export interface NewsDetail {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+  date: string;
+  tag: string;
+  source: string;
+  content: {
+    audio: {
+      [key: string]: string[];
+    };
+    body: string;
+    image: string | null;
+    video: string | null;
+  };
+  level_tocfl: {
+    [key: string]: string[];
+  };
+  level_hsk: {
+    [key: string]: string[];
+  };
+  // Các trường khác có thể có trong response
+  [key: string]: any;
+}

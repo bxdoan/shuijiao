@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { NewsFilterParams, NewsResponse, LanguageConfigMap } from '../types';
+import {
+  NewsFilterParams,
+  NewsResponse,
+  LanguageConfigMap,
+  NewsDetail
+} from '../types';
 import * as utils from '../utils/utils';
 
 // Tạo một cấu trúc để quản lý cấu hình cho nhiều ngôn ngữ
@@ -152,7 +157,9 @@ export const fetchGoogleTranslation = async (text: string, targetLang: string = 
   }
 };
 
-export const translateSentences = async (text: string, sourceLang: string, targetLang: string = 'vi') => {
+export const translateSentences = async (
+  text: string, sourceLang: string, targetLang: string = 'vi'
+) => {
   const sentences = utils.splitTextIntoSentences(text, sourceLang);
   const translatedSentences = [];
   
@@ -252,30 +259,6 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
   }
 };
 
-// Định nghĩa interface cho dữ liệu chi tiết tin tức
-export interface NewsDetail {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-  date: string;
-  tag: string;
-  source: string;
-  content: {
-    audio: string | null;
-    body: string;
-    image: string | null;
-    video: string | null;
-  };
-  level_tocfl: {
-    [key: string]: string[];
-  };
-  level_hsk: {
-    [key: string]: string[];
-  };
-  // Các trường khác có thể có trong response
-  [key: string]: any;
-}
 
 // Hàm lấy chi tiết tin tức
 export const getNewsDetails = async (newsId: string, language: string = 'zh'): Promise<NewsDetail | null> => {

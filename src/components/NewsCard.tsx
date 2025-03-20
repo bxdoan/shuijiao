@@ -12,18 +12,19 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { NewsItem } from '../types';
-import { 
+import {
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ChevronRightIcon
+} from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
+
+import {
   fetchTranslation, 
   translateSentences
 } from '../api/newsApi';
-import { useNavigate } from 'react-router-dom';
+import { NewsItem } from '../types';
 import * as utils from '../utils/utils';
-import { 
-  ChevronUpIcon, 
-  ChevronDownIcon, 
-  ChevronRightIcon 
-} from '@chakra-ui/icons';
 
 
 interface NewsCardProps {
@@ -137,7 +138,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
         // Dịch tiêu đề
         (async () => {
           try {
-            const translatedTitle = await translateSentences(title, sourceLang);
+            const translatedTitle = await translateSentences(
+              title,
+              sourceLang,
+              'vi'
+            );
             updateTranslation('0', translatedTitle);
           } catch (error) {
             console.error("Error translating title:", error);
@@ -147,7 +152,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
         // Dịch mô tả
         (async () => {
           try {
-            const translatedDesc = await translateSentences(desc, sourceLang);
+            const translatedDesc = await translateSentences(
+              desc,
+              sourceLang,
+              'vi'
+            );
             updateTranslation('1', translatedDesc);
           } catch (error) {
             console.error("Error translating description:", error);
@@ -168,7 +177,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
         // Tạo closure để giữ index cho mỗi phần tử
         (async (index) => {
           try {
-            const translatedBlock = await translateSentences(textContent);
+            const translatedBlock = await translateSentences(
+              textContent,
+              sourceLang,
+              'vi'
+            );
             updateTranslation((index + 2).toString(), translatedBlock);
           } catch (error) {
             console.error(`Error translating block ${index}:`, error);

@@ -37,6 +37,7 @@ const NewsDetailPage: React.FC = () => {
   const [translation, setTranslation] = useState<Record<string, string> | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [currentAudioKey, setCurrentAudioKey] = useState<string>('');
   
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -52,6 +53,13 @@ const NewsDetailPage: React.FC = () => {
         const data = await getNewsDetails(newsId);
         if (data) {
           setNewsDetail(data);
+          // Khởi tạo audio key khi có dữ liệu
+          if (data.content.audio) {
+            const audioKeys = Object.keys(data.content.audio);
+            if (audioKeys.length > 0) {
+              setCurrentAudioKey(audioKeys[0]);
+            }
+          }
         } else {
           setIsError(true);
           toast({
@@ -222,14 +230,31 @@ const NewsDetailPage: React.FC = () => {
   };
 
   const renderAudioPlayer = () => {
-    if (!newsDetail?.content.audio) return null;
+    if (!newsDetail?.content.audio || !currentAudioKey) return null;
+
+    const audioKeys = Object.keys(newsDetail.content.audio);
+    const currentAudio = newsDetail.content.audio[currentAudioKey];
+    const audioUrl = `https://easychinese.io/audios/${currentAudioKey}/${currentAudio}`;
     
     return (
       <Box my={4}>
         <audio controls style={{ width: '100%' }}>
-          <source src={newsDetail.content.audio} type="audio/mpeg" />
+          <source src={audioUrl} type="audio/mp3" />
           Trình duyệt của bạn không hỗ trợ phát âm thanh.
         </audio>
+        
+        <Flex mt={2} justify="center" gap={2}>
+          {audioKeys.map((key, index) => (
+            <Button 
+              key={key}
+              size="sm"
+              colorScheme={currentAudioKey === key ? "blue" : "gray"}
+              onClick={() => setCurrentAudioKey(key)}
+            >
+              Link {index + 1}
+            </Button>
+          ))}
+        </Flex>
       </Box>
     );
   };
