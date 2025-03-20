@@ -16,16 +16,21 @@ import {
   useToast,
   IconButton,
   Center,
-  useColorModeValue
+  useColorModeValue,
+  Grid,
+  GridItem
 } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
+
 import { 
     getNewsDetails, 
     fetchTranslation, 
-    translateSentences
+    translateSentences,
+    fetchNews
 } from '../api/newsApi';
-import { NewsDetail } from '../types';
+import { NewsDetail, NewsFilterParams, NewsItem } from '../types';
 import * as utils from '../utils/utils';
+import NewsRelatedList from '../components/NewsRelatedList';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
@@ -38,6 +43,8 @@ const NewsDetailPage: React.FC = () => {
   const [translation, setTranslation] = useState<Record<string, string> | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [relatedNews, setRelatedNews] = useState<NewsItem[]>([]);
+  const [loadingRelated, setLoadingRelated] = useState(false);
   
   // Xác định ngôn ngữ dựa vào đường dẫn
   const getLanguageFromPath = () => {
@@ -64,6 +71,8 @@ const NewsDetailPage: React.FC = () => {
         const data = await getNewsDetails(newsId, currentLanguage);
         if (data) {
           setNewsDetail(data);
+          // Fetch related news after getting detail
+          fetchRelatedNews(data.kind, data.type, data.date);
         } else {
           setIsError(true);
           toast({
@@ -91,6 +100,64 @@ const NewsDetailPage: React.FC = () => {
     
     fetchNewsDetail();
   }, [newsId, toast, currentLanguage]);
+
+  // Hàm fetch tin tức liên quan
+  const fetchRelatedNews = async (kind: string, type: string, date: string) => {
+    setLoadingRelated(true);
+    try {
+      let allRelatedNews: NewsItem[] = [];
+      let currentDate = new Date(date);
+      let attempts = 0;
+      const MAX_ATTEMPTS = 5; // Giới hạn số lần truy vấn ngược thời gian
+      const MIN_REQUIRED_NEWS = 6; // Số tin tức tối thiểu cần hiển thị
+      
+      // Tiếp tục tải cho đến khi có đủ tin hoặc đạt giới hạn số lần thử
+      while (allRelatedNews.length < MIN_REQUIRED_NEWS && attempts < MAX_ATTEMPTS) {
+        const dateString = currentDate.toISOString().split('T')[0];
+        
+        const filters: NewsFilterParams = {
+          topic: kind || '',
+          type: type || 'easy',
+          date: dateString,
+          timestamp: dateString,
+          page: 1,
+          limit: 40,
+          language: currentLanguage
+        };
+        
+        const response = await fetchNews(filters);
+        
+        if (response && response.data) {
+          // Lọc bỏ bài viết hiện tại và các bài đã có trong danh sách
+          const newRelatedNews = response.data.filter(item => 
+            item.id !== newsId && !allRelatedNews.some(existing => existing.id === item.id)
+          );
+          
+          // Thêm tin mới vào danh sách
+          allRelatedNews = [...allRelatedNews, ...newRelatedNews];
+          
+          // Nếu không có thêm tin nào từ ngày này, di chuyển đến ngày trước đó
+          if (newRelatedNews.length === 0) {
+            currentDate.setDate(currentDate.getDate() - 1);
+            attempts++;
+            continue;
+          }
+        }
+        
+        // Di chuyển đến ngày trước đó để tìm thêm tin
+        currentDate.setDate(currentDate.getDate() - 1);
+        attempts++;
+      }
+      
+      // Chỉ lấy tối đa 8 tin để hiển thị
+      setRelatedNews(allRelatedNews.slice(0, MIN_REQUIRED_NEWS));
+      
+    } catch (error) {
+      console.error('Error fetching related news:', error);
+    } finally {
+      setLoadingRelated(false);
+    }
+  };
 
   // Hàm dịch tin tức
   const translateNews = async () => {
@@ -264,7 +331,7 @@ const NewsDetailPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Container maxW="container.md" py={8}>
+      <Container maxW="container.xl" py={8}>
         <Center py={20}>
           <Spinner size="xl" thickness="4px" color="blue.500" />
         </Center>
@@ -274,7 +341,7 @@ const NewsDetailPage: React.FC = () => {
 
   if (isError || !newsDetail) {
     return (
-      <Container maxW="container.md" py={8}>
+      <Container maxW="container.xl" py={8}>
         <Center py={10} flexDirection="column">
           <Heading as="h2" size="lg" mb={4}>
             Không thể tải tin tức
@@ -291,7 +358,7 @@ const NewsDetailPage: React.FC = () => {
   }
 
   return (
-    <Container maxW="container.md" py={8}>
+    <Container maxW="container.xl" py={8}>
       <Box mb={4}>
         <IconButton
           aria-label="Quay lại"
@@ -301,101 +368,150 @@ const NewsDetailPage: React.FC = () => {
         />
       </Box>
 
-      <Box
+      <Grid 
+        templateColumns={{ base: "1fr", lg: "3fr 1fr" }} 
+        gap={6}
+      >
+        <GridItem>
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            bg={bgColor}
+            borderColor={borderColor}
+            boxShadow="lg"
+            p={6}
+          >
+            <Stack direction="row" spacing={2} mb={4} flexWrap="wrap">
+              {newsDetail.type && (
+                <Badge colorScheme={utils.getTypeColor(newsDetail.type)}>
+                  {utils.getVietnameseType(newsDetail.type)}
+                </Badge>
+              )}
+              {newsDetail.kind && (
+                <Badge colorScheme="blue">{newsDetail.kind}</Badge>
+              )}
+              {newsDetail.source && (
+                <Badge 
+                  colorScheme="purple" 
+                  cursor={newsDetail.link ? "pointer" : "default"}
+                  onClick={() => newsDetail.link && window.open(newsDetail.link, "_blank")}
+                  _hover={newsDetail.link ? { opacity: 0.8 } : {}}
+                >
+                  {utils.getSource(newsDetail.source)}
+                </Badge>
+              )}
+            </Stack>
+
+            {imageUrl() && (
+              <Image 
+                src={imageUrl()} 
+                alt={newsDetail.title || "News image"} 
+                my={4}
+                maxH="400px"
+                mx="auto"
+                objectFit="contain"
+              />
+            )}
+            
+            {newsDetail.content.audio && (
+              renderAudioPlayer()
+            )}
+            
+            <Divider my={4} />
+            
+            <Flex justify="space-between" align="center" mb={4}>
+              <Text fontSize="sm" color="gray.500">
+                {newsDetail.date && new Date(newsDetail.date).toLocaleDateString()}
+              </Text>
+              
+              <Button
+                colorScheme="teal"
+                isLoading={isTranslating}
+                loadingText="Đang dịch..."
+                onClick={translateNews}
+                size="sm"
+              >
+                {showTranslation && translation ? "Đã dịch" : "Dịch"}
+              </Button>
+            </Flex>
+
+            <Heading as="h1" size="xl" mb={4} dangerouslySetInnerHTML={{ __html: newsDetail.title || '' }} />
+            
+            {showTranslation && translation && translation['0'] && (
+              <Box key="title-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
+                <Text color="blue.600" fontStyle="italic" fontWeight="bold">
+                  {translation['0']}
+                </Text>
+              </Box>
+            )}
+
+            {newsDetail.description && (
+              <Text 
+                fontSize="lg" 
+                fontWeight="semibold" 
+                mb={4} 
+                dangerouslySetInnerHTML={{ __html: newsDetail.description }} 
+              />
+            )}
+
+            {showTranslation && translation && translation['1'] && (
+              <Box key="description-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
+                <Text color="blue.600" fontStyle="italic">
+                  {translation['1']}
+                </Text>
+              </Box>    
+            )}
+
+            {showTranslation && translation ? (
+              renderInterleavedContent()
+            ) : (
+              <Box dangerouslySetInnerHTML={{ __html: newsDetail.content.body || '' }} />
+            )}
+          </Box>
+        </GridItem>
+        
+        <GridItem>
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            bg={bgColor}
+            borderColor={borderColor}
+            boxShadow="md"
+            p={4}
+            height="fit-content"
+            position="sticky"
+            top="20px"
+            display={{ base: 'none', lg: 'block' }}
+            maxHeight="calc(100vh - 40px)"
+            overflowY="auto"
+          >
+            <NewsRelatedList 
+              news={relatedNews} 
+              isLoading={loadingRelated} 
+              sourceLang={currentLanguage}
+            />
+          </Box>
+        </GridItem>
+      </Grid>
+      
+      {/* Hiển thị tin liên quan ở dưới cho màn hình điện thoại */}
+      <Box 
+        mt={6} 
         borderWidth="1px"
         borderRadius="lg"
-        overflow="hidden"
         bg={bgColor}
         borderColor={borderColor}
-        boxShadow="lg"
-        p={6}
+        boxShadow="md"
+        p={4}
+        display={{ base: 'block', lg: 'none' }}
       >
-        <Stack direction="row" spacing={2} mb={4} flexWrap="wrap">
-          {newsDetail.type && (
-            <Badge colorScheme={utils.getTypeColor(newsDetail.type)}>
-              {utils.getVietnameseType(newsDetail.type)}
-            </Badge>
-          )}
-          {newsDetail.kind && (
-            <Badge colorScheme="blue">{newsDetail.kind}</Badge>
-          )}
-          {newsDetail.source && (
-            <Badge 
-              colorScheme="purple" 
-              cursor={newsDetail.link ? "pointer" : "default"}
-              onClick={() => newsDetail.link && window.open(newsDetail.link, "_blank")}
-              _hover={newsDetail.link ? { opacity: 0.8 } : {}}
-            >
-              {utils.getSource(newsDetail.source)}
-            </Badge>
-          )}
-        </Stack>
-
-        {imageUrl() && (
-          <Image 
-            src={imageUrl()} 
-            alt={newsDetail.title || "News image"} 
-            my={4}
-            maxH="400px"
-            mx="auto"
-            objectFit="contain"
-          />
-        )}
-        
-        {newsDetail.content.audio && (
-          renderAudioPlayer()
-        )}
-        
-        <Divider my={4} />
-        
-        <Flex justify="space-between" align="center" mb={4}>
-          <Text fontSize="sm" color="gray.500">
-            {newsDetail.date && new Date(newsDetail.date).toLocaleDateString()}
-          </Text>
-          
-          <Button
-            colorScheme="teal"
-            isLoading={isTranslating}
-            loadingText="Đang dịch..."
-            onClick={translateNews}
-            size="sm"
-          >
-            {showTranslation && translation ? "Đã dịch" : "Dịch"}
-          </Button>
-        </Flex>
-
-        <Heading as="h1" size="xl" mb={4} dangerouslySetInnerHTML={{ __html: newsDetail.title || '' }} />
-        
-        {showTranslation && translation && translation['0'] && (
-          <Box key="title-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
-            <Text color="blue.600" fontStyle="italic" fontWeight="bold">
-              {translation['0']}
-            </Text>
-          </Box>
-        )}
-
-        {newsDetail.description && (
-          <Text 
-            fontSize="lg" 
-            fontWeight="semibold" 
-            mb={4} 
-            dangerouslySetInnerHTML={{ __html: newsDetail.description }} 
-          />
-        )}
-
-        {showTranslation && translation && translation['1'] && (
-          <Box key="description-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
-            <Text color="blue.600" fontStyle="italic">
-              {translation['1']}
-            </Text>
-          </Box>    
-        )}
-
-        {showTranslation && translation ? (
-          renderInterleavedContent()
-        ) : (
-          <Box dangerouslySetInnerHTML={{ __html: newsDetail.content.body || '' }} />
-        )}
+        <NewsRelatedList 
+          news={relatedNews} 
+          isLoading={loadingRelated} 
+          sourceLang={currentLanguage}
+          title="Các tin tức liên quan khác"
+        />
       </Box>
     </Container>
   );
