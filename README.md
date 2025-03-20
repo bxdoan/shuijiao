@@ -1,36 +1,36 @@
-# Kim Én Chinese
+# Shuijiao - Nền tảng học đa ngôn ngữ qua tin tức
 
-Ứng dụng web giúp học tiếng Trung thông qua các bài báo thời sự thực tế với pinyin và bản dịch.
+Shuijiao là nền tảng học đa ngôn ngữ thông qua tin tức thực tế hàng ngày với bản dịch tiếng Việt. Hỗ trợ tiếng Anh, Trung, Hàn, Pháp, Đức và nhiều ngôn ngữ khác.
 
-URL:
+## Website
 
-https://shuijiao.vercel.app/
+[https://shuijiao.vercel.app/](https://shuijiao.vercel.app/)
 
+## Giới thiệu
 
-## Triển khai
+Shuijiao cam kết làm cho việc học ngoại ngữ trở nên dễ tiếp cận, hấp dẫn và hiệu quả thông qua nội dung tin tức thực tế. Chúng tôi tin rằng học ngôn ngữ thông qua tài liệu thực tế là một trong những cách hiệu quả nhất để đạt được sự thành thạo.
 
-Dự án này được cấu hình để triển khai trên Vercel. Chỉ cần kết nối repository GitHub của bạn với Vercel và nó sẽ tự động triển khai ứng dụng của bạn.
+Bằng cách cung cấp các bài báo tin tức bằng nhiều ngôn ngữ kèm theo bản dịch tiếng Việt, chúng tôi giúp người học ở mọi trình độ cải thiện khả năng đọc hiểu, từ vựng, và hiểu biết văn hóa thông qua nội dung thời sự.
+
+## Tính năng chính
+
+- Đọc tin tức bằng nhiều ngôn ngữ (Anh, Trung, Hàn, Pháp, Đức)
+- Hỗ trợ pinyin cho tiếng Trung
+- Bản dịch tiếng Việt cho từng đoạn văn
+- Tìm kiếm và lọc tin tức theo chủ đề
+- Giao diện thân thiện, hỗ trợ chế độ tối/sáng
+- Tương thích với thiết bị di động
+
+## Đóng góp
+
+Shuijiao là một dự án phi lợi nhuận với mục tiêu giúp người Việt tiếp cận với các ngôn ngữ quốc tế một cách dễ dàng và miễn phí. Nếu bạn muốn đóng góp vào dự án, vui lòng tạo Pull Request hoặc báo cáo các vấn đề qua mục Issues.
+
+## Liên hệ
+
+Nếu bạn có câu hỏi hoặc góp ý, vui lòng liên hệ qua email: [contact@shuijiao.vn]
 
 ## Giấy phép
 
-Dự án này được cấp phép theo Giấy phép MIT - xem file LICENSE để biết chi tiết.
+MIT License
 
-## Vercel Deployment
-
-Để đảm bảo Vercel tự động triển khai mỗi khi push lên GitHub, làm theo các bước sau:
-
-1. Tạo Vercel token:
-   - Đăng nhập vào Vercel dashboard
-   - Vào Settings > Tokens
-   - Tạo token mới với quyền "Full Account"
-   - Sao chép token
-
-2. Thêm token vào GitHub Secrets:
-   - Vào repository trên GitHub
-   - Vào Settings > Secrets and variables > Actions
-   - Thêm secret mới với tên `VERCEL_TOKEN` và giá trị là token đã tạo
-
-3. Push code lên nhánh main hoặc master để trigger tự động deploy
-
-**Lưu ý**: GitHub Actions workflow sẽ tự động trigger Vercel deployment khi có push mới.
 

@@ -1,1 +1,68 @@
- 
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Trang chủ -->
+  <url>
+    <loc>https://shuijiao.com/</loc>
+    <lastmod>2023-08-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Trang tiếng Anh -->
+  <url>
+    <loc>https://shuijiao.com/en</loc>
+    <lastmod>2023-08-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Trang giới thiệu -->
+  <url>
+    <loc>https://shuijiao.com/about</loc>
+    <lastmod>2023-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 
+    CHÚC Ý: Đây là ví dụ về sitemap tĩnh. Trong thực tế, bạn nên sử dụng sitemap động.
+    Các ID tin tức thường là chuỗi dài như UUID hoặc MongoDB ObjectId.
+    Ví dụ: 6502a9b1e22ad6925e2ec5a8, 60f8c1a2f5b5e7a3c9b4a1d8, v.v.
+    
+    Để làm tốt hơn, bạn nên:
+    1. Tạo API endpoint riêng để sinh sitemap.xml động (ví dụ: /api/sitemap.xml)
+    2. Truy vấn cơ sở dữ liệu để lấy tất cả tin tức và tạo sitemap.xml tự động
+    3. Lưu trữ cache sitemap và cập nhật định kỳ (ví dụ: hàng ngày)
+    4. Thêm lastmod thực tế dựa trên ngày cập nhật tin tức
+  -->
+  
+  <!-- Ví dụ các trang tin chi tiết tiếng Trung với ID thực tế -->
+  <url>
+    <loc>https://shuijiao.com/zh/6502a9b1e22ad6925e2ec5a8</loc>
+    <lastmod>2023-08-15</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://shuijiao.com/zh/60f8c1a2f5b5e7a3c9b4a1d8</loc>
+    <lastmod>2023-08-10</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Ví dụ các trang tin chi tiết tiếng Anh với ID thực tế -->
+  <url>
+    <loc>https://shuijiao.com/en/7a9b2c3d4e5f6g7h8i9j0k1l</loc>
+    <lastmod>2023-08-12</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://shuijiao.com/en/a1b2c3d4e5f6g7h8i9j0k1l2</loc>
+    <lastmod>2023-08-08</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset> 

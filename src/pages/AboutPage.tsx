@@ -83,11 +83,11 @@ const AboutPage: React.FC = () => {
             </Heading>
             <SimpleGrid columns={{ base: 2, md: 3, lg: 5 }} spacing={6} mb={6}>
               {[
-                { name: 'Tiếng Anh', icon: '🇬🇧', color: 'blue' },
-                { name: 'Tiếng Trung', icon: '🇨🇳', color: 'red' },
-                { name: 'Tiếng Hàn', icon: '🇰🇷', color: 'blue' },
-                { name: 'Tiếng Pháp', icon: '🇫🇷', color: 'blue' },
-                { name: 'Tiếng Đức', icon: '🇩🇪', color: 'yellow' },
+                { name: 'Tiếng Trung', icon: 'zh', color: 'red' },
+                { name: 'Tiếng Anh', icon: 'en', color: 'blue' },
+                { name: 'Tiếng Hàn', icon: 'ko', color: 'green' },
+                { name: 'Tiếng Pháp', icon: 'fr', color: 'purple' },
+                { name: 'Tiếng Đức', icon: 'de', color: 'yellow' },
               ].map((lang) => (
                 <Flex
                   key={lang.name}
