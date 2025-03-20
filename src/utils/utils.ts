@@ -152,3 +152,14 @@ export const splitTextIntoSentences = (text: string, sourceLang: string) => {
     return sentences;
   }
 };
+
+export const qrCodeUrl = (bankDetails: {
+  bankId: string,
+  accountNumber: string,
+  accountHolder: string,
+  transferContent: string,
+  template: string,
+  amount: number,
+}) => {
+  return `https://img.vietqr.io/image/${bankDetails.bankId}-${bankDetails.accountNumber}-${bankDetails.template}.png?amount=${bankDetails.amount}&addInfo=${encodeURIComponent(bankDetails.transferContent)}&accountName=${encodeURIComponent(bankDetails.accountHolder)}`;
+}

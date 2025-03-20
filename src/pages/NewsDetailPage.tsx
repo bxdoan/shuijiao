@@ -19,7 +19,8 @@ import {
   useColorModeValue,
   Grid,
   GridItem,
-  useDisclosure
+  useDisclosure,
+  Link
 } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { FaShare } from 'react-icons/fa';
@@ -34,6 +35,7 @@ import { NewsDetail, NewsFilterParams, NewsItem } from '../types';
 import * as utils from '../utils/utils';
 import NewsRelatedList from '../components/NewsRelatedList';
 import { ShareModal } from '../components/ShareModal';
+import DonationBox from '../components/DonationBox';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
@@ -476,6 +478,19 @@ const NewsDetailPage: React.FC = () => {
                 ) : (
                   <Box dangerouslySetInnerHTML={{ __html: newsDetail.content.body || '' }} />
                 )}
+              </Box>
+              
+              {/* Box ủng hộ dự án - chỉ hiển thị với bề ngang của nội dung bài viết */}
+              <Box mt={6}>
+                <DonationBox 
+                  title="Ủng hộ dự án Shuijiao"
+                  description="Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới."
+                  bankName="MBBANK"
+                  accountNumber="0904195065"
+                  accountHolder="Bui Xuan Doan"
+                  transferMessage="Ho tro Shuijiao"
+                  supportLink="#"
+                />
               </Box>
             </GridItem>
             
