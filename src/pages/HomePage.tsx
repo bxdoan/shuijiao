@@ -14,6 +14,7 @@ import {
 import NewsFilter from '../components/NewsFilter';
 import NewsCard from '../components/NewsCard';
 import ScrollToTopBottom from '../components/ScrollToTopBottom';
+import { DonationBoxCompact } from '../components/DonationBox';
 import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
 import { ChevronDownIcon } from '@chakra-ui/icons';
@@ -136,13 +137,32 @@ const HomePage: React.FC = () => {
       );
     }
 
+    // Chuẩn bị mảng render có cả tin tức và donation box
+    const renderItems = [];
+    
+    allNews.forEach((item, index) => {
+      // Thêm tin tức
+      const newsKey = `news-${index}-${item.id || ''}`;
+      renderItems.push(
+        <NewsCard key={newsKey} news={item} sourceLang="zh" />
+      );
+      
+      // Nếu đã hiển thị 5 tin và chưa phải tin cuối cùng, thêm donation box
+      if ((index + 1) % 5 === 0 && index !== allNews.length - 1) {
+        renderItems.push(
+          <DonationBoxCompact 
+            key={`donation-${index}`}
+            title="Ủng hộ phát triển Shuijiao"
+            description="Giúp chúng tôi duy trì và phát triển dịch vụ này miễn phí."
+          />
+        );
+      }
+    });
+
     return (
       <Box py={4}>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-          {allNews.map((item, index) => {
-            const key = `news-${index}-${item.id || ''}`;
-            return <NewsCard key={key} news={item} sourceLang="zh" />;
-          })}
+          {renderItems}
         </SimpleGrid>
       </Box>
     );

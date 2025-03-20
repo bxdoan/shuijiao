@@ -20,7 +20,6 @@ import {
   Grid,
   GridItem,
   useDisclosure,
-  Link
 } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { FaShare } from 'react-icons/fa';
@@ -489,7 +488,6 @@ const NewsDetailPage: React.FC = () => {
                   accountNumber="0904195065"
                   accountHolder="Bui Xuan Doan"
                   transferMessage="Ho tro Shuijiao"
-                  supportLink="#"
                 />
               </Box>
             </GridItem>

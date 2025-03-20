@@ -17,7 +17,7 @@ interface NewsRelatedListProps {
   news: NewsItem[];
   isLoading: boolean;
   title?: string;
-  sourceLang: string;
+  sourceLang: 'zh' | 'en';
 }
 
 const NewsRelatedList: React.FC<NewsRelatedListProps> = ({ 
