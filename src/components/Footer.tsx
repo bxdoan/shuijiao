@@ -228,7 +228,7 @@ export const Footer: React.FC = () => {
             </div>
             <h3 style={styles.brandText}>Shuijiao</h3>
           </div>
-          <p style={styles.normalText}>Learn Languages with real-world news articles</p>
+          <p style={styles.normalText}>Learn languages with real-world news articles</p>
           <div style={styles.contactInfo}>
             <a 
               href="mailto:contact@shuijiao.vn" 

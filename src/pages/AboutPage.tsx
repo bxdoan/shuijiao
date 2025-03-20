@@ -24,7 +24,7 @@ const AboutPage: React.FC = () => {
       <VStack spacing={8} align="stretch">
         <Box textAlign="center">
           <Heading as="h1" size="2xl" mb={4}>
-            Shuijiao Chinese
+            Shuijiao
           </Heading>
           <Text fontSize="lg" color="gray.600">
             Nền tảng được thiết kế để giúp bạn học tiếng Trung qua tin tức thực tế
@@ -43,7 +43,7 @@ const AboutPage: React.FC = () => {
             Sứ Mệnh Của Chúng Tôi
           </Heading>
           <Text mb={4}>
-              Shuijiao Chinese cam kết làm cho việc học tiếng Trung trở nên dễ tiếp cận,
+              Shuijiao cam kết làm cho việc học tiếng Trung trở nên dễ tiếp cận,
             hấp dẫn và hiệu quả thông qua nội dung tin tức thực tế. Chúng tôi tin rằng
             học ngôn ngữ thông qua tài liệu thực tế là một trong những cách hiệu quả nhất
             để đạt được sự thành thạo.

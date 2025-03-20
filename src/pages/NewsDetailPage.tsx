@@ -66,6 +66,8 @@ const NewsDetailPage: React.FC = () => {
       
       setIsLoading(true);
       setIsError(false);
+      setTranslation(null);
+      setShowTranslation(false);
       
       try {
         const data = await getNewsDetails(newsId, currentLanguage);
