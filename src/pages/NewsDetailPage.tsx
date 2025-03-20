@@ -78,7 +78,7 @@ const NewsDetailPage: React.FC = () => {
         if (data) {
           setNewsDetail(data);
           // Fetch related news after getting detail
-          fetchRelatedNews(data.kind, data.type, data.date);
+          await fetchRelatedNews(data.kind, data.type, data.date);
         } else {
           setIsError(true);
           toast({
@@ -114,7 +114,7 @@ const NewsDetailPage: React.FC = () => {
       let allRelatedNews: NewsItem[] = [];
       let currentDate = new Date(date);
       let attempts = 0;
-      const MAX_ATTEMPTS = 10; // Giới hạn số lần truy vấn ngược thời gian
+      const MAX_ATTEMPTS = 6; // Giới hạn số lần truy vấn ngược thời gian
       const MIN_REQUIRED_NEWS = 6; // Số tin tức tối thiểu cần hiển thị
       
       // Tiếp tục tải cho đến khi có đủ tin hoặc đạt giới hạn số lần thử

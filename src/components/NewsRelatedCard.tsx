@@ -28,7 +28,6 @@ const NewsRelatedCard: React.FC<NewsRelatedCardProps> = ({ news, sourceLang }) =
   const imageUrl = typeof newsValue.image === 'string' ? newsValue.image : '';
   const title = typeof newsValue.title === 'string' ? newsValue.title : '';
   const type = typeof newsValue.type === 'string' ? newsValue.type : '';
-  const source = typeof newsValue.source === 'string' ? newsValue.source : '';
   const date = newsValue.date || '';
   const id = news?.id || '';
 
