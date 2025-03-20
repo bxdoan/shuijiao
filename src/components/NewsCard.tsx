@@ -15,8 +15,7 @@ import {
 import { NewsItem } from '../types';
 import { 
   fetchTranslation, 
-  fetchGoogleTranslation, 
-  translateSentences 
+  translateSentences
 } from '../api/newsApi';
 import { useNavigate } from 'react-router-dom';
 import * as utils from '../utils/utils';
@@ -375,4 +374,4 @@ const NewsCard: React.FC<NewsCardProps> = ({
   );
 };
 
-export default NewsCard; 
+export default NewsCard;
