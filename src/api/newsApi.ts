@@ -1,18 +1,6 @@
 import axios from 'axios';
-import { NewsFilterParams, NewsResponse } from '../types';
-
-// Định nghĩa interface cho cấu hình của mỗi ngôn ngữ
-interface LanguageConfigItem {
-  apiBaseUrl: string;
-  origin: string;
-  referer: string;
-  apiKey: string;
-}
-
-// Định nghĩa interface cho đối tượng cấu hình ngôn ngữ
-interface LanguageConfigMap {
-  [key: string]: LanguageConfigItem;
-}
+import { NewsFilterParams, NewsResponse, LanguageConfigMap } from '../types';
+import * as utils from '../utils/utils';
 
 // Tạo một cấu trúc để quản lý cấu hình cho nhiều ngôn ngữ
 const languageConfig: LanguageConfigMap = {
@@ -164,6 +152,29 @@ export const fetchGoogleTranslation = async (text: string, targetLang: string = 
   }
 };
 
+export const translateSentences = async (text: string, sourceLang: string, targetLang: string = 'vi') => {
+  const sentences = utils.splitTextIntoSentences(text, sourceLang);
+  const translatedSentences = [];
+  
+  try {
+    // Tối ưu hóa: dịch theo lô các câu, thay vì dịch từng câu riêng biệt
+    for (const sentence of sentences) {
+      if (!sentence.trim()) continue; // Bỏ qua câu rỗng
+      
+      const translatedSentence = await fetchGoogleTranslation(sentence, targetLang, sourceLang);
+      if (translatedSentence) {
+        translatedSentences.push(translatedSentence);
+      }
+    }
+    
+    return translatedSentences.join(' ');
+  } catch (error) {
+    console.error('Error in translateSentences:', error);
+    return text;
+  }
+};
+
+
 // Hàm hỗ trợ kiểm tra xem văn bản có chứa ký tự tiếng Trung không
 function containsChineseCharacters(text: string): boolean {
   // Phạm vi Unicode cho các ký tự Hán
@@ -238,5 +249,55 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
       page: mergedParams.page || 1,
       limit: mergedParams.limit || 40
     };
+  }
+};
+
+// Định nghĩa interface cho dữ liệu chi tiết tin tức
+export interface NewsDetail {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+  date: string;
+  tag: string;
+  source: string;
+  content: {
+    audio: string | null;
+    body: string;
+    image: string | null;
+    video: string | null;
+  };
+  level_tocfl: {
+    [key: string]: string[];
+  };
+  level_hsk: {
+    [key: string]: string[];
+  };
+  // Các trường khác có thể có trong response
+  [key: string]: any;
+}
+
+// Hàm lấy chi tiết tin tức
+export const getNewsDetails = async (newsId: string, language: string = 'zh'): Promise<NewsDetail | null> => {
+  try {
+    const targetLanguage = languageConfig[language] ? language : 'zh';
+    const apiClient = getApiClient(targetLanguage);
+    
+    console.log(`Fetching news details for ID: ${newsId} in language: ${targetLanguage}`);
+    
+    const response = await apiClient.get(`/detail/${newsId}`);
+    
+    if (response.data) {
+      return response.data;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error fetching news details:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Response status:', error.response?.status);
+      console.error('Response data:', error.response?.data);
+    }
+    return null;
   }
 }; 

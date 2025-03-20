@@ -7,6 +7,7 @@ import { Footer } from './components/Footer';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/EnglishPage';
+import NewsDetailPage from './pages/NewsDetailPage';
 
 // Create a client with default options
 const queryClient = new QueryClient({
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/english" element={<EnglishPage />} />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/chinese/:newsId" element={<NewsDetailPage />} />
               </Routes>
             </Box>
             <Footer />

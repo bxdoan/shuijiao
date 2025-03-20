@@ -13,7 +13,19 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { NewsItem } from '../types';
-import { fetchTranslation, fetchGoogleTranslation } from '../api/newsApi';
+import { 
+  fetchTranslation, 
+  fetchGoogleTranslation, 
+  translateSentences 
+} from '../api/newsApi';
+import { useNavigate } from 'react-router-dom';
+import * as utils from '../utils/utils';
+import { 
+  ChevronUpIcon, 
+  ChevronDownIcon, 
+  ChevronRightIcon 
+} from '@chakra-ui/icons';
+
 
 interface NewsCardProps {
   news: NewsItem;
@@ -31,6 +43,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const toast = useToast();
+  const navigate = useNavigate();
 
   // Đảm bảo news.value tồn tại để tránh lỗi
   const newsValue = news?.value || {};
@@ -44,18 +57,6 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const date = newsValue.date || '';
   const id = news?.id || '';
 
-  const getTypeColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'easy':
-        return 'green';
-      case 'medium':
-        return 'orange';
-      case 'hard':
-        return 'red';
-      default:
-        return 'gray';
-    }
-  };
 
   // Lấy mô tả ngắn từ body
   const getShortDescription = (body: string) => {
@@ -83,170 +84,6 @@ const NewsCard: React.FC<NewsCardProps> = ({
     }
     
     return body.substring(0, cutIndex) + '...';
-  };
-
-  // Chuyển đổi tên độ khó sang tiếng Việt
-  const getVietnameseType = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'easy':
-        return 'DỄ';
-      case 'medium':
-        return 'TRUNG BÌNH';
-      case 'hard':
-        return 'KHÓ';
-      default:
-        return type.toUpperCase();
-    }
-  };
-
-  // Hàm chia văn bản thành các câu
-  const splitTextIntoSentences = (text: string) => {
-    // Trích xuất văn bản thuần túy từ HTML
-    const stripHtmlTags = (html: string) => {
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      return doc.body.textContent || '';
-    };
-
-    let plainText = '';
-    
-    if ( sourceLang === "en" ) {
-      // Nội dung tiếng Anh - chỉ cần loại bỏ thẻ HTML
-      plainText = stripHtmlTags(text);
-      // Loại bỏ khoảng trắng thừa
-      plainText = plainText.replace(/\s+/g, ' ').trim();
-      
-      // Chia thành các câu dựa trên dấu câu
-      const sentences = [];
-      const sentenceParts = plainText.split(/([.!?])/);
-      
-      // Ghép lại thành câu hoàn chỉnh với dấu câu
-      for (let i = 0; i < sentenceParts.length - 1; i += 2) {
-        const sentence = (sentenceParts[i] + (sentenceParts[i+1] || '')).trim();
-        if (sentence) sentences.push(sentence);
-      }
-      
-      // Nếu còn phần dư, thêm vào
-      if (sentenceParts.length % 2 === 1) {
-        const lastPart = sentenceParts[sentenceParts.length - 1].trim();
-        if (lastPart) sentences.push(lastPart);
-      }
-      
-      // Nếu không tách được câu nào, trả về toàn bộ văn bản
-      if (sentences.length === 0 && plainText.trim()) {
-        sentences.push(plainText.trim());
-      }
-      
-      return sentences;
-    } else {
-      // Xử lý tiếng Trung (giữ nguyên code cũ)
-      // Loại bỏ tất cả thẻ HTML và chỉ lấy nội dung văn bản
-      plainText = stripHtmlTags(text);
-      
-      // Loại bỏ pinyin (nằm trong cặp ngoặc tròn sau các ký tự Hán)
-      // Ví dụ: 你好(nǐ hǎo) -> 你好
-      plainText = plainText.replace(/\([^)]*\)/g, '');
-      
-      // Loại bỏ các ghi chú <rt> (thường chứa pinyin)
-      plainText = plainText.replace(/\s*<rt>[^<]*<\/rt>\s*/g, '');
-      
-      // Loại bỏ các khoảng trắng thừa
-      plainText = plainText.replace(/\s+/g, ' ').trim();
-      
-      // Chỉ giữ lại chữ Hán và một số ký tự đặc biệt
-      // Phạm vi unicode của chữ Hán: 
-      // CJK Unified Ideographs: 4E00-9FFF
-      // CJK Unified Ideographs Extension A: 3400-4DBF
-      // CJK Unified Ideographs Extension B: 20000-2A6DF
-      // CJK Unified Ideographs Extension C: 2A700-2B73F
-      // CJK Unified Ideographs Extension D: 2B740-2B81F
-      // CJK Unified Ideographs Extension E: 2B820-2CEAF
-      // CJK Unified Ideographs Extension F: 2CEB0-2EBEF
-      // CJK Compatibility Ideographs: F900-FAFF
-      
-      // Lọc để chỉ giữ lại chữ Hán và dấu câu cần thiết
-      let chineseOnly = '';
-      for (let i = 0; i < plainText.length; i++) {
-        const charCode = plainText.charCodeAt(i);
-        
-        // Kiểm tra xem ký tự có phải là chữ Hán
-        const isChineseChar = 
-          (charCode >= 0x4E00 && charCode <= 0x9FFF) || // CJK Unified Ideographs
-          (charCode >= 0x3400 && charCode <= 0x4DBF) || // Extension A
-          (charCode >= 0xF900 && charCode <= 0xFAFF) || // Compatibility Ideographs
-          // Giữ lại các dấu câu quan trọng
-          [0x3002, 0xFF01, 0xFF1F, 0x3001, 0xFF0C, 0x3001, 0xFF1B, 0xFF1A, 0x300C, 0x300D, 0x300E, 0x300F, 0x2018, 0x2019, 0x201C, 0x201D].includes(charCode);
-        
-        if (isChineseChar) {
-          chineseOnly += plainText[i];
-        } else if (['.', '!', '?', '。', '！', '？'].includes(plainText[i])) {
-          // Giữ lại các dấu câu phổ biến để phân chia câu
-          chineseOnly += plainText[i];
-        } else if (plainText[i] === ' ' && chineseOnly.length > 0 && chineseOnly[chineseOnly.length - 1] !== ' ') {
-          // Giữ một khoảng trắng duy nhất giữa các từ (nếu cần)
-          chineseOnly += ' ';
-        }
-      }
-      
-      // Chia văn bản thành các câu
-      const sentences: string[] = [];
-      let currentSentence = '';
-      
-      for (let i = 0; i < chineseOnly.length; i++) {
-        currentSentence += chineseOnly[i];
-        
-        // Kiểm tra nếu đây là dấu kết thúc câu và ký tự tiếp theo là khoảng trắng hoặc hết chuỗi
-        if (
-          ['.', '!', '?', '。', '！', '？'].includes(chineseOnly[i]) && 
-          (i === chineseOnly.length - 1 || chineseOnly[i + 1] === ' ')
-        ) {
-          sentences.push(currentSentence.trim());
-          currentSentence = '';
-        }
-      }
-      
-      // Thêm phần cuối nếu còn
-      if (currentSentence.trim()) {
-        sentences.push(currentSentence.trim());
-      }
-      
-      // Nếu không có câu nào được chia, trả về toàn bộ văn bản như một câu duy nhất
-      if (sentences.length === 0 && chineseOnly.trim()) {
-        sentences.push(chineseOnly.trim());
-      }
-      
-      return sentences;
-    }
-  };
-
-  // Hàm mới: Dịch từng câu sử dụng Google Translate
-  const translateSentences = async (text: string, targetLang: string = 'vi') => {
-    const sentences = splitTextIntoSentences(text);
-    const translatedSentences = [];
-    
-    try {
-      // Tối ưu hóa: dịch theo lô các câu, thay vì dịch từng câu riêng biệt
-      for (const sentence of sentences) {
-        if (!sentence.trim()) continue; // Bỏ qua câu rỗng
-        
-        const translatedSentence = await fetchGoogleTranslation(sentence, targetLang, sourceLang);
-        if (translatedSentence) {
-          translatedSentences.push(translatedSentence);
-        }
-      }
-      
-      return translatedSentences.join(' ');
-    } catch (error) {
-      console.error('Error in translateSentences:', error);
-      // Nếu có lỗi, trả về văn bản gốc sau khi đã loại bỏ HTML
-      toast({
-        title: "Lỗi dịch",
-        description: "Không thể dịch văn bản. Vui lòng thử lại sau.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return text;
-    }
   };
 
   // Hàm gọi API dịch
@@ -301,7 +138,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
         // Dịch tiêu đề
         (async () => {
           try {
-            const translatedTitle = await translateSentences(title);
+            const translatedTitle = await translateSentences(title, sourceLang);
             updateTranslation('0', translatedTitle);
           } catch (error) {
             console.error("Error translating title:", error);
@@ -311,7 +148,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
         // Dịch mô tả
         (async () => {
           try {
-            const translatedDesc = await translateSentences(desc);
+            const translatedDesc = await translateSentences(desc, sourceLang);
             updateTranslation('1', translatedDesc);
           } catch (error) {
             console.error("Error translating description:", error);
@@ -431,6 +268,21 @@ const NewsCard: React.FC<NewsCardProps> = ({
     );
   };
 
+  // Hàm chuyển hướng đến trang chi tiết
+  const goToNewsDetail = () => {
+    if (id) {
+      navigate(`/chinese/${id}`);
+    } else {
+      toast({
+        title: 'Lỗi',
+        description: 'Không thể xem chi tiết tin tức này.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Box
       borderWidth="1px"
@@ -446,8 +298,8 @@ const NewsCard: React.FC<NewsCardProps> = ({
 
       <Box p={4}>
         <Stack direction="row" spacing={2} mb={2} alignItems="center">
-          <Badge colorScheme={getTypeColor(type)}>
-            {getVietnameseType(type)}
+          <Badge colorScheme={utils.getTypeColor(type)}>
+            {utils.getVietnameseType(type)}
           </Badge>
           <Badge colorScheme="blue">{kind}</Badge>
           <Badge colorScheme="purple">{source}</Badge>
@@ -497,14 +349,26 @@ const NewsCard: React.FC<NewsCardProps> = ({
           <Text fontSize="sm" color="gray.500">
             {new Date(date).toLocaleDateString()}
           </Text>
-          <Button
-            size="sm"
-            colorScheme="blue"
-            variant="outline"
-            onClick={() => setShowFullContent(!showFullContent)}
-          >
-            {showFullContent ? 'Thu gọn' : 'Đọc thêm'}
-          </Button>
+          <Flex gap={2}>
+            <Button
+              size="sm"
+              colorScheme="blue"
+              variant="outline"
+              onClick={() => setShowFullContent(!showFullContent)}
+              leftIcon={showFullContent ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            >
+              {showFullContent ? 'Thu gọn' : 'Đọc thêm'}
+            </Button>
+            
+            <Button
+              size="sm"
+              colorScheme="blue"
+              onClick={goToNewsDetail}
+              rightIcon={<ChevronRightIcon />}
+            >
+              Xem đầy đủ
+            </Button>
+          </Flex>
         </Flex>
       </Box>
     </Box>

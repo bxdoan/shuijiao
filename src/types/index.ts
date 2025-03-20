@@ -1,3 +1,17 @@
+
+// Định nghĩa interface cho cấu hình của mỗi ngôn ngữ
+interface LanguageConfigItem {
+  apiBaseUrl: string;
+  origin: string;
+  referer: string;
+  apiKey: string;
+}
+
+// Định nghĩa interface cho đối tượng cấu hình ngôn ngữ
+export interface LanguageConfigMap {
+  [key: string]: LanguageConfigItem;
+}
+
 export interface NewsItem {
   id: string;
   key: string;
