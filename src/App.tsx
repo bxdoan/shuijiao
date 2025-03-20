@@ -3,13 +3,13 @@ import { ChakraProvider, Box } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import { Header } from './components/Layout/Header';
+import { Footer } from './components/Layout/Footer';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/EnglishPage';
 import NewsDetailPage from './pages/NewsDetailPage';
-import SEO from './components/SEO';
+import SEO from './components/Common/SEO';
 
 // Create a client with default options
 const queryClient = new QueryClient({

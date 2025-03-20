@@ -11,14 +11,15 @@ import {
     Spinner,
     SimpleGrid
 } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+
 import NewsFilter from '../components/NewsFilter';
 import NewsCard from '../components/NewsCard';
-import ScrollToTopBottom from '../components/ScrollToTopBottom';
-import { DonationBoxCompact } from '../components/DonationBox';
+import ScrollToTopBottom from '../components/Common/ScrollToTopBottom';
+import { DonationBoxCompact } from '../components/Common/DonationBox';
 import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import SEO from '../components/SEO';
+import SEO from '../components/Common/SEO';
 
 const HomePage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);

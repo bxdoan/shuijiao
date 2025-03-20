@@ -17,7 +17,7 @@ import {
 import { CopyIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { FaHandHoldingHeart } from 'react-icons/fa';
 
-import { qrCodeUrl } from '../utils/utils';
+import { qrCodeUrl } from '../../utils/utils';
 
 interface DonationBoxProps {
   title?: string;

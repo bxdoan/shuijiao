@@ -28,7 +28,7 @@ import {
 } from '../api/newsApi';
 import { NewsItem } from '../types';
 import * as utils from '../utils/utils';
-import { ShareModal } from './ShareModal';
+import { ShareModal } from './Common/ShareModal';
 
 
 interface NewsCardProps {

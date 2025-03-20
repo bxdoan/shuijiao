@@ -33,9 +33,11 @@ import {
 import { NewsDetail, NewsFilterParams, NewsItem } from '../types';
 import * as utils from '../utils/utils';
 import NewsRelatedList from '../components/NewsRelatedList';
-import { ShareModal } from '../components/ShareModal';
-import DonationBox from '../components/DonationBox';
-import SEO from '../components/SEO';
+import { ShareModal } from '../components/Common/ShareModal';
+import DonationBox from '../components/Common/DonationBox';
+import HSKVocabularyBox from '../components/Vocabulary/HSKVocabularyBox';
+import IELTSVocabularyBox from '../components/Vocabulary/IELTSVocabularyBox';
+import SEO from '../components/Common/SEO';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
@@ -533,6 +535,20 @@ const NewsDetailPage: React.FC = () => {
                     transferMessage="Ho tro Shuijiao"
                   />
                 </Box>
+                
+                {/* Box từ vựng HSK - chỉ hiển thị với bài tiếng Trung */}
+                {currentLanguage === 'zh' && newsDetail?.level_hsk && (
+                  <Box mt={6}>
+                    <HSKVocabularyBox levelHSK={newsDetail.level_hsk} />
+                  </Box>
+                )}
+                
+                {/* Box từ vựng IELTS - chỉ hiển thị với bài tiếng Anh */}
+                {currentLanguage === 'en' && newsDetail?.level_ielts && (
+                  <Box mt={6}>
+                    <IELTSVocabularyBox levelIELTS={newsDetail.level_ielts} />
+                  </Box>
+                )}
               </GridItem>
               
               <GridItem>

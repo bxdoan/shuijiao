@@ -16,8 +16,8 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import { CheckCircleIcon } from '@chakra-ui/icons';
-import DonationBox from '../components/DonationBox';
-import SEO from '../components/SEO';
+import DonationBox from '../components/Common/DonationBox';
+import SEO from '../components/Common/SEO';
 
 const AboutPage: React.FC = () => {
   const bgColor = useColorModeValue('white', 'gray.800');

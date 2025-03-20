@@ -82,10 +82,16 @@ export interface NewsDetail {
     image: string | null;
     video: string | null;
   };
-  level_tocfl: {
+  level_tocfl?: {
     [key: string]: string[];
   };
-  level_hsk: {
+  level_toeic?: {
+    [key: string]: string[];
+  };
+  level_ielts?: {
+    [key: string]: string[];
+  };
+  level_hsk?: {
     [key: string]: string[];
   };
   // Các trường khác có thể có trong response
