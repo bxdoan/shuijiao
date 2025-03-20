@@ -30,10 +30,10 @@ function App() {
             <Box as="main" flex="1">
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/english" element={<EnglishPage />} />
+                <Route path="/en" element={<EnglishPage />} />
                 <Route path="/about" element={<AboutPage />} />
-                <Route path="/chinese/:newsId" element={<NewsDetailPage />} />
-                <Route path="/english/:newsId" element={<NewsDetailPage />} />
+                <Route path="/zh/:newsId" element={<NewsDetailPage />} />
+                <Route path="/en/:newsId" element={<NewsDetailPage />} />
               </Routes>
             </Box>
             <Footer />

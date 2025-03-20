@@ -11,12 +11,15 @@ import {
   Button,
   useColorModeValue,
   useToast,
+  IconButton,
+  useDisclosure
 } from '@chakra-ui/react';
 import {
   ChevronUpIcon,
   ChevronDownIcon,
   ChevronRightIcon
 } from '@chakra-ui/icons';
+import { FaShare } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -25,6 +28,7 @@ import {
 } from '../api/newsApi';
 import { NewsItem } from '../types';
 import * as utils from '../utils/utils';
+import { ShareModal } from './ShareModal';
 
 
 interface NewsCardProps {
@@ -44,6 +48,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const toast = useToast();
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Đảm bảo news.value tồn tại để tránh lỗi
   const newsValue = news?.value || {};
@@ -285,9 +290,9 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const goToNewsDetail = () => {
     if (id) {
       if (sourceLang === 'zh') {
-        navigate(`/chinese/${id}`);
+        navigate(`/zh/${id}`);
       } else {
-        navigate(`/english/${id}`);
+        navigate(`/en/${id}`);
       }
     } else {
       toast({
@@ -328,15 +333,28 @@ const NewsCard: React.FC<NewsCardProps> = ({
             {utils.getSource(source)}
           </Badge>
           <Box ml="auto">
-            <Button
-              size="xs"
-              colorScheme="teal"
-              isLoading={isTranslating}
-              loadingText="Đang dịch..."
-              onClick={translateNews}
-            >
-              {showTranslation && translation ? "Đã dịch" : "Dịch"}
-            </Button>
+            <Flex gap={2}>
+              <IconButton
+                aria-label="Chia sẻ"
+                icon={<FaShare />}
+                size="xs"
+                colorScheme="blue"
+                variant="outline"
+                onClick={(e) => {
+                  e.stopPropagation(); // Ngăn sự kiện bubble lên khi click vào nút share
+                  onOpen();
+                }}
+              />
+              <Button
+                size="xs"
+                colorScheme="teal"
+                isLoading={isTranslating}
+                loadingText="Đang dịch..."
+                onClick={translateNews}
+              >
+                {showTranslation && translation ? "Đã dịch" : "Dịch"}
+              </Button>
+            </Flex>
           </Box>
         </Stack>
 
@@ -395,6 +413,15 @@ const NewsCard: React.FC<NewsCardProps> = ({
           </Flex>
         </Flex>
       </Box>
+      
+      {/* ShareModal component */}
+      <ShareModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Chia sẻ bài viết này"
+        shareText={utils.splitTextIntoSentences(title, sourceLang) || "Tin tức từ Shuijiao"}
+        url={`${window.location.origin}/${sourceLang}/${id}`}
+      />
     </Box>
   );
 };

@@ -116,8 +116,8 @@ export const Header = () => {
                 </Button>
                 <Button
                   as={Link}
-                  to="/english"
-                  variant={location.pathname === '/english' ? "solid" : "ghost"}
+                  to="/en"
+                  variant={location.pathname === '/en' ? "solid" : "ghost"}
                   colorScheme="yellow"
                   size="md"
                 >
@@ -189,8 +189,8 @@ export const Header = () => {
               </Button>
               <Button
                 as={Link}
-                to="/english"
-                variant={location.pathname === '/english' ? "solid" : "ghost"}
+                to="/en"
+                variant={location.pathname === '/en' ? "solid" : "ghost"}
                 colorScheme="yellow"
                 size="lg"
                 onClick={() => setIsDrawerOpen(false)}
