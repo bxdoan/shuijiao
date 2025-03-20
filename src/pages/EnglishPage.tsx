@@ -18,6 +18,7 @@ import { DonationBoxCompact } from '../components/DonationBox';
 import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import SEO from '../components/SEO';
 
 const EnglishPage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
@@ -169,43 +170,51 @@ const EnglishPage: React.FC = () => {
   };
 
   return (
-    <Container maxW="container.xl" py={8}>
-      {showAlert && (
-        <Box bg="red.500" color="white" p={4} mb={4} borderRadius="md" position="relative">
-          <Heading as="h3" size="md">Lỗi!</Heading>
-          <Text>{alertMessage}</Text>
-          <CloseButton position="absolute" right="8px" top="8px" onClick={() => setShowAlert(false)} />
+    <>
+      <SEO 
+        title="Shuijiao - Học tiếng Anh qua tin tức thực tế hàng ngày"
+        description="Nền tảng học tiếng Anh hiệu quả thông qua tin tức thực tế hàng ngày. Cập nhật liên tục với nhiều chủ đề và mức độ khó khác nhau."
+        keywords="học tiếng Anh, tin tức tiếng Anh, tiếng Anh thực tế, đọc báo tiếng Anh, luyện đọc tiếng Anh"
+        ogType="website"
+      />
+      <Container maxW="container.xl" py={8}>
+        {showAlert && (
+          <Box bg="red.500" color="white" p={4} mb={4} borderRadius="md" position="relative">
+            <Heading as="h3" size="md">Lỗi!</Heading>
+            <Text>{alertMessage}</Text>
+            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setShowAlert(false)} />
+          </Box>
+        )}
+
+        <Box textAlign="center" mb={8}>
+          <Heading as="h1" size="2xl" mb={2}>
+            Học tiếng Anh qua các bài báo thực tế
+          </Heading>
         </Box>
-      )}
 
-      <Box textAlign="center" mb={8}>
-        <Heading as="h1" size="2xl" mb={2}>
-          Học tiếng Anh qua các bài báo thực tế
-        </Heading>
-      </Box>
-
-      <NewsFilter filters={filters} onFilterChange={handleFilterChange} sourceLang="en" />
-      
-      {renderNewsContent()}
-      
-      {hasMoreDates && (
-        <Center py={6}>
-          <Button 
-            colorScheme="blue" 
-            isLoading={isLoadingMore}
-            loadingText="Đang tải..."
-            onClick={handleLoadMore}
-            size="lg"
-            width={{ base: "full", md: "auto" }}
-            leftIcon={<ChevronDownIcon />}
-          >
-            Xem Thêm
-          </Button>
-        </Center>
-      )}
-      
-      <ScrollToTopBottom />
-    </Container>
+        <NewsFilter filters={filters} onFilterChange={handleFilterChange} sourceLang="en" />
+        
+        {renderNewsContent()}
+        
+        {hasMoreDates && (
+          <Center py={6}>
+            <Button 
+              colorScheme="blue" 
+              isLoading={isLoadingMore}
+              loadingText="Đang tải..."
+              onClick={handleLoadMore}
+              size="lg"
+              width={{ base: "full", md: "auto" }}
+              leftIcon={<ChevronDownIcon />}
+            >
+              Xem Thêm
+            </Button>
+          </Center>
+        )}
+        
+        <ScrollToTopBottom />
+      </Container>
+    </>
   );
 };
 

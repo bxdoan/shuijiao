@@ -35,6 +35,7 @@ import * as utils from '../utils/utils';
 import NewsRelatedList from '../components/NewsRelatedList';
 import { ShareModal } from '../components/ShareModal';
 import DonationBox from '../components/DonationBox';
+import SEO from '../components/SEO';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
@@ -61,6 +62,7 @@ const NewsDetailPage: React.FC = () => {
   };
   
   const currentLanguage = getLanguageFromPath();
+  const languageName = currentLanguage === 'en' ? 'tiếng Anh' : 'tiếng Trung';
   
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -337,214 +339,256 @@ const NewsDetailPage: React.FC = () => {
     }
   };
 
+  // Hàm xử lý SEO title và description
+  const getSEOData = () => {
+    if (!newsDetail) {
+      return {
+        title: `Đang tải bài viết - Shuijiao`,
+        description: `Đang tải thông tin bài viết ${languageName} từ Shuijiao.`,
+        keywords: `học ${languageName}, đọc ${languageName}, tin tức ${languageName}, shuijiao`
+      };
+    }
+
+    // Chuyển đổi title từ HTML sang plain text
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = newsDetail.title || '';
+    const plainTitle = tempContainer.textContent || tempContainer.innerText || '';
+    
+    // Chuyển đổi description từ HTML sang plain text (nếu có)
+    let plainDesc = '';
+    if (newsDetail.description) {
+      tempContainer.innerHTML = newsDetail.description;
+      plainDesc = tempContainer.textContent || tempContainer.innerText || '';
+    }
+
+    return {
+      title: `${plainTitle.slice(0, 60)}${plainTitle.length > 60 ? '...' : ''} - Shuijiao`,
+      description: plainDesc ? 
+        `${plainDesc.slice(0, 150)}${plainDesc.length > 150 ? '...' : ''}` : 
+        `Đọc bài ${languageName} về chủ đề ${newsDetail.kind || ''} trên Shuijiao. Bài viết có kèm bản dịch tiếng Việt.`,
+      keywords: `học ${languageName}, đọc ${languageName}, tin tức ${languageName}, ${newsDetail.kind || ''}, ${newsDetail.type || ''}, shuijiao`
+    };
+  };
+
+  const seoData = getSEOData();
+  
   return (
-    <Container maxW="container.xl" py={8}>
-      <Box mb={4}>
-        <IconButton
-          aria-label="Quay lại"
-          icon={<ChevronLeftIcon w={6} h={6} />}
-          onClick={() => navigate(-1)}
-          variant="outline"
-        />
-      </Box>
-
-      {isLoading ? (
-        <Center py={20}>
-          <Spinner size="xl" thickness="4px" color="blue.500" />
-        </Center>
-      ) : isError || !newsDetail ? (
-        <Center py={10} flexDirection="column">
-          <Heading as="h2" size="lg" mb={4}>
-            Không thể tải tin tức
-          </Heading>
-          <Text mb={6}>
-            Đã xảy ra lỗi khi tải thông tin chi tiết bài viết. Vui lòng thử lại sau.
-          </Text>
-          <Button colorScheme="blue" onClick={() => navigate('/')}>
-            Quay lại trang chủ
-          </Button>
-        </Center>
-      ) : (
-        <>
-          <Grid 
-            templateColumns={{ base: "1fr", lg: "3fr 1fr" }} 
-            gap={6}
-          >
-            <GridItem>
-              <Box
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                bg={bgColor}
-                borderColor={borderColor}
-                boxShadow="lg"
-                p={6}
-              >
-                <Flex justifyContent="space-between" alignItems="center" mb={4}>
-                  <Stack direction="row" spacing={2} flexWrap="wrap">
-                    {newsDetail.type && (
-                      <Badge colorScheme={utils.getTypeColor(newsDetail.type)}>
-                        {utils.getVietnameseType(newsDetail.type)}
-                      </Badge>
-                    )}
-                    {newsDetail.kind && (
-                      <Badge colorScheme="blue">{newsDetail.kind}</Badge>
-                    )}
-                    {newsDetail.source && (
-                      <Badge 
-                        colorScheme="purple" 
-                        cursor={newsDetail.link ? "pointer" : "default"}
-                        onClick={() => newsDetail.link && window.open(newsDetail.link, "_blank")}
-                        _hover={newsDetail.link ? { opacity: 0.8 } : {}}
-                      >
-                        {utils.getSource(newsDetail.source)}
-                      </Badge>
-                    )}
-                  </Stack>
-                  
-                  <IconButton
-                    aria-label="Chia sẻ"
-                    icon={<FaShare />}
-                    size="sm"
-                    colorScheme="blue"
-                    variant="outline"
-                    onClick={onOpen}
-                  />
-                </Flex>
-
-                {imageUrl() && (
-                  <Image 
-                    src={imageUrl()} 
-                    alt={newsDetail.title || "News image"} 
-                    my={4}
-                    maxH="400px"
-                    mx="auto"
-                    objectFit="contain"
-                  />
-                )}
-                
-                {newsDetail.content.audio && (
-                  renderAudioPlayer()
-                )}
-                
-                <Divider my={4} />
-                
-                <Flex justify="space-between" align="center" mb={4}>
-                  <Text fontSize="sm" color="gray.500">
-                    {newsDetail.date && new Date(newsDetail.date).toLocaleDateString()}
-                  </Text>
-                  
-                  <Button
-                    colorScheme="teal"
-                    isLoading={isTranslating}
-                    loadingText="Đang dịch..."
-                    onClick={translateNews}
-                    size="sm"
-                  >
-                    {showTranslation && translation ? "Đã dịch" : "Dịch"}
-                  </Button>
-                </Flex>
-
-                <Heading as="h1" size="xl" mb={4} dangerouslySetInnerHTML={{ __html: newsDetail.title || '' }} />
-                
-                {showTranslation && translation && translation['0'] && (
-                  <Box key="title-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
-                    <Text color="blue.600" fontStyle="italic" fontWeight="bold">
-                      {translation['0']}
-                    </Text>
-                  </Box>
-                )}
-
-                {newsDetail.description && (
-                  <Text 
-                    fontSize="lg" 
-                    fontWeight="semibold" 
-                    mb={4} 
-                    dangerouslySetInnerHTML={{ __html: newsDetail.description }} 
-                  />
-                )}
-
-                {showTranslation && translation && translation['1'] && (
-                  <Box key="description-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
-                    <Text color="blue.600" fontStyle="italic">
-                      {translation['1']}
-                    </Text>
-                  </Box>    
-                )}
-
-                {showTranslation && translation ? (
-                  renderInterleavedContent()
-                ) : (
-                  <Box dangerouslySetInnerHTML={{ __html: newsDetail.content.body || '' }} />
-                )}
-              </Box>
-              
-              {/* Box ủng hộ dự án - chỉ hiển thị với bề ngang của nội dung bài viết */}
-              <Box mt={6}>
-                <DonationBox 
-                  title="Ủng hộ dự án Shuijiao"
-                  description="Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới."
-                  bankName="MBBANK"
-                  accountNumber="0904195065"
-                  accountHolder="Bui Xuan Doan"
-                  transferMessage="Ho tro Shuijiao"
-                />
-              </Box>
-            </GridItem>
-            
-            <GridItem>
-              <Box
-                borderWidth="1px"
-                borderRadius="lg"
-                bg={bgColor}
-                borderColor={borderColor}
-                boxShadow="md"
-                p={4}
-                height="fit-content"
-                position="sticky"
-                top="20px"
-                display={{ base: 'none', lg: 'block' }}
-                maxHeight="calc(100vh - 40px)"
-                overflowY="auto"
-              >
-                <NewsRelatedList 
-                  news={relatedNews} 
-                  isLoading={loadingRelated} 
-                  sourceLang={currentLanguage}
-                />
-              </Box>
-            </GridItem>
-          </Grid>
-          
-          {/* Hiển thị tin liên quan ở dưới cho màn hình điện thoại */}
-          <Box 
-            mt={6} 
-            borderWidth="1px"
-            borderRadius="lg"
-            bg={bgColor}
-            borderColor={borderColor}
-            boxShadow="md"
-            p={4}
-            display={{ base: 'block', lg: 'none' }}
-          >
-            <NewsRelatedList 
-              news={relatedNews} 
-              isLoading={loadingRelated} 
-              sourceLang={currentLanguage}
-              title="Các tin tức liên quan khác"
-            />
-          </Box>
-        </>
-      )}
-      
-      {/* ShareModal component - đặt bên ngoài điều kiện render */}
-      <ShareModal
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Chia sẻ bài viết này"
-        shareText={utils.splitTextIntoSentences(newsDetail?.title || "", currentLanguage) || "Tin tức từ Shuijiao"}
+    <>
+      <SEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        ogType="article"
+        ogImage={newsDetail?.content?.image || newsDetail?.image || ''}
       />
-    </Container>
+      <Container maxW="container.xl" py={8}>
+        <Box mb={4}>
+          <IconButton
+            aria-label="Quay lại"
+            icon={<ChevronLeftIcon w={6} h={6} />}
+            onClick={() => navigate(-1)}
+            variant="outline"
+          />
+        </Box>
+
+        {isLoading ? (
+          <Center py={20}>
+            <Spinner size="xl" thickness="4px" color="blue.500" />
+          </Center>
+        ) : isError || !newsDetail ? (
+          <Center py={10} flexDirection="column">
+            <Heading as="h2" size="lg" mb={4}>
+              Không thể tải tin tức
+            </Heading>
+            <Text mb={6}>
+              Đã xảy ra lỗi khi tải thông tin chi tiết bài viết. Vui lòng thử lại sau.
+            </Text>
+            <Button colorScheme="blue" onClick={() => navigate('/')}>
+              Quay lại trang chủ
+            </Button>
+          </Center>
+        ) : (
+          <>
+            <Grid 
+              templateColumns={{ base: "1fr", lg: "3fr 1fr" }} 
+              gap={6}
+            >
+              <GridItem>
+                <Box
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                  bg={bgColor}
+                  borderColor={borderColor}
+                  boxShadow="lg"
+                  p={6}
+                >
+                  <Flex justifyContent="space-between" alignItems="center" mb={4}>
+                    <Stack direction="row" spacing={2} flexWrap="wrap">
+                      {newsDetail.type && (
+                        <Badge colorScheme={utils.getTypeColor(newsDetail.type)}>
+                          {utils.getVietnameseType(newsDetail.type)}
+                        </Badge>
+                      )}
+                      {newsDetail.kind && (
+                        <Badge colorScheme="blue">{newsDetail.kind}</Badge>
+                      )}
+                      {newsDetail.source && (
+                        <Badge 
+                          colorScheme="purple" 
+                          cursor={newsDetail.link ? "pointer" : "default"}
+                          onClick={() => newsDetail.link && window.open(newsDetail.link, "_blank")}
+                          _hover={newsDetail.link ? { opacity: 0.8 } : {}}
+                        >
+                          {utils.getSource(newsDetail.source)}
+                        </Badge>
+                      )}
+                    </Stack>
+                    
+                    <IconButton
+                      aria-label="Chia sẻ"
+                      icon={<FaShare />}
+                      size="sm"
+                      colorScheme="blue"
+                      variant="outline"
+                      onClick={onOpen}
+                    />
+                  </Flex>
+
+                  {imageUrl() && (
+                    <Image 
+                      src={imageUrl()} 
+                      alt={newsDetail.title || "News image"} 
+                      my={4}
+                      maxH="400px"
+                      mx="auto"
+                      objectFit="contain"
+                    />
+                  )}
+                  
+                  {newsDetail.content.audio && (
+                    renderAudioPlayer()
+                  )}
+                  
+                  <Divider my={4} />
+                  
+                  <Flex justify="space-between" align="center" mb={4}>
+                    <Text fontSize="sm" color="gray.500">
+                      {newsDetail.date && new Date(newsDetail.date).toLocaleDateString()}
+                    </Text>
+                    
+                    <Button
+                      colorScheme="teal"
+                      isLoading={isTranslating}
+                      loadingText="Đang dịch..."
+                      onClick={translateNews}
+                      size="sm"
+                    >
+                      {showTranslation && translation ? "Đã dịch" : "Dịch"}
+                    </Button>
+                  </Flex>
+
+                  <Heading as="h1" size="xl" mb={4} dangerouslySetInnerHTML={{ __html: newsDetail.title || '' }} />
+                  
+                  {showTranslation && translation && translation['0'] && (
+                    <Box key="title-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
+                      <Text color="blue.600" fontStyle="italic" fontWeight="bold">
+                        {translation['0']}
+                      </Text>
+                    </Box>
+                  )}
+
+                  {newsDetail.description && (
+                    <Text 
+                      fontSize="lg" 
+                      fontWeight="semibold" 
+                      mb={4} 
+                      dangerouslySetInnerHTML={{ __html: newsDetail.description }} 
+                    />
+                  )}
+
+                  {showTranslation && translation && translation['1'] && (
+                    <Box key="description-translation" mb={4} pl={4} borderLeft="2px" borderColor="blue.400">
+                      <Text color="blue.600" fontStyle="italic">
+                        {translation['1']}
+                      </Text>
+                    </Box>    
+                  )}
+
+                  {showTranslation && translation ? (
+                    renderInterleavedContent()
+                  ) : (
+                    <Box dangerouslySetInnerHTML={{ __html: newsDetail.content.body || '' }} />
+                  )}
+                </Box>
+                
+                {/* Box ủng hộ dự án - chỉ hiển thị với bề ngang của nội dung bài viết */}
+                <Box mt={6}>
+                  <DonationBox 
+                    title="Ủng hộ dự án Shuijiao"
+                    description="Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới."
+                    bankName="MBBANK"
+                    accountNumber="0904195065"
+                    accountHolder="Bui Xuan Doan"
+                    transferMessage="Ho tro Shuijiao"
+                  />
+                </Box>
+              </GridItem>
+              
+              <GridItem>
+                <Box
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  bg={bgColor}
+                  borderColor={borderColor}
+                  boxShadow="md"
+                  p={4}
+                  height="fit-content"
+                  position="sticky"
+                  top="20px"
+                  display={{ base: 'none', lg: 'block' }}
+                  maxHeight="calc(100vh - 40px)"
+                  overflowY="auto"
+                >
+                  <NewsRelatedList 
+                    news={relatedNews} 
+                    isLoading={loadingRelated} 
+                    sourceLang={currentLanguage}
+                  />
+                </Box>
+              </GridItem>
+            </Grid>
+            
+            {/* Hiển thị tin liên quan ở dưới cho màn hình điện thoại */}
+            <Box 
+              mt={6} 
+              borderWidth="1px"
+              borderRadius="lg"
+              bg={bgColor}
+              borderColor={borderColor}
+              boxShadow="md"
+              p={4}
+              display={{ base: 'block', lg: 'none' }}
+            >
+              <NewsRelatedList 
+                news={relatedNews} 
+                isLoading={loadingRelated} 
+                sourceLang={currentLanguage}
+                title="Các tin tức liên quan khác"
+              />
+            </Box>
+          </>
+        )}
+        
+        {/* ShareModal component - đặt bên ngoài điều kiện render */}
+        <ShareModal
+          isOpen={isOpen}
+          onClose={onClose}
+          title="Chia sẻ bài viết này"
+          shareText={utils.splitTextIntoSentences(newsDetail?.title || "", currentLanguage) || "Tin tức từ Shuijiao"}
+        />
+      </Container>
+    </>
   );
 };
 
