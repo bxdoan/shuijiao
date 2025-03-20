@@ -10,15 +10,12 @@ import {
   List,
   ListItem,
   ListIcon,
-  Link,
   useColorModeValue,
   Flex,
-  Image,
   Badge,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { CheckCircleIcon, ExternalLinkIcon } from '@chakra-ui/icons';
-import { FaLanguage } from 'react-icons/fa';
+import { CheckCircleIcon } from '@chakra-ui/icons';
 import DonationBox from '../components/DonationBox';
 
 const AboutPage: React.FC = () => {
