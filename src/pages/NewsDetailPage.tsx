@@ -1,5 +1,5 @@
 // @ts-nocheck - Bỏ qua kiểm tra TypeScript để tránh lỗi Union Type phức tạp
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -64,51 +64,8 @@ const NewsDetailPage: React.FC = () => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
-  useEffect(() => {
-    const fetchNewsDetail = async () => {
-      if (!newsId) return;
-      
-      setIsLoading(true);
-      setIsError(false);
-      setTranslation(null);
-      setShowTranslation(false);
-      
-      try {
-        const data = await getNewsDetails(newsId, currentLanguage);
-        if (data) {
-          setNewsDetail(data);
-          // Fetch related news after getting detail
-          await fetchRelatedNews(data.kind, data.type, data.date);
-        } else {
-          setIsError(true);
-          toast({
-            title: 'Lỗi',
-            description: 'Không thể tải thông tin chi tiết tin tức.',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching news detail:', error);
-        setIsError(true);
-        toast({
-          title: 'Lỗi',
-          description: 'Đã xảy ra lỗi khi tải dữ liệu.',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchNewsDetail();
-  }, [newsId, toast, currentLanguage]);
-
   // Hàm fetch tin tức liên quan
-  const fetchRelatedNews = async (kind: string, type: string, date: string) => {
+  const fetchRelatedNews = useCallback(async (kind: string, type: string, date: string) => {
     setLoadingRelated(true);
     try {
       let allRelatedNews: NewsItem[] = [];
@@ -155,7 +112,7 @@ const NewsDetailPage: React.FC = () => {
         attempts++;
       }
       
-      // Chỉ lấy tối đa 8 tin để hiển thị
+      // Chỉ lấy tối đa tin theo yêu cầu
       setRelatedNews(allRelatedNews.slice(0, MIN_REQUIRED_NEWS));
       
     } catch (error) {
@@ -163,7 +120,50 @@ const NewsDetailPage: React.FC = () => {
     } finally {
       setLoadingRelated(false);
     }
-  };
+  }, [currentLanguage, newsId]);
+
+  useEffect(() => {
+    const fetchNewsDetail = async () => {
+      if (!newsId) return;
+      
+      setIsLoading(true);
+      setIsError(false);
+      setTranslation(null);
+      setShowTranslation(false);
+      
+      try {
+        const data = await getNewsDetails(newsId, currentLanguage);
+        if (data) {
+          setNewsDetail(data);
+          // Fetch related news after getting detail
+          await fetchRelatedNews(data.kind, data.type, data.date);
+        } else {
+          setIsError(true);
+          toast({
+            title: 'Lỗi',
+            description: 'Không thể tải thông tin chi tiết tin tức.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching news detail:', error);
+        setIsError(true);
+        toast({
+          title: 'Lỗi',
+          description: 'Đã xảy ra lỗi khi tải dữ liệu.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchNewsDetail();
+  }, [newsId, toast, currentLanguage, fetchRelatedNews]);
 
   // Hàm dịch tin tức
   const translateNews = async () => {
