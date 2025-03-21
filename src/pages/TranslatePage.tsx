@@ -12,13 +12,11 @@ import {
   useToast,
   IconButton,
   Select,
-  Spinner,
   useColorModeValue,
   Switch,
   FormControl,
   FormLabel,
   VStack,
-  HStack,
   useClipboard,
   Tooltip,
   keyframes,
@@ -26,7 +24,6 @@ import {
 import { RepeatIcon, CopyIcon, CloseIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import { fetchGoogleTranslation } from '../api/newsApi';
 import SEO from '../components/Common/SEO';
-import ScrollToTopBottom from '../components/Common/ScrollToTopBottom';
 import { DonationBox } from '../components/Common/DonationBox';
 
 // Animation keyframes
