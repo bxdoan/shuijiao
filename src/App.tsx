@@ -3,6 +3,7 @@ import { ChakraProvider, Box } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
+import { Analytics } from '@vercel/analytics/react';
 import { Header } from './components/Layout/Header';
 import { Footer } from './components/Layout/Footer';
 import HomePage from './pages/HomePage';
@@ -44,6 +45,8 @@ function App() {
               </Box>
               <Footer />
             </Box>
+            {/* Thêm Analytics của Vercel để theo dõi lượt truy cập */}
+            <Analytics />
           </Router>
         </ChakraProvider>
       </HelmetProvider>
