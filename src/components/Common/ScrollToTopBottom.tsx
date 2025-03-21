@@ -49,7 +49,7 @@ const ScrollToTopBottom: React.FC = () => {
   return (
     <VStack
       position="fixed"
-      bottom="24px"
+      bottom="68px"
       right="12px"
       zIndex={20}
       spacing={2}

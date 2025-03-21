@@ -607,15 +607,15 @@ const NewsDetailPage: React.FC = () => {
           shareText={utils.splitTextIntoSentences(newsDetail?.title || "", currentLanguage) || "Tin tức từ Shuijiao"}
         />
         
-        {/* Thêm ChineseSearch component trước - sẽ nằm bên trái nút scroll down */}
+        {/* Thêm ScrollToTopBottom component trước */}
+        <ScrollToTopBottom />
+        
+        {/* Thêm ChineseSearch component sau - sẽ nằm dưới cùng của trang */}
         {
           currentLanguage === 'zh' && (
             <ChineseSearch targetLang={targetLang} />
           )
         }
-        
-        {/* Thêm ScrollToTopBottom sau để nút đè lên trên */}
-        <ScrollToTopBottom />
       </Container>
     </>
   );

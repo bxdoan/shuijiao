@@ -256,7 +256,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     <Box
       position="fixed"
       bottom="24px"
-      right="64px"
+      right="12px"
       zIndex={10}
       background="transparent"
       p={0}
