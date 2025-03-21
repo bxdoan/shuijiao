@@ -66,6 +66,7 @@ const NewsDetailPage: React.FC = () => {
   };
   
   const currentLanguage = getLanguageFromPath();
+  const targetLang = 'vi';
   const languageName = currentLanguage === 'en' ? 'tiếng Anh' : 'tiếng Trung';
   
   const bgColor = useColorModeValue('white', 'gray.800');
@@ -609,7 +610,7 @@ const NewsDetailPage: React.FC = () => {
         {/* Thêm ChineseSearch component trước - sẽ nằm bên trái nút scroll down */}
         {
           currentLanguage === 'zh' && (
-            <ChineseSearch targetLang="vi" />
+            <ChineseSearch targetLang={targetLang} />
           )
         }
         

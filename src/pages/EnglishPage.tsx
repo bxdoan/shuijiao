@@ -41,7 +41,7 @@ const EnglishPage: React.FC = () => {
   const [hasMoreDates, setHasMoreDates] = useState(true);
 
   const { data, isError, error, isLoading } = useNews(filters);
-
+  const targetLang = 'vi';
   // Tải tin tức ban đầu
   useEffect(() => {
     if (data && data.data && !isLoadingMore) {
@@ -145,7 +145,12 @@ const EnglishPage: React.FC = () => {
       // Thêm tin tức
       const newsKey = `news-${index}-${item.id || ''}`;
       renderItems.push(
-        <NewsCard key={newsKey} news={item} sourceLang="en" />
+        <NewsCard 
+          key={newsKey} 
+          news={item} 
+          sourceLang="en" 
+          targetLang={targetLang}
+        />
       );
       
       // Nếu đã hiển thị 5 tin và chưa phải tin cuối cùng, thêm donation box
