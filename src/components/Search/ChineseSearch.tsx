@@ -20,6 +20,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useBreakpointValue,
+  Tooltip,
   // @ts-ignore
 } from '@chakra-ui/react';
 import { SearchIcon, CloseIcon } from '@chakra-ui/icons';
@@ -264,18 +265,20 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       lineHeight={0}
       borderRadius={0}
     >
-      <Box
-        as="img" 
-        src={process.env.PUBLIC_URL + "/shuijiao.png"}
-        alt="Shuijiao Dictionary"
-        width="40px"
-        height="40px"
+      <Tooltip label="Từ điển Hán - Việt" placement="left">
+        <Box
+          as="img" 
+          src={process.env.PUBLIC_URL + "/shuijiao.png"}
+          alt="Shuijiao Dictionary"
+          width="40px"
+          height="40px"
         display="block"
         cursor="pointer"
         onClick={onOpen}
         _hover={{ transform: 'scale(1.1)' }}
-        transition="all 0.2s"
-      />
+          transition="all 0.2s"
+        />
+      </Tooltip>    
     </Box>
   );
   

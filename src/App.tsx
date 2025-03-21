@@ -45,7 +45,6 @@ function App() {
               </Box>
               <Footer />
             </Box>
-            {/* Thêm Analytics của Vercel để theo dõi lượt truy cập */}
             <Analytics />
           </Router>
         </ChakraProvider>

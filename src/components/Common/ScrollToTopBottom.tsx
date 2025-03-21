@@ -1,7 +1,14 @@
 // @ts-nocheck - Bỏ qua kiểm tra TypeScript để tránh lỗi Union Type phức tạp
 import React, { useState, useEffect } from 'react';
-import { IconButton, VStack, Tooltip } from '@chakra-ui/react';
-import { ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { 
+  IconButton, 
+  VStack, 
+  Tooltip
+} from '@chakra-ui/react';
+import { 
+  ChevronUpIcon, 
+  ChevronDownIcon 
+} from '@chakra-ui/icons';
 
 const ScrollToTopBottom: React.FC = () => {
   const [showTopButton, setShowTopButton] = useState(false);
