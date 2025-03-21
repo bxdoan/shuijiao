@@ -3,7 +3,7 @@
   <!-- Trang chủ -->
   <url>
     <loc>https://shuijiao.com/</loc>
-    <lastmod>2023-08-15</lastmod>
+    <lastmod>2025-03-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,7 +11,15 @@
   <!-- Trang tiếng Anh -->
   <url>
     <loc>https://shuijiao.com/en</loc>
-    <lastmod>2023-08-15</lastmod>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Trang  dịch -->
+  <url>
+    <loc>https://shuijiao.com/translate</loc>
+    <lastmod>2025-03-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -19,7 +27,7 @@
   <!-- Trang giới thiệu -->
   <url>
     <loc>https://shuijiao.com/about</loc>
-    <lastmod>2023-08-15</lastmod>
+    <lastmod>2025-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
