@@ -259,19 +259,23 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       bottom="24px"
       right="64px"
       zIndex={10}
+      background="transparent"
+      p={0}
+      m={0}
+      lineHeight={0}
+      borderRadius={0}
     >
-      <Image
+      <Box
+        as="img" 
         src={process.env.PUBLIC_URL + "/shuijiao.png"}
         alt="Shuijiao Dictionary"
         width="40px"
         height="40px"
-        objectFit="contain"
-        borderRadius="full"
+        display="block"
         cursor="pointer"
         onClick={onOpen}
         _hover={{ transform: 'scale(1.1)' }}
         transition="all 0.2s"
-        boxShadow="md"
       />
     </Box>
   );
@@ -310,12 +314,14 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
         >
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px" display="flex" alignItems="center">
-            <Image 
+            <Box
+              as="img" 
               src={process.env.PUBLIC_URL + "/shuijiao.png"} 
               alt="Shuijiao Logo" 
               width="24px" 
               height="24px" 
-              mr={2} 
+              mr={2}
+              display="block"
             />
             Từ điển Hán - Việt
           </DrawerHeader>
