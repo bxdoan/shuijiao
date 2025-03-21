@@ -123,6 +123,15 @@ export const Header = () => {
                 >
                   Tiếng Anh
                 </Button>
+                <Button
+                  as={Link}
+                  to="/translate"
+                  variant={location.pathname === '/translate' ? "solid" : "ghost"}
+                  colorScheme="yellow"
+                  size="md"
+                >
+                  Dịch
+                </Button>
               </HStack>
             )}
           </Flex>
@@ -196,6 +205,16 @@ export const Header = () => {
                 onClick={() => setIsDrawerOpen(false)}
               >
                 Tiếng Anh
+              </Button>
+              <Button
+                as={Link}
+                to="/translate"
+                variant={location.pathname === '/translate' ? "solid" : "ghost"}
+                colorScheme="yellow"
+                size="lg"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Dịch
               </Button>
             </VStack>
           </DrawerBody>

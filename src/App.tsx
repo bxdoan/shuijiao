@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/EnglishPage';
 import NewsDetailPage from './pages/NewsDetailPage';
+import TranslatePage from './pages/TranslatePage';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 
@@ -39,6 +40,7 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/en" element={<EnglishPage />} />
                   <Route path="/about" element={<AboutPage />} />
+                  <Route path="/translate" element={<TranslatePage />} />
                   <Route path="/zh/:newsId" element={<NewsDetailPage />} />
                   <Route path="/en/:newsId" element={<NewsDetailPage />} />
                 </Routes>
