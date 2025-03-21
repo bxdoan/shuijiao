@@ -1,16 +1,14 @@
 // @ts-nocheck - Bỏ qua kiểm tra TypeScript để đơn giản hóa
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Flex,
   Text,
   Badge,
-  Divider,
   Spinner,
   useColorModeValue,
   useDisclosure,
@@ -24,7 +22,6 @@ import {
   useBreakpointValue,
   Image,
   // @ts-ignore
-  FocusableElement,
 } from '@chakra-ui/react';
 import { SearchIcon, CloseIcon } from '@chakra-ui/icons';
 
@@ -89,14 +86,11 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const searchBgColor = useColorModeValue('blue.50', 'gray.700');
   
-  // Xác định ngôn ngữ hiện tại và đích
-  const isChineseSource = true;
-  
   // Responsive settings
   const drawerSize = useBreakpointValue({ base: 'full', md: 'md' }) as string;
   
-  // Handle search
-  const handleSearch = async (term = searchTerm) => {
+  // Handle search - chuyển thành useCallback để tránh re-creation không cần thiết
+  const handleSearch = useCallback(async (term = searchTerm) => {
     if (!term.trim()) return;
     
     setIsLoading(true);
@@ -147,7 +141,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       setIsLoading(false);
       setIsSelectionSearch(false);
     }
-  };
+  }, [searchTerm, useMockData, targetLang, isSelectionSearch, onOpen]);
   
   // Auto-search on term change (with debounce)
   useEffect(() => {
@@ -158,7 +152,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     }, 500);
     
     return () => clearTimeout(timer);
-  }, [searchTerm]);
+  }, [searchTerm, handleSearch]);
   
   // Focus input when opened
   useEffect(() => {
@@ -178,7 +172,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       const selectedText = selection.toString().trim();
 
       // Chỉ xử lý khi chọn ít hơn 20 ký tự (tránh việc chọn cả câu)
-      if (selectedText) {
+      if (selectedText && selectedText.length < 20) {
         setSearchTerm(selectedText);
         setIsSelectionSearch(true);
         handleSearch(selectedText);
@@ -191,7 +185,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     return () => {
       document.removeEventListener('mouseup', handleSelectionChange);
     };
-  }, [targetLang]);
+  }, [targetLang, handleSearch]);
   
   // Render word types
   const renderWordTypes = (types: string[] | undefined) => {
