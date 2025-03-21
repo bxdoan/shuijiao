@@ -34,11 +34,13 @@ import { ShareModal } from '../Common/ShareModal';
 interface NewsCardProps {
   news: NewsItem;
   sourceLang: "zh" | "en";
+  targetLang: "vi";
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({
   news,
-  sourceLang
+  sourceLang,
+  targetLang = "vi"
 }) => {
   const [showFullContent, setShowFullContent] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -114,7 +116,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
       setTranslation(translatedContent);
 
       // Thử sử dụng fetchTranslation trước
-      let cachedTranslation = await fetchTranslation(id, 'vi');
+      let cachedTranslation = await fetchTranslation(id, targetLang);
 
       if (cachedTranslation) {
         // Nếu có bản dịch có sẵn, sử dụng luôn
@@ -147,7 +149,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             const translatedTitle = await translateSentences(
               title,
               sourceLang,
-              'vi'
+              targetLang
             );
             updateTranslation('0', translatedTitle);
           } catch (error) {
@@ -161,7 +163,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             const translatedDesc = await translateSentences(
               desc,
               sourceLang,
-              'vi'
+              targetLang
             );
             updateTranslation('1', translatedDesc);
           } catch (error) {
@@ -186,7 +188,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             const translatedBlock = await translateSentences(
               textContent,
               sourceLang,
-              'vi'
+              targetLang
             );
             updateTranslation((index + 2).toString(), translatedBlock);
           } catch (error) {

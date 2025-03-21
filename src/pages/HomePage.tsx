@@ -20,6 +20,7 @@ import { DonationBoxCompact } from '../components/Common/DonationBox';
 import { NewsFilterParams, NewsItem } from '../types';
 import { useNews } from '../hooks/useNews';
 import SEO from '../components/Common/SEO';
+import ChineseSearch from '../components/Search/ChineseSearch';
 
 const HomePage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
@@ -212,7 +213,8 @@ const HomePage: React.FC = () => {
             </Button>
           </Center>
         )}
-        
+
+        <ChineseSearch targetLang="vi" />
         <ScrollToTopBottom />
       </Container>
     </>

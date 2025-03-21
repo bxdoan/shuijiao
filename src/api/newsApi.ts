@@ -88,7 +88,11 @@ export interface TranslationResponse {
 }
 
 // Hàm gọi API để dịch bài viết
-export const fetchTranslation = async (newsId: string, language: string = 'vi', useCache: boolean = false): Promise<Record<string, string> | null> => {
+export const fetchTranslation = async (
+    newsId: string,
+    language: string = 'vi',
+    useCache: boolean = false
+): Promise<Record<string, string> | null> => {
   try {
     console.log(`Fetching translation for news ID: ${newsId} in language: ${language}, useCache: ${useCache}`);
     
