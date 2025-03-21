@@ -21,6 +21,18 @@ const theme = extendTheme({
       800: '#075985',
       900: '#0c4a6e',
     },
+    yellow: {
+      50: '#FFFFF0',
+      100: '#FEFCBF',
+      200: '#FAF089',
+      300: '#F6E05E',
+      400: '#ECC94B',
+      500: '#D69E2E',
+      600: '#B7791F',
+      700: '#975A16',
+      800: '#744210',
+      900: '#5F370E',
+    },
   },
   fonts: {
     heading: '"Noto Sans SC", sans-serif',
@@ -41,13 +53,19 @@ const theme = extendTheme({
         borderRadius: 'md',
       },
       variants: {
-        solid: {
-          bg: 'brand.500',
-          color: 'white',
+        solid: (props: any) => ({
+          bg: props.colorScheme === 'yellow' ? 'yellow.400' : 'brand.500',
+          color: props.colorScheme === 'yellow' ? 'black' : 'white',
           _hover: {
-            bg: 'brand.600',
+            bg: props.colorScheme === 'yellow' ? 'yellow.500' : 'brand.600',
           },
-        },
+        }),
+        ghost: (props: any) => ({
+          color: props.colorScheme === 'yellow' ? 'yellow.300' : props.colorMode === 'dark' ? 'whiteAlpha.900' : 'gray.800',
+          _hover: {
+            bg: props.colorScheme === 'yellow' ? 'rgba(236, 201, 75, 0.15)' : 'blackAlpha.50',
+          },
+        }),
         outline: {
           borderColor: 'brand.500',
           color: 'brand.500',
