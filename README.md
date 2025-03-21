@@ -4,7 +4,7 @@ Shuijiao là nền tảng học đa ngôn ngữ thông qua tin tức thực tế
 
 ## Website
 
-[https://shuijiao./](https://shuijiao.vn/)
+[https://shuijiao.vn/](https://shuijiao.vn/)
 
 ## Giới thiệu
 

@@ -259,7 +259,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       zIndex={10}
     >
       <Image
-        src={process.env.PUBLIC_URL + '/shuijiao.png'}
+        src="/shuijiao.png"
         alt="Shuijiao Dictionary"
         width="40px"
         height="40px"
@@ -309,7 +309,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px" display="flex" alignItems="center">
             <Image 
-              src={process.env.PUBLIC_URL + '/shuijiao.png'} 
+              src="/shuijiao.png" 
               alt="Shuijiao Logo" 
               width="24px" 
               height="24px" 
