@@ -10,6 +10,7 @@ import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/EnglishPage';
 import NewsDetailPage from './pages/NewsDetailPage';
 import SEO from './components/Common/SEO';
+import theme from './theme';
 
 // Create a client with default options
 const queryClient = new QueryClient({
@@ -26,7 +27,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <Router>
             {/* Default SEO settings for all pages */}
             <SEO />

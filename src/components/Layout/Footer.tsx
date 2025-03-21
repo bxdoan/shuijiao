@@ -372,7 +372,7 @@ export const Footer: React.FC = () => {
       <div style={styles.divider}></div>
       
       <div style={styles.footer_bottom}>
-        <p style={styles.normalText}>© {currentYear} Shuijiao Chinese. All rights reserved.</p>
+        <p style={styles.normalText}>© {currentYear} Shuijiao. All rights reserved.</p>
       </div>
     </footer>
   );

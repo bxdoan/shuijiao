@@ -111,7 +111,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     
     try {
       const response = await fetch(
-        `https://api.hanzii.net/api/search/${targetLang}/${encodeURIComponent(term)}?type=word&page=1&limit=5`,
+        `https://api.hanzii.net/api/search/${targetLang}/${encodeURIComponent(term)}?type=word&page=1&limit=10`,
         {
           method: 'GET',
           headers: {
