@@ -1,5 +1,5 @@
 // @ts-nocheck - Bỏ qua kiểm tra TypeScript để đơn giản hóa
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -89,8 +89,8 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
   // Responsive settings
   const drawerSize = useBreakpointValue({ base: 'full', md: 'md' }) as string;
   
-  // Handle search - chuyển thành useCallback để tránh re-creation không cần thiết
-  const handleSearch = useCallback(async (term = searchTerm) => {
+  // Handle search
+  const handleSearch = async (term = searchTerm) => {
     if (!term.trim()) return;
     
     setIsLoading(true);
@@ -141,7 +141,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       setIsLoading(false);
       setIsSelectionSearch(false);
     }
-  }, [searchTerm, useMockData, targetLang, isSelectionSearch, onOpen]);
+  };
   
   // Auto-search on term change (with debounce)
   useEffect(() => {
@@ -152,7 +152,8 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     }, 500);
     
     return () => clearTimeout(timer);
-  }, [searchTerm, handleSearch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
   
   // Focus input when opened
   useEffect(() => {
@@ -185,7 +186,8 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     return () => {
       document.removeEventListener('mouseup', handleSelectionChange);
     };
-  }, [targetLang, handleSearch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetLang]);
   
   // Render word types
   const renderWordTypes = (types: string[] | undefined) => {
@@ -259,7 +261,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       zIndex={10}
     >
       <Image
-        src="/shuijiao.png"
+        src={process.env.PUBLIC_URL + "/shuijiao.png"}
         alt="Shuijiao Dictionary"
         width="40px"
         height="40px"
@@ -309,7 +311,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px" display="flex" alignItems="center">
             <Image 
-              src="/shuijiao.png" 
+              src={process.env.PUBLIC_URL + "/shuijiao.png"} 
               alt="Shuijiao Logo" 
               width="24px" 
               height="24px" 
