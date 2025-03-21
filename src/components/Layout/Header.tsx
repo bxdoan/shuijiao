@@ -107,8 +107,8 @@ export const Header = () => {
               <HStack spacing="4" ml={4}>
                 <Button
                   as={Link}
-                  to="/"
-                  variant={location.pathname === '/' ? "solid" : "ghost"}
+                  to="/zh"
+                  variant={location.pathname === '/zh' || location.pathname === '/' ? "solid" : "ghost"}
                   colorScheme="yellow"
                   size="md"
                 >
@@ -188,8 +188,8 @@ export const Header = () => {
             <VStack spacing={4} align="stretch" mt={4}>
               <Button
                 as={Link}
-                to="/"
-                variant={location.pathname === '/' ? "solid" : "ghost"}
+                to="/zh"
+                variant={location.pathname === '/zh' || location.pathname === '/' ? "solid" : "ghost"}
                 colorScheme="yellow"
                 size="lg"
                 onClick={() => setIsDrawerOpen(false)}

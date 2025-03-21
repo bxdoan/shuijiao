@@ -22,7 +22,7 @@ import { useNews } from '../hooks/useNews';
 import SEO from '../components/Common/SEO';
 import ChineseSearch from '../components/Search/ChineseSearch';
 
-const HomePage: React.FC = () => {
+const ChinesePage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
   const [loadedDates, setLoadedDates] = useState<string[]>([]);
   const [currentDate, setCurrentDate] = useState<string>(new Date().toISOString().split('T')[0]);
@@ -226,4 +226,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage; 
+export default ChinesePage; 

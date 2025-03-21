@@ -6,7 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Analytics } from '@vercel/analytics/react';
 import { Header } from './components/Layout/Header';
 import { Footer } from './components/Layout/Footer';
-import HomePage from './pages/HomePage';
+import ChinesePage from './pages/ChinesePage';
 import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/EnglishPage';
 import NewsDetailPage from './pages/NewsDetailPage';
@@ -37,7 +37,8 @@ function App() {
               <Header />
               <Box as="main" flex="1">
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={<ChinesePage />} />
+                  <Route path="/zh" element={<ChinesePage />} />
                   <Route path="/en" element={<EnglishPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/translate" element={<TranslatePage />} />
