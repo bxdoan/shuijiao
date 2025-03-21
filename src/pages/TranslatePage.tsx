@@ -194,175 +194,167 @@ const TranslatePage: React.FC = () => {
           />
         </FormControl>
 
-        <Flex 
-          direction={{ base: "column", md: "row" }}
-          gap={6}
-        >
-          <Box 
-            flex="1" 
-            borderWidth="1px" 
-            borderRadius="lg" 
-            p={6}
-            borderColor={borderColor}
-            bg={bgColor}
-            boxShadow="md"
-          >
-            <VStack spacing={4} align="stretch">
-              <Heading as="h3" size="md" textAlign="center">
-                <Select 
-                  value={sourceLang}
-                  onChange={(e) => setSourceLang(e.target.value)}
-                  width="100%"
-                  variant="filled"
-                  size="md"
-                  borderRadius="md"
-                  mb={2}
-                >
-                  {LANGUAGES.map((lang) => (
-                    <option key={`source-${lang.code}`} value={lang.code}>
-                      {lang.name}
-                    </option>
-                  ))}
-                </Select>
-              </Heading>
-              
-              <Box position="relative">
-                <Textarea
-                  placeholder={`Nhập văn bản ${LANGUAGES.find(l => l.code === sourceLang)?.name}`}
-                  value={sourceText}
-                  onChange={(e) => setSourceText(e.target.value)}
-                  height="300px"
-                  bg={textareaColor}
-                  resize="vertical"
-                />
-                
-                {sourceText && (
-                  <IconButton
-                    aria-label="Xóa văn bản"
-                    icon={<CloseIcon />}
-                    size="sm"
-                    position="absolute"
-                    top="2"
-                    right="2"
-                    onClick={handleClearText}
-                  />
-                )}
-              </Box>
-            </VStack>
-          </Box>
-          
+        <Box position="relative">
           <Flex 
-            flexDirection="column" 
-            justifyContent="center" 
-            alignItems="center"
-            display={{ base: 'flex', md: 'none' }}
-            my={2}
+            direction={{ base: "column", md: "row" }}
+            gap={{ base: 6, md: 1 }}
           >
-            <IconButton
-              aria-label="Đổi ngôn ngữ"
-              icon={<RepeatIcon />}
-              onClick={handleSwapLanguages}
-              colorScheme="blue"
-              size="lg"
-              isRound
-              animation={isRotating ? `${rotateAnimation} 0.6s ease-in-out` : 'none'}
-            />
-          </Flex>
-          
-          <Flex 
-            flexDirection="column" 
-            justifyContent="center" 
-            alignItems="center"
-            display={{ base: 'none', md: 'flex' }}
-            px={2}
-          >
-            <IconButton
-              aria-label="Đổi ngôn ngữ"
-              icon={<RepeatIcon />}
-              onClick={handleSwapLanguages}
-              colorScheme="blue"
-              size="lg"
-              isRound
-              animation={isRotating ? `${rotateAnimation} 0.6s ease-in-out` : 'none'}
-            />
-          </Flex>
-          
-          <Box 
-            flex="1" 
-            borderWidth="1px" 
-            borderRadius="lg" 
-            p={6}
-            borderColor={borderColor}
-            bg={bgColor}
-            boxShadow="md"
-          >
-            <VStack spacing={4} align="stretch">
-              <Heading as="h3" size="md" textAlign="center">
-                <Select 
-                  value={targetLang}
-                  onChange={(e) => setTargetLang(e.target.value)}
-                  width="100%"
-                  variant="filled"
-                  size="md"
-                  borderRadius="md"
-                  mb={2}
-                >
-                  {LANGUAGES.map((lang) => (
-                    <option key={`target-${lang.code}`} value={lang.code}>
-                      {lang.name}
-                    </option>
-                  ))}
-                </Select>
-              </Heading>
-              
-              <Box position="relative">
-                <Textarea
-                  placeholder={`Kết quả dịch sang ${LANGUAGES.find(l => l.code === targetLang)?.name}`}
-                  value={translatedText}
-                  isReadOnly
-                  height="300px"
-                  bg={textareaColor}
-                  resize="vertical"
-                />
-                
-                {translatedText && (
-                  <Tooltip
-                    hasArrow
-                    label={hasCopied ? "Đã sao chép!" : "Sao chép"}
-                    placement="top"
+            <Box 
+              flex="1" 
+              borderWidth="1px" 
+              borderRadius="lg" 
+              p={6}
+              borderColor={borderColor}
+              bg={bgColor}
+              boxShadow="md"
+            >
+              <VStack spacing={4} align="stretch">
+                <Heading as="h3" size="md" textAlign="center">
+                  <Select 
+                    value={sourceLang}
+                    onChange={(e) => setSourceLang(e.target.value)}
+                    width="100%"
+                    variant="filled"
+                    size="md"
+                    borderRadius="md"
+                    mb={2}
                   >
+                    {LANGUAGES.map((lang) => (
+                      <option key={`source-${lang.code}`} value={lang.code}>
+                        {lang.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Heading>
+                
+                <Box position="relative">
+                  <Textarea
+                    placeholder={`Nhập văn bản ${LANGUAGES.find(l => l.code === sourceLang)?.name}`}
+                    value={sourceText}
+                    onChange={(e) => setSourceText(e.target.value)}
+                    height="300px"
+                    bg={textareaColor}
+                    resize="vertical"
+                  />
+                  
+                  {sourceText && (
                     <IconButton
-                      aria-label="Sao chép văn bản"
-                      icon={<CopyIcon />}
+                      aria-label="Xóa văn bản"
+                      icon={<CloseIcon />}
                       size="sm"
                       position="absolute"
                       top="2"
                       right="2"
-                      onClick={onCopy}
+                      onClick={handleClearText}
                     />
-                  </Tooltip>
-                )}
-              </Box>
-              
-              <Button 
-                colorScheme="blue" 
-                rightIcon={<ArrowRightIcon />}
-                onClick={handleTranslate}
-                isLoading={isLoading}
-                isDisabled={!sourceText.trim() || isAutoTranslate}
-                loadingText="Đang dịch..."
-              >
-                Dịch
-              </Button>
-              
-              {errorMessage && (
-                <Box color="red.500" mt={2}>
-                  <Text>{errorMessage}</Text>
+                  )}
                 </Box>
-              )}
-            </VStack>
+              </VStack>
+            </Box>
+            
+            <Box 
+              flex="1" 
+              borderWidth="1px" 
+              borderRadius="lg" 
+              p={6}
+              borderColor={borderColor}
+              bg={bgColor}
+              boxShadow="md"
+            >
+              <VStack spacing={4} align="stretch">
+                <Heading as="h3" size="md" textAlign="center">
+                  <Select 
+                    value={targetLang}
+                    onChange={(e) => setTargetLang(e.target.value)}
+                    width="100%"
+                    variant="filled"
+                    size="md"
+                    borderRadius="md"
+                    mb={2}
+                  >
+                    {LANGUAGES.map((lang) => (
+                      <option key={`target-${lang.code}`} value={lang.code}>
+                        {lang.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Heading>
+                
+                <Box position="relative">
+                  <Textarea
+                    placeholder={`Kết quả dịch sang ${LANGUAGES.find(l => l.code === targetLang)?.name}`}
+                    value={translatedText}
+                    isReadOnly
+                    height="300px"
+                    bg={textareaColor}
+                    resize="vertical"
+                  />
+                  
+                  {translatedText && (
+                    <Tooltip
+                      hasArrow
+                      label={hasCopied ? "Đã sao chép!" : "Sao chép"}
+                      placement="top"
+                    >
+                      <IconButton
+                        aria-label="Sao chép văn bản"
+                        icon={<CopyIcon />}
+                        size="sm"
+                        position="absolute"
+                        top="2"
+                        right="2"
+                        onClick={onCopy}
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+                
+                <Button 
+                  colorScheme="blue" 
+                  rightIcon={<ArrowRightIcon />}
+                  onClick={handleTranslate}
+                  isLoading={isLoading}
+                  isDisabled={!sourceText.trim() || isAutoTranslate}
+                  loadingText="Đang dịch..."
+                >
+                  Dịch
+                </Button>
+                
+                {errorMessage && (
+                  <Box color="red.500" mt={2}>
+                    <Text>{errorMessage}</Text>
+                  </Box>
+                )}
+              </VStack>
+            </Box>
+          </Flex>
+          
+          {/* Nút swap language nằm chính giữa, nổi trên đường biên giữa hai box */}
+          <Box 
+            position="absolute"
+            top={{ base: "auto", md: "50%" }}
+            left={{ base: "50%", md: "50%" }}
+            bottom={{ base: "calc(50% + 3px)", md: "auto" }} /* Đặt ở giữa theo chiều dọc trên mobile */
+            transform={{ base: "translateX(-50%)", md: "translate(-50%, -50%)" }}
+            zIndex={2}
+            display="block"
+          >
+            <IconButton
+              aria-label="Đổi ngôn ngữ"
+              icon={<RepeatIcon />}
+              onClick={handleSwapLanguages}
+              colorScheme="blue"
+              size="lg"
+              isRound={false}
+              boxShadow="lg"
+              borderRadius="40px" /* Tạo hình oval đứng */
+              height="60px"
+              width="40px"
+              animation={isRotating ? `${rotateAnimation} 0.6s ease-in-out` : 'none'}
+              transform="none" // Loại bỏ transform để chỉ xoay tại chỗ khi được trigger
+            />
           </Box>
-        </Flex>
+        </Box>
         
         <Box 
           mt={8}
