@@ -42,8 +42,8 @@ function App() {
                   <Route path="/en" element={<EnglishPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/translate" element={<TranslatePage />} />
-                  <Route path="/zh/:newsId" element={<NewsDetailPage />} />
-                  <Route path="/en/:newsId" element={<NewsDetailPage />} />
+                  <Route path="/zh/r/:newsId" element={<NewsDetailPage />} />
+                  <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
                 </Routes>
               </Box>
               <Footer />

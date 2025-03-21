@@ -292,9 +292,9 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const goToNewsDetail = () => {
     if (id) {
       if (sourceLang === 'zh') {
-        navigate(`/zh/${id}`);
+        navigate(`/zh/r/${id}`);
       } else {
-        navigate(`/en/${id}`);
+        navigate(`/en/r/${id}`);
       }
     } else {
       toast({

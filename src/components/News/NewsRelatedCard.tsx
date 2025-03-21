@@ -34,9 +34,9 @@ const NewsRelatedCard: React.FC<NewsRelatedCardProps> = ({ news, sourceLang }) =
   const handleClick = () => {
     if (id) {
       if (sourceLang === 'zh') {
-        navigate(`/zh/${id}`);
+        navigate(`/zh/r/${id}`);
       } else {
-        navigate(`/en/${id}`);
+        navigate(`/en/r/${id}`);
       }
     }
   };
