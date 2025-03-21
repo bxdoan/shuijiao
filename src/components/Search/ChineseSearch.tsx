@@ -20,7 +20,6 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useBreakpointValue,
-  Image,
   // @ts-ignore
 } from '@chakra-ui/react';
 import { SearchIcon, CloseIcon } from '@chakra-ui/icons';
