@@ -39,6 +39,7 @@ import HSKVocabularyBox from '../components/Vocabulary/HSKVocabularyBox';
 import IELTSVocabularyBox from '../components/Vocabulary/IELTSVocabularyBox';
 import SEO from '../components/Common/SEO';
 import ScrollToTopBottom from '../components/Common/ScrollToTopBottom';
+import ChineseSearch from '../components/Search/ChineseSearch';
 
 const NewsDetailPage: React.FC = () => {
   const { newsId } = useParams<{ newsId: string }>();
@@ -604,6 +605,15 @@ const NewsDetailPage: React.FC = () => {
           title="Chia sẻ bài viết này"
           shareText={utils.splitTextIntoSentences(newsDetail?.title || "", currentLanguage) || "Tin tức từ Shuijiao"}
         />
+        
+        {/* Thêm ChineseSearch component trước - sẽ nằm bên trái nút scroll down */}
+        {
+          currentLanguage === 'zh' && (
+            <ChineseSearch targetLang="vi" />
+          )
+        }
+        
+        {/* Thêm ScrollToTopBottom sau để nút đè lên trên */}
         <ScrollToTopBottom />
       </Container>
     </>

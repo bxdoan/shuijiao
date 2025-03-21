@@ -1,0 +1,287 @@
+{
+    "total": 1762,
+    "found": true,
+    "result": [
+        {
+            "kind": [
+                "n"
+            ],
+            "measure": null,
+            "zhuyin": "\u310c\u3129\u02c7\u3127\u3121\u02ca\u3127\u311d\u02cb",
+            "_id": "0ee8b63e82adab0ddd5b15f0ba997bf7",
+            "type": "cnvi",
+            "content": [
+                {
+                    "kind": "n",
+                    "means": [
+                        {
+                            "mean": "ng\u00e0nh du l\u1ecbch",
+                            "explain": "\u4e3a\u65c5\u6e38\u63d0\u4f9b\u670d\u52a1\u7684\u4ea7\u4e1a\u3002\u5305\u62ec\u4e0e\u65c5\u6e38\u6709\u5173\u7684\u4ea4\u901a\u4e1a\u3001\u65c5\u9986\u4e1a\u3001\u996e\u98df\u4e1a\u3001\u5a31\u4e50\u4e1a\u53ca\u5236\u9020\u4e1a\u7b49\u3002",
+                            "examples": [
+                                {
+                                    "m": "Ng\u00e0nh du l\u1ecbch r\u1ea5t quan tr\u1ecdng \u0111\u1ed1i v\u1edbi n\u1ec1n kinh t\u1ebf.",
+                                    "p_vn": "nganh du lich rat quan trong doi voi nen kinh te.",
+                                    "_id": "499b5c9f943894ab20197fb176acedd7",
+                                    "id": 164042,
+                                    "type": "e_cnvi",
+                                    "e": "\u65c5\u6e38\u4e1a\u5bf9\u4e8e\u7ecf\u6d4e\u81f3\u5173\u91cd\u8981\u3002",
+                                    "p_cn": "l\u01dayou ye duiyu jingji zhi guan zhongyao.",
+                                    "p": "l\u01day\u00f3u y\u00e8 du\u00ecy\u00fa j\u012bngj\u00ec zh\u00ec gu\u0101n zh\u00f2ngy\u00e0o."
+                                },
+                                {
+                                    "m": "Khu v\u1ef1c n\u00e0y ph\u1ee5 thu\u1ed9c r\u1ea5t nhi\u1ec1u v\u00e0o ng\u00e0nh du l\u1ecbch.",
+                                    "p_vn": "khu vuc nay phu thuoc rat nhieu vao nganh du lich.",
+                                    "_id": "3366ae2b7fac28c8d73958db9bd8e27e",
+                                    "id": 178925,
+                                    "type": "e_cnvi",
+                                    "e": "\u8fd9\u4e2a\u5730\u533a\u975e\u5e38\u4f9d\u8d56\u65c5\u6e38\u4e1a\u3002",
+                                    "p_cn": "zhege diqu feichang yilai l\u01dayou ye.",
+                                    "p": "zh\u00e8ge d\u00ecq\u016b f\u0113ich\u00e1ng y\u012bl\u00e0i l\u01day\u00f3u y\u00e8."
+                                },
+                                {
+                                    "m": "S\u1ef1 ph\u00e1t tri\u1ec3n c\u1ee7a ng\u00e0nh du l\u1ecbch kh\u00f4ng th\u1ec3 thi\u1ebfu v\u0103n h\u00f3a.",
+                                    "p_vn": "su phat trien cua nganh du lich khong the thieu van hoa.",
+                                    "_id": "3366ae2b7fac28c8d73958db9bd8f023",
+                                    "id": 178926,
+                                    "type": "e_cnvi",
+                                    "e": "\u65c5\u6e38\u4e1a\u7684\u53d1\u5c55\u79bb\u4e0d\u5f00\u6587\u5316\u3002",
+                                    "p_cn": "l\u01dayou ye de fazhan li bu kai wenhua.",
+                                    "p": "l\u01day\u00f3u y\u00e8 de f\u0101zh\u01cen l\u00ed b\u00f9 k\u0101i w\u00e9nhu\u00e0."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "popularity": {
+                "notebook": 18,
+                "search": 618
+            },
+            "snym": null,
+            "cn_vi": "l\u1eef du nghi\u1ec7p",
+            "pinyin": "l\u01day\u00f3u y\u00e8",
+            "word": "\u65c5\u6e38\u4e1a",
+            "id": 71252,
+            "phonetic": "luyouye",
+            "rank": 13798,
+            "lv_tocfl": null,
+            "compound": null
+        },
+        {
+            "kind": [
+                "v"
+            ],
+            "measure": null,
+            "topic": "14, 19",
+            "zhuyin": "\u310c\u3129\u02c7\u3127\u3121\u02ca",
+            "_id": "c4d3e2ea64dd0bad8a2faa487daafb31",
+            "type": "cnvi",
+            "content": [
+                {
+                    "structs": [
+                        {
+                            "explain": "\u0111i\/ t\u1edbi\/ \u0111\u1ebfn... du l\u1ecbch",
+                            "examples": [
+                                74344,
+                                74345
+                            ],
+                            "struct": "\u53bb\/ \u6765\/ \u5728 + \u0110\u1ecba \u0111i\u1ec3m + \u65c5\u6e38"
+                        }
+                    ],
+                    "kind": "v",
+                    "means": [
+                        {
+                            "mean": "du ngo\u1ea1n; du l\u1ecbch",
+                            "explain": "\u65c5\u884c\u6e38\u89c8",
+                            "examples": [
+                                {
+                                    "m": "Ch\u00fang ta h\u00e3y c\u00f9ng nhau \u0111i du l\u1ecbch nh\u00e9..",
+                                    "p_vn": "chung ta hay cung nhau di du lich nhe..",
+                                    "_id": "f2efc94449b26b3e2967bccbc9102ca3",
+                                    "id": 92480,
+                                    "type": "e_cnvi",
+                                    "e": "\u6211\u4eec\u4e00\u8d77\u53bb\u65c5\u6e38\u5427\u3002",
+                                    "p_cn": "women yiqi qu l\u01dayou ba.",
+                                    "p": "w\u01d2men y\u012bq\u01d0 q\u00f9 l\u01day\u00f3u ba."
+                                },
+                                {
+                                    "m": "C\u00f4 \u1ea5y th\u01b0\u1eddng \u0111i du l\u1ecbch m\u1ed9t m\u00ecnh.",
+                                    "p_vn": "co ay thuong di du lich mot minh.",
+                                    "_id": "f2efc94449b26b3e2967bccbc9104d67",
+                                    "id": 92483,
+                                    "type": "e_cnvi",
+                                    "e": "\u5979\u7ecf\u5e38\u72ec\u81ea\u53bb\u65c5\u6e38\u3002",
+                                    "p_cn": "ta jingchang duzi qu l\u01dayou.",
+                                    "p": "t\u0101 j\u012bngch\u00e1ng d\u00faz\u00ec q\u00f9 l\u01day\u00f3u."
+                                },
+                                {
+                                    "m": "M\u1ecdi ng\u01b0\u1eddi \u0111\u1ec1u h\u00e1o h\u1ee9c \u0111i du l\u1ecbch.",
+                                    "p_vn": "moi nguoi deu hao huc di du lich.",
+                                    "_id": "f2efc94449b26b3e2967bccbc9105b7f",
+                                    "id": 92484,
+                                    "type": "e_cnvi",
+                                    "e": "\u5927\u5bb6\u90fd\u6e34\u671b\u53bb\u65c5\u6e38\u3002",
+                                    "p_cn": "dajia dou kewang qu l\u01dayou.",
+                                    "p": "d\u00e0ji\u0101 d\u014du k\u011bw\u00e0ng q\u00f9 l\u01day\u00f3u."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "popularity": {
+                "notebook": 926,
+                "search": 29878
+            },
+            "snym": {
+                "syno": [
+                    "\u65c5\u884c",
+                    "\u8fdc\u884c"
+                ]
+            },
+            "lv_hsk_new": "2",
+            "pinyin": "l\u01day\u00f3u",
+            "cn_vi": "l\u1eef du",
+            "word": "\u65c5\u6e38",
+            "id": 36292,
+            "phonetic": "luyou",
+            "rank": 97,
+            "lv_tocfl": 2,
+            "compound": "\u65c5\u6e38\u80cc\u5305; \u65c5\u6e38\u6807\u5fd7; \u65c5\u6e38\u8f66; \u65c5\u6e38\u8239"
+        },
+        {
+            "kind": [
+                "n"
+            ],
+            "measure": null,
+            "zhuyin": "\u310c\u3129\u02c7\u3127\u3121\u02ca\u310a\u3128\u3122\u02ca",
+            "_id": "4bd3129547e4bd30116f9f83f62dd450",
+            "type": "cnvi",
+            "content": [
+                {
+                    "kind": "n",
+                    "means": [
+                        {
+                            "mean": "\u0111o\u00e0n du l\u1ecbch",
+                            "explain": "\u5728\u6700\u8fd1\u706b\u7206\u7684\u56e2\u8d2d\u4e2d\uff0c\u65c5\u6e38\u56e2\u53c8\u662f\u4e00\u79cd\u65b0\u578b\u7684\u65c5\u6e38\u65b9\u5f0f\u9009\u62e9\u2014\u2014\u65c5\u6e38\u56e2\u8d2d\u3002\u5178\u578b\u7684\u5c31\u662f\u65c5\u6e38\u56e2\u7f51\u3002\u65c5\u6e38\u56e2\uff0c\u81f4\u529b\u4e8e\u901a\u8fc7\u56e2\u8d2d\u7684\u65b9\u5f0f\u5411\u6d88\u8d39\u8005\u63a8\u8350\u9ad8\u6298\u6263\u7684\u672c\u5730\u7cbe\u54c1\u65c5\u6e38\u670d\u52a1\u3002",
+                            "examples": [
+                                {
+                                    "m": "t\u1ed5 ch\u1ee9c \u0111o\u00e0n du l\u1ecbch",
+                                    "p_vn": "to chuc doan du lich",
+                                    "_id": "c57b130a417e573cbdfd4c22c5ed4854",
+                                    "id": 39659,
+                                    "type": "e_cnvi",
+                                    "e": "\u7ec4\u7ec7\u65c5\u6e38\u56e2\u961f",
+                                    "p_cn": "zuzhi l\u01dayou tuandui",
+                                    "p": "z\u01d4zh\u012b l\u01day\u00f3u tu\u00e1ndu\u00ec"
+                                },
+                                {
+                                    "m": "T\u00f4i \u0111\u00e3 \u0111i v\u1edbi m\u1ed9t nh\u00f3m du l\u1ecbch.",
+                                    "p_vn": "toi da di voi mot nhom du lich.",
+                                    "_id": "ac7be255046819fca340054063e88e86",
+                                    "id": 75831,
+                                    "type": "e_cnvi",
+                                    "e": "\u6211\u662f\u8ddf\u4e00\u4e2a\u65c5\u6e38\u56e2\u53bb\u7684\u3002",
+                                    "p_cn": "wo shi gen yige l\u01dayou tuan qu de.",
+                                    "p": "w\u01d2 sh\u00ec g\u0113n y\u012bg\u00e8 l\u01day\u00f3u tu\u00e1n q\u00f9 de."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "popularity": {
+                "notebook": 40,
+                "search": 441
+            },
+            "snym": null,
+            "cn_vi": "l\u1eef du \u0111o\u00e0n",
+            "pinyin": "l\u01day\u00f3u tu\u00e1n",
+            "word": "\u65c5\u6e38\u56e2",
+            "id": 71254,
+            "phonetic": "luyoutuan",
+            "rank": 17279,
+            "lv_tocfl": null,
+            "compound": null
+        },
+        {
+            "kind": [
+                "n"
+            ],
+            "measure": null,
+            "zhuyin": "\u310c\u3129\u02c7\u3127\u3121\u02ca\u3111\u3129",
+            "_id": "1e492f2f8699142e84e3a73e3c5f470c",
+            "type": "cnvi",
+            "content": [
+                {
+                    "kind": "n",
+                    "means": [
+                        {
+                            "mean": "Khu du l\u1ecbch",
+                            "explain": "\u65c5\u6e38\u533a\u662f\u8868\u73b0\u793e\u4f1a\u7ecf\u6d4e\u3001\u6587\u5316\u5386\u53f2\u548c\u81ea\u7136\u73af\u5883\u7edf\u4e00\u7684\u65c5\u6e38\u5730\u57df\u5355\u5143\u3002\u4e00\u822c\u5305\u542b\u8bb8\u591a\u65c5\u6e38\u70b9\uff0c\u7531\u65c5\u6e38\u7ebf\u8fde\u63a5\u800c\u6210\u3002\u5176\u89c4\u5212\u662f\u6309\u89c4\u5212\u5c42\u6b21\u5206\u603b\u4f53\u89c4\u5212\u3001\u63a7\u5236\u6027\u8be6\u7ec6\u89c4\u5212\u3001\u4fee\u5efa\u6027\u8be6\u7ec6\u89c4\u5212\u7b49\u3002",
+                            "examples": [
+                                {
+                                    "m": "Khu du l\u1ecbch \u0111\u1ea7m sen",
+                                    "p_vn": "Khu du lich dam sen",
+                                    "_id": "1d05699268b63e7c23144cb7c431ddc4",
+                                    "id": 54108,
+                                    "type": "e_cnvi",
+                                    "e": "\u83b2\u6f6d\u65c5\u6e38\u533a",
+                                    "p_cn": "Lian tan luyou qu",
+                                    "p": "Li\u00e1n t\u00e1n l\u01day\u00f3u q\u016b"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "popularity": {
+                "notebook": 19,
+                "search": 276
+            },
+            "snym": null,
+            "cn_vi": "l\u1eef du khu",
+            "pinyin": "l\u01day\u00f3u q\u016b",
+            "word": "\u65c5\u6e38\u533a",
+            "id": 83335,
+            "phonetic": "luyouqu",
+            "rank": 23351,
+            "lv_tocfl": null,
+            "compound": null
+        },
+        {
+            "measure": null,
+            "zhuyin": "\u3115\u3125\u310a\u311e\u02cb\u310b\u3128\u3125\u02ca\u3127\u311d\u02cb\u310c\u3129\u02c7\u3127\u3121\u02ca",
+            "_id": "5cbb95b077824553b61d31c1c668196f",
+            "type": "cnvi",
+            "content": [
+                {
+                    "kind": "n",
+                    "means": [
+                        {
+                            "mean": "du l\u1ecbch sinh th\u00e1i n\u00f4ng nghi\u1ec7p",
+                            "explain": "",
+                            "examples": []
+                        }
+                    ]
+                }
+            ],
+            "popularity": {
+                "notebook": 0,
+                "search": 1
+            },
+            "snym": null,
+            "cn_vi": "sinh th\u00e1i n\u00f4ng nghi\u1ec7p l\u1eef du",
+            "pinyin": "Sh\u0113ngt\u00e0i n\u00f3ngy\u00e8 l\u01day\u00f3u",
+            "word": "\u751f\u6001\u519c\u4e1a\u65c5\u6e38",
+            "id": 155646,
+            "phonetic": "Shengtainongyeluyou",
+            "rank": 152570,
+            "kind": [
+                "n"
+            ],
+            "compound": null
+        }
+    ],
+    "query": "\u65c5\u6e38\u4e1a"
+}

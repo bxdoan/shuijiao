@@ -50,8 +50,8 @@ const ScrollToTopBottom: React.FC = () => {
     <VStack
       position="fixed"
       bottom="24px"
-      right="24px"
-      zIndex={10}
+      right="12px"
+      zIndex={20}
       spacing={2}
     >
       {showTopButton && (
