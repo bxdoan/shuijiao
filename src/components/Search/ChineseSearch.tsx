@@ -62,6 +62,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
   const btnRef = useRef<HTMLButtonElement>(null);
   const [strokesKey, setStrokesKey] = useState(0);
   const skipEffectRef = useRef(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -85,6 +86,18 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       // Open drawer when search results are found
       if (data && data.found && data.result.length > 0) {
         onOpen();
+        
+        // Add to search history if not already present and found results
+        if (data.found) {
+          setSearchHistory(prevHistory => {
+            // Remove the term if it already exists
+            const filteredHistory = prevHistory.filter(item => item !== term);
+            // Add the term to the beginning of the array
+            const newHistory = [term, ...filteredHistory];
+            // Limit to 30 terms
+            return newHistory.slice(0, 30);
+          });
+        }
         
         // After successful word search, call kanji data API
         handleHantuSearch(term);
@@ -170,6 +183,25 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       }, 100);
     }
   }, [isOpen]);
+  
+  // Load search history from localStorage
+  useEffect(() => {
+    const savedHistory = localStorage.getItem('zh_dict');
+    if (savedHistory) {
+      try {
+        setSearchHistory(JSON.parse(savedHistory));
+      } catch (e) {
+        console.error('Error loading search history:', e);
+      }
+    }
+  }, []);
+  
+  // Save search history to localStorage
+  useEffect(() => {
+    if (searchHistory.length > 0) {
+      localStorage.setItem('zh_dict', JSON.stringify(searchHistory));
+    }
+  }, [searchHistory]);
   
   // Render word types
   const renderWordTypes = (types: string[] | undefined) => {

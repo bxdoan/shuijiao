@@ -136,9 +136,7 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
     try {
       // Call the kanji search API using the function from newsApi.ts
       const data = await fetchDictionary(term, targetLang, 'kanji') as KanjiResponse;
-      
       setHantuResults(data);
-      
     } catch (error) {
       console.error('Error searching for hantu:', error);
     } finally {
@@ -155,16 +153,12 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
         return;
       }
       
-      setIsFetchingSuggestions(true);
-      
       try {
         const suggestionsData = await fetchSuggestions(searchTerm);
         setSuggestions(suggestionsData);
         setShowSuggestions(suggestionsData.length > 0);
       } catch (error) {
         console.error('Error fetching suggestions:', error);
-      } finally {
-        setIsFetchingSuggestions(false);
       }
     };
     
