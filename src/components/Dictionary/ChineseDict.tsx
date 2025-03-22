@@ -130,9 +130,7 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
   // Handle kanji search
   const handleHantuSearch = async (term = searchTerm) => {
     if (!term.trim()) return;
-    
     setIsLoadingHantu(true);
-    
     try {
       // Call the kanji search API using the function from newsApi.ts
       const data = await fetchDictionary(term, targetLang, 'kanji') as KanjiResponse;
