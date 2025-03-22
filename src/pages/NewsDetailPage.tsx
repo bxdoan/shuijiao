@@ -25,7 +25,7 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { FaShare } from 'react-icons/fa';
 
 import { 
-    getNewsDetails, 
+    getNewsDetail, 
     fetchTranslation, 
     translateSentences,
     fetchNews
@@ -141,7 +141,7 @@ const NewsDetailPage: React.FC = () => {
       setShowTranslation(false);
       
       try {
-        const data = await getNewsDetails(newsId, currentLanguage);
+        const data = await getNewsDetail(newsId, currentLanguage);
         if (data) {
           setNewsDetail(data);
           // Fetch related news after getting detail

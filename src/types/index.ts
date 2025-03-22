@@ -74,10 +74,28 @@ export interface NewsDetail {
   tag: string;
   source: string;
   image?: string;
+  type: string;
+  // Các trường khác có thể có trong response
+  [key: string]: any;
+}
+
+export interface NewsDetailChinese extends Omit<NewsDetail, 'content'> {
   content: {
     audio: {
       [key: string]: string[];
     };
+    body: string;
+    image: string | null;
+    video: string | null;
+  };
+  level_hsk?: {
+    [key: string]: string[];
+  };
+}
+
+export interface NewsDetailEnglish extends Omit<NewsDetail, 'content'> {
+  content: {
+    audio: string | null;
     body: string;
     image: string | null;
     video: string | null;
@@ -91,13 +109,7 @@ export interface NewsDetail {
   level_ielts?: {
     [key: string]: string[];
   };
-  level_hsk?: {
-    [key: string]: string[];
-  };
-  // Các trường khác có thể có trong response
-  [key: string]: any;
 }
-
 
 // Interface for word search result
 export interface WordSearchResult {

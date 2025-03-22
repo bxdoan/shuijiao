@@ -3,9 +3,10 @@ import {
   NewsFilterParams,
   NewsResponse,
   LanguageConfigMap,
-  NewsDetail,
   SearchResponse,
-  KanjiResponse
+  KanjiResponse,
+  NewsDetailChinese,
+  NewsDetailEnglish
 } from '../types';
 import * as utils from '../utils/utils';
 
@@ -221,15 +222,11 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
       targetLanguage = 'en';
     }
     
-    console.log(`Fetching ${targetLanguage} news with params:`, apiParams);
-    
     // Get appropriate API client for chosen language
     const apiClient = getApiClient(targetLanguage);
     
     // Call common API endpoint for all languages
     const response = await apiClient.post('/news/filter', apiParams);
-    
-    console.log(`${targetLanguage.toUpperCase()} API response:`, response.data);
     
     // API returns array of NewsItem directly
     if (Array.isArray(response.data)) {
@@ -267,12 +264,13 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
 
 
 // Function to get news details
-export const getNewsDetails = async (newsId: string, language: string = 'zh'): Promise<NewsDetail | null> => {
+export const getNewsDetail = async (
+  newsId: string, 
+  language: string = 'zh'
+): Promise<NewsDetailEnglish | NewsDetailChinese | null> => {
   try {
     const targetLanguage = languageConfig[language] ? language : 'zh';
     const apiClient = getApiClient(targetLanguage);
-    
-    console.log(`Fetching news details for ID: ${newsId} in language: ${targetLanguage}`);
     
     // Different endpoints depending on language
     let endpoint = '';
@@ -337,3 +335,4 @@ export const fetchDictionary = async (
     return null;
   }
 };
+
