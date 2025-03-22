@@ -74,21 +74,42 @@ const getApiClient = (language: string) => {
   return apiClients[language];
 };
 
-// Interface for data returned from translation API
-export interface TranslationResponse {
-  id: number;
-  news_id: string;
-  content: string;
-  country: string;
-  created_at: string;
-  author: {
-    id: number;
-    name: string;
-  };
-  voted?: any;
-  like?: number;
-  dislike?: number;
-}
+// Function to fetch suggestions for the dictionary
+export const fetchSuggestions = async (keyword: string, dict: string = 'cnvi'): Promise<string[]> => {
+  if (!keyword.trim() || keyword.length < 1) return [];
+  
+  try {
+    const response = await fetch('https://suggest.hanzii.net/api/suggest', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json, text/plain, */*',
+        'authorization': '37783281518601508919736764542798',
+        'content-type': 'application/json',
+        'origin': 'https://hanzii.net',
+        'referer': 'https://hanzii.net/'
+      },
+      body: JSON.stringify({
+        keyword,
+        dict
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    const data = await response.json();
+    
+    if (data && data.status === 200 && data.data) {
+      return data.data;
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Error fetching suggestions:', error);
+    return [];
+  }
+};
 
 // Function to call API for article translation
 export const fetchTranslation = async (

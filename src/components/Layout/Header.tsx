@@ -125,6 +125,15 @@ export const Header = () => {
                 </Button>
                 <Button
                   as={Link}
+                  to="/zh/dict"
+                  variant={location.pathname === '/zh/dict' ? "solid" : "ghost"}
+                  colorScheme="yellow"
+                  size="md"
+                >
+                  Từ điển
+                </Button>
+                <Button
+                  as={Link}
                   to="/translate"
                   variant={location.pathname === '/translate' ? "solid" : "ghost"}
                   colorScheme="yellow"
@@ -205,6 +214,16 @@ export const Header = () => {
                 onClick={() => setIsDrawerOpen(false)}
               >
                 Tiếng Anh
+              </Button>
+              <Button
+                as={Link}
+                to="/zh/dict"
+                variant={location.pathname === '/zh/dict' ? "solid" : "ghost"}
+                colorScheme="yellow"
+                size="lg"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Từ điển
               </Button>
               <Button
                 as={Link}

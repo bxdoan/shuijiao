@@ -11,6 +11,7 @@ import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/EnglishPage';
 import NewsDetailPage from './pages/NewsDetailPage';
 import TranslatePage from './pages/TranslatePage';
+import DictPage from './pages/DictPage';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 
@@ -42,6 +43,7 @@ function App() {
                   <Route path="/en" element={<EnglishPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/translate" element={<TranslatePage />} />
+                  <Route path="/zh/dict" element={<DictPage />} />
                   <Route path="/zh/r/:newsId" element={<NewsDetailPage />} />
                   <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
                 </Routes>
