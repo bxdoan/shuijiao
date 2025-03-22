@@ -1,4 +1,4 @@
-// @ts-nocheck - Bỏ qua kiểm tra TypeScript để đơn giản hóa
+// @ts-nocheck - Skip TypeScript checking to simplify
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Box,
@@ -35,102 +35,33 @@ import {
   RepeatIcon
 } from '@chakra-ui/icons';
 
-// Import mock data for testing
-import { mockSearchResponse, mockEmptySearchResponse } from '../../data_example/chinese_search_mock';
-// Import mock data cho hantu response
-import hantuMockResponse from '../../data_example/hantu_resp.json';
+// Import API functions
+import { 
+  fetchDictionary,
+  SearchResponse, 
+  KanjiResponse,
+} from '../../api/newsApi';
 
-// Cấu hình để sử dụng mock data thay cho API thật
-const USE_MOCK_DATA = false; // Set to true for testing with mock data
-
-// Types
-interface WordSearchResult {
-  id: number;
-  word: string;
-  pinyin: string;
-  cn_vi: string;
-  kind: string[];
-  content: Array<{
-    kind: string;
-    means: Array<{
-      mean: string;
-      explain: string;
-      examples: Array<{
-        e: string;
-        p: string;
-        m: string;
-      }>;
-    }>;
-  }>;
-  rank?: number;
-  lv_hsk_new?: string;
-  lv_tocfl?: number;
-  compound?: string | null;
-}
-
-interface HantuSearchResult {
-  _id: string;
-  word: string;
-  pinyin: string;
-  cn_vi: string;
-  netbut: string;
-  sets: string;
-  type: string;
-  count: number;
-  lucthu: string;
-  content: Array<{
-    key: string;
-    means: {
-      tdtc?: string[];
-      tdpt?: string[];
-      tdtd?: string[];
-      tg?: string[];
-    };
-  }>;
-  detail: {
-    scomp: string[];
-    comp: string[];
-  };
-  strokes: string;
-  popular?: string;
-}
-
-interface SearchResponse {
-  total: number;
-  found: boolean;
-  result: WordSearchResult[];
-  query: string;
-}
-
-interface HantuResponse {
-  total: number;
-  found: boolean;
-  result: HantuSearchResult[];
-  query: string;
-}
 
 interface ChineseSearchProps {
-  useMockData?: boolean;
   targetLang?: string;
 }
 
 const ChineseSearch: React.FC<ChineseSearchProps> = ({
-    useMockData = USE_MOCK_DATA,
     targetLang = 'vi'
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResponse | null>(null);
-  const [hantuResults, setHantuResults] = useState<HantuResponse | null>(null);
-  const [isSelectionSearch, setIsSelectionSearch] = useState(false);
+  const [hantuResults, setHantuResults] = useState<KanjiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHantu, setIsLoadingHantu] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  // @ts-ignore - Chakra UI types are complex
   const btnRef = useRef<HTMLButtonElement>(null);
   const [strokesKey, setStrokesKey] = useState(0);
+  const skipEffectRef = useRef(false);
   
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -145,92 +76,37 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     
     setIsLoading(true);
     
-    // Sử dụng mock data nếu được cấu hình
-    if (useMockData) {
-      setTimeout(() => {
-        // Mô phỏng độ trễ của mạng
-        if (term === 'empty') {
-          setSearchResults(mockEmptySearchResponse);
-        } else {
-          setSearchResults(mockSearchResponse);
-        }
-        setIsLoading(false);
-      }, 500);
-      return;
-    }
-    
     try {
-      const response = await fetch(
-        `https://api.hanzii.net/api/search/${targetLang}/${encodeURIComponent(term)}?type=word&page=1&limit=10`,
-        {
-          method: 'GET',
-          headers: {
-          'accept': 'application/json, text/plain, */*',
-          'authorization': 'qidKNYDRnnbXYyUNnXKiYvRrJveH4CCS',
-          'origin': 'https://easychinese.io',
-          'referer': 'https://easychinese.io/'
-        }
-      });
+      // Call the search API using the function from newsApi.ts
+      const data = await fetchDictionary(term, targetLang, 'word') as SearchResponse;
       
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
-      const data = await response.json();
       setSearchResults(data);
 
-      // Chỉ tự động mở drawer khi có kết quả tìm kiếm từ text selection
-      if (isSelectionSearch && data.found && data.result.length > 0) {
+      // Open drawer when search results are found
+      if (data && data.found && data.result.length > 0) {
         onOpen();
-      }
-      
-      // Sau khi có kết quả tìm kiếm thành công, gọi thêm API lấy dữ liệu hán tự
-      if (data.found && data.result.length > 0) {
+        
+        // After successful word search, call kanji data API
         handleHantuSearch(term);
       }
       
     } catch (error) {
-      setIsSelectionSearch(false);
       console.error('Error searching for word:', error);
     } finally {
       setIsLoading(false);
-      setIsSelectionSearch(false);
     }
   };
 
-  // Handle hantu search
+  // Handle kanji search
   const handleHantuSearch = async (term = searchTerm) => {
     if (!term.trim()) return;
     
     setIsLoadingHantu(true);
     
-    // Sử dụng mock data nếu được cấu hình
-    if (useMockData) {
-      setTimeout(() => {
-        setHantuResults(hantuMockResponse);
-        setIsLoadingHantu(false);
-      }, 500);
-      return;
-    }
-    
     try {
-      const response = await fetch(
-        `https://api.hanzii.net/api/search/${targetLang}/${encodeURIComponent(term)}?type=kanji&page=1&limit=50`,
-        {
-          method: 'GET',
-          headers: {
-          'accept': 'application/json, text/plain, */*',
-          'authorization': '37783281518601508919736764542798',
-          'origin': 'https://hanzii.net',
-          'referer': 'https://hanzii.net/'
-        }
-      });
+      // Call the kanji search API using the function from newsApi.ts
+      const data = await fetchDictionary(term, targetLang, 'kanji') as KanjiResponse;
       
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
-      const data = await response.json();
       setHantuResults(data);
       
     } catch (error) {
@@ -240,8 +116,42 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     }
   };
   
-  // Auto-search on term change (with debounce)
+  // Handle text selection
   useEffect(() => {
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) return; // No selection or empty selection
+      
+      const selectedText = selection.toString().trim();
+
+      // Only process when selection is less than 20 characters (avoid selecting entire sentences)
+      if (selectedText && selectedText.length < 20) {
+        // Mark to skip the useEffect for searchTerm
+        skipEffectRef.current = true;
+        
+        // Update searchTerm and call search
+        setSearchTerm(selectedText);
+        handleSearch(selectedText);
+      }
+    };
+    
+    // Add mouseup event to capture when user releases mouse after selecting text
+    document.addEventListener('mouseup', handleSelectionChange);
+    
+    return () => {
+      document.removeEventListener('mouseup', handleSelectionChange);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetLang]);
+  
+  // Handle debounce for searchTerm
+  useEffect(() => {
+    // If API was called from text selection, skip this time
+    if (skipEffectRef.current) {
+      skipEffectRef.current = false;
+      return;
+    }
+    
     const timer = setTimeout(() => {
       if (searchTerm.trim()) {
         handleSearch();
@@ -260,31 +170,6 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
       }, 100);
     }
   }, [isOpen]);
-  
-  // Listener for text selection
-  useEffect(() => {
-    const handleSelectionChange = () => {
-      const selection = window.getSelection();
-      if (!selection || selection.isCollapsed) return; // Không có chọn hoặc chọn trống
-      
-      const selectedText = selection.toString().trim();
-
-      // Chỉ xử lý khi chọn ít hơn 20 ký tự (tránh việc chọn cả câu)
-      if (selectedText && selectedText.length < 20) {
-        setSearchTerm(selectedText);
-        setIsSelectionSearch(true);
-        handleSearch(selectedText);
-      }
-    };
-    
-    // Thêm sự kiện mouseup để bắt khi người dùng thả chuột sau khi chọn text
-    document.addEventListener('mouseup', handleSelectionChange);
-    
-    return () => {
-      document.removeEventListener('mouseup', handleSelectionChange);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetLang]);
   
   // Render word types
   const renderWordTypes = (types: string[] | undefined) => {
@@ -333,184 +218,184 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     );
   };
 
-  // Thêm component HantuStrokeRenderer
-  const HantuStrokeRenderer: React.FC<{ strokesData: string, strokesKey: number }> = ({ strokesData, strokesKey }) => {
-    // Thêm state để quản lý việc hiển thị từng nét
-    const [visibleStrokes, setVisibleStrokes] = useState<number>(0);
-    // Thêm biến state để lưu trữ strokes
-    const [strokes, setStrokes] = useState<string[]>([]);
-    
-    // Phân tích dữ liệu nét chữ khi strokesData thay đổi
-    useEffect(() => {
-      if (!strokesData) return;
+    // HantuStrokeRenderer component
+    const HantuStrokeRenderer: React.FC<{ strokesData: string, strokesKey: number }> = ({ strokesData, strokesKey }) => {
+      // State to manage stroke display
+      const [visibleStrokes, setVisibleStrokes] = useState<number>(0);
+      // State variable to store strokes
+      const [strokes, setStrokes] = useState<string[]>([]);
       
-      // Phân tích dữ liệu nét chữ
-      let parsedStrokes: string[] = [];
-      
-      try {
-        // Trường hợp 1: Dữ liệu đã là JSON
+      // Parse stroke data when strokesData changes
+      useEffect(() => {
+        if (!strokesData) return;
+        
+        // Parse stroke data
+        let parsedStrokes: string[] = [];
+        
         try {
-          const strokesObj = JSON.parse(strokesData);
-          if (strokesObj.strokes && Array.isArray(strokesObj.strokes)) {
-            // Định dạng { strokes: [...] }
-            parsedStrokes = strokesObj.strokes;
-          } else if (Array.isArray(strokesObj)) {
-            // Định dạng trực tiếp là array
-            parsedStrokes = strokesObj;
-          }
-        } catch (e) {
-          // Không phải JSON, có thể là chuỗi
-        }
-        
-        // Trường hợp 2: Dữ liệu là chuỗi string chứa các lệnh path SVG
-        if (parsedStrokes.length === 0 && typeof strokesData === 'string') {
-          // Tách các nét dựa vào "M " (lệnh di chuyển trong SVG path)
-          // Sử dụng regex để tìm tất cả các path bắt đầu bằng M
-          const matches = strokesData.match(/M[^M]+/g);
-          if (matches && matches.length > 0) {
-            parsedStrokes = matches.map(m => m.trim());
-          }
-        }
-        
-        // Trường hợp 3: Log ra và phân tích chuỗi từ console.log
-        if (parsedStrokes.length === 0 && typeof strokesData === 'string') {
-          // Xử lý trường hợp dữ liệu từ console.log như: "strokes: M ... Z, M ... Z"
-          // Loại bỏ "strokes: " nếu có
-          let cleanData = strokesData;
-          if (cleanData.includes('strokes:')) {
-            cleanData = cleanData.split('strokes:')[1].trim();
+          // Case 1: Data is already JSON
+          try {
+            const strokesObj = JSON.parse(strokesData);
+            if (strokesObj.strokes && Array.isArray(strokesObj.strokes)) {
+              // Format { strokes: [...] }
+              parsedStrokes = strokesObj.strokes;
+            } else if (Array.isArray(strokesObj)) {
+              // Format is directly an array
+              parsedStrokes = strokesObj;
+            }
+          } catch (e) {
+            // Not JSON, could be a string
           }
           
-          // Split dựa trên dấu phẩy khi gặp chữ M ở bắt đầu của phần tiếp theo
-          const pathsArray = [];
-          let currentPath = '';
-          
-          // Tách chuỗi theo dấu phẩy
-          const parts = cleanData.split(',');
-          
-          for (let i = 0; i < parts.length; i++) {
-            const part = parts[i].trim();
-            
-            // Nếu phần này bắt đầu bằng M, bắt đầu một path mới
-            if (part.startsWith('M ')) {
-              if (currentPath) {
-                pathsArray.push(currentPath);
-              }
-              currentPath = part;
-            } else if (currentPath) {
-              // Nếu không, thêm vào path hiện tại
-              currentPath += ', ' + part;
+          // Case 2: Data is a string containing SVG path commands
+          if (parsedStrokes.length === 0 && typeof strokesData === 'string') {
+            // Split strokes based on "M " (move command in SVG path)
+            // Use regex to find all paths starting with M
+            const matches = strokesData.match(/M[^M]+/g);
+            if (matches && matches.length > 0) {
+              parsedStrokes = matches.map(m => m.trim());
             }
           }
           
-          // Thêm path cuối cùng nếu có
-          if (currentPath) {
-            pathsArray.push(currentPath);
+          // Case 3: Parse from console.log format
+          if (parsedStrokes.length === 0 && typeof strokesData === 'string') {
+            // Handle data from console.log like: "strokes: M ... Z, M ... Z"
+            // Remove "strokes: " if present
+            let cleanData = strokesData;
+            if (cleanData.includes('strokes:')) {
+              cleanData = cleanData.split('strokes:')[1].trim();
+            }
+            
+            // Split based on comma when encountering M at beginning of next part
+            const pathsArray = [];
+            let currentPath = '';
+            
+            // Split string by commas
+            const parts = cleanData.split(',');
+            
+            for (let i = 0; i < parts.length; i++) {
+              const part = parts[i].trim();
+              
+              // If this part starts with M, start a new path
+              if (part.startsWith('M ')) {
+                if (currentPath) {
+                  pathsArray.push(currentPath);
+                }
+                currentPath = part;
+              } else if (currentPath) {
+                // Otherwise, add to current path
+                currentPath += ', ' + part;
+              }
+            }
+            
+            // Add the last path if exists
+            if (currentPath) {
+              pathsArray.push(currentPath);
+            }
+            
+            if (pathsArray.length > 0) {
+              parsedStrokes = pathsArray;
+            }
           }
           
-          if (pathsArray.length > 0) {
-            parsedStrokes = pathsArray;
-          }
+          // Save strokes to state
+          setStrokes(parsedStrokes);
+        } catch (error) {
+          console.error('Error parsing strokes data:', error);
+          setStrokes([]);
         }
+      }, [strokesData]);
+      
+      // Effect to display each stroke when strokesKey changes
+      useEffect(() => {
+        if (!strokesData || strokes.length === 0) return;
         
-        // Lưu strokes vào state
-        setStrokes(parsedStrokes);
-      } catch (error) {
-        console.error('Error parsing strokes data:', error);
-        setStrokes([]);
-      }
-    }, [strokesData]);
-    
-    // Hiệu ứng để hiển thị từng nét chữ Hán khi strokesKey thay đổi
-    useEffect(() => {
-      if (!strokesData || strokes.length === 0) return;
+        // Reset visible strokes count
+        setVisibleStrokes(0);
+        
+        // Create effect to display strokes with delay
+        let strokeIndex = 0;
+        const intervalId = setInterval(() => {
+          setVisibleStrokes(prev => {
+            strokeIndex = prev + 1;
+            // If all strokes are shown, stop
+            if (strokeIndex >= strokes.length) {
+              clearInterval(intervalId);
+            }
+            return strokeIndex;
+          });
+        }, 200); // Stroke display speed - 200ms
+        
+        return () => clearInterval(intervalId);
+      }, [strokesKey, strokesData, strokes]);
       
-      // Reset số nét hiển thị
-      setVisibleStrokes(0);
+      if (!strokesData || strokes.length === 0) return null;
       
-      // Tạo hiệu ứng hiển thị từng nét với độ trễ
-      let strokeIndex = 0;
-      const intervalId = setInterval(() => {
-        setVisibleStrokes(prev => {
-          strokeIndex = prev + 1;
-          // Nếu đã hiển thị tất cả các nét, dừng lại
-          if (strokeIndex >= strokes.length) {
-            clearInterval(intervalId);
+      // CSS Keyframes for animation
+      const keyframes = `
+        @keyframes drawStroke {
+          0% {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
           }
-          return strokeIndex;
-        });
-      }, 200); // Tốc độ hiển thị nét - 200ms
+          100% {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 0;
+          }
+        }
+      `;
       
-      return () => clearInterval(intervalId);
-    }, [strokesKey, strokesData, strokes]);
-    
-    if (!strokesData || strokes.length === 0) return null;
-    
-    // CSS Keyframes cho animation
-    const keyframes = `
-      @keyframes drawStroke {
-        0% {
-          stroke-dasharray: 2000;
-          stroke-dashoffset: 2000;
-        }
-        100% {
-          stroke-dasharray: 2000;
-          stroke-dashoffset: 0;
-        }
-      }
-    `;
-    
-    return (
-      <Box width="100%" display="flex" flexDirection="column" alignItems="center" my={4}>
-        <Box position="relative" width="200px" height="200px">
-          <IconButton
-            aria-label="Vẽ lại hán tự"
-            icon={<RepeatIcon />}
-            size="sm"
-            colorScheme="blue"
-            variant="ghost"
-            position="absolute"
-            top="0"
-            right="0"
-            zIndex="1"
-            onClick={() => setStrokesKey(prev => prev + 1)}
-          />
-          <style dangerouslySetInnerHTML={{ __html: keyframes }} />
-          <svg 
-            viewBox="0 0 1024 1024" 
-            width="200" 
-            height="200"
-          >
-            <g transform="scale(1, -1) translate(0, -900)">
-              {strokes.slice(0, visibleStrokes).map((path, index) => (
-                <path
-                  key={index}
-                  d={path}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="30"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{
-                    animation: `drawStroke 0.5s ease forwards`
-                  }}
-                />
-              ))}
-            </g>
-          </svg>
+      return (
+        <Box width="100%" display="flex" flexDirection="column" alignItems="center" my={4}>
+          <Box position="relative" width="200px" height="200px">
+            <IconButton
+              aria-label="Vẽ lại hán tự"
+              icon={<RepeatIcon />}
+              size="sm"
+              colorScheme="blue"
+              variant="ghost"
+              position="absolute"
+              top="0"
+              right="0"
+              zIndex="1"
+              onClick={() => setStrokesKey(prev => prev + 1)}
+            />
+            <style dangerouslySetInnerHTML={{ __html: keyframes }} />
+            <svg 
+              viewBox="0 0 1024 1024" 
+              width="200" 
+              height="200"
+            >
+              <g transform="scale(1, -1) translate(0, -900)">
+                {strokes.slice(0, visibleStrokes).map((path, index) => (
+                  <path
+                    key={index}
+                    d={path}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="30"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      animation: `drawStroke 0.5s ease forwards`
+                    }}
+                  />
+                ))}
+              </g>
+            </svg>
+          </Box>
+          <Text fontSize="sm" color="gray.600" mt={2}>
+            {visibleStrokes}/{strokes.length} nét
+          </Text>
         </Box>
-        <Text fontSize="sm" color="gray.600" mt={2}>
-          {visibleStrokes}/{strokes.length} nét
-        </Text>
-      </Box>
-    );
-  };
+      );
+    };
 
-  // Hàm render SVG của hán tự
+  // Function to render SVG of kanji
   const renderHantuStroke = (strokesData: string) => {
     if (!strokesData) return null;
     
-    // Sử dụng component mới
+    // Use new component
     return (
       <Box width="100%" display="flex" flexDirection="column" alignItems="center" my={4}>
         <HantuStrokeRenderer strokesData={strokesData} strokesKey={strokesKey} />
@@ -532,7 +417,6 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
     setSearchTerm('');
     setSearchResults(null);
     setHantuResults(null);
-    setIsSelectionSearch(false);
     onClose();
   }
 
@@ -668,7 +552,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
                     <Tab>Hán tự</Tab>
                   </TabList>
                   <TabPanels>
-                    {/* Tab Dịch */}
+                    {/* Translation Tab */}
                     <TabPanel p={0}>
                       <VStack spacing={4} align="stretch" mt={2} overflow="auto">
                         {searchResults.found && searchResults.result.length > 0 ? (
@@ -758,7 +642,7 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
                       </VStack>
                     </TabPanel>
                     
-                    {/* Tab Hán tự */}
+                    {/* Kanji Tab */}
                     <TabPanel p={0}>
                       <VStack spacing={4} align="stretch" mt={2} overflow="auto">
                         {hantuResults && hantuResults.found && hantuResults.result.length > 0 ? (
@@ -794,17 +678,17 @@ const ChineseSearch: React.FC<ChineseSearchProps> = ({
                                   </Box>
                                 </Flex>
                                 
-                                {/* Hiển thị nét bút */}
+                                {/* Stroke information */}
                                 <Box mt={3}>
                                   <Text fontSize="sm" fontWeight="medium">Số nét: {item.count}</Text>
                                   <Text fontSize="sm">Bộ thủ: {item.sets}</Text>
                                   <Text fontSize="sm">Lục thư: {item.lucthu}</Text>
                                 </Box>
 
-                                {/* Render SVG hiển thị nét bút */}
+                                {/* Render SVG of strokes */}
                                 {renderHantuStroke(item.strokes)}
                                 
-                                {/* Hiển thị các từ liên quan */}
+                                {/* Related word display */}
                                 {item.content && item.content.length > 0 && (
                                   <Box mt={4}>
                                     <Text fontWeight="semibold" mb={2}>Nghĩa của chữ {item.word}:</Text>

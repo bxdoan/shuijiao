@@ -3,11 +3,13 @@ import {
   NewsFilterParams,
   NewsResponse,
   LanguageConfigMap,
-  NewsDetail
+  NewsDetail,
+  SearchResponse,
+  KanjiResponse
 } from '../types';
 import * as utils from '../utils/utils';
 
-// Tạo một cấu trúc để quản lý cấu hình cho nhiều ngôn ngữ
+// Create a configuration structure to manage settings for multiple languages
 const languageConfig: LanguageConfigMap = {
   zh: {
     apiBaseUrl: 'https://api.easychinese.io/api',
@@ -21,7 +23,7 @@ const languageConfig: LanguageConfigMap = {
     referer: 'https://todaienglish.com/',
     apiKey: ''
   },
-  // Thêm ngôn ngữ mới ở đây
+  // Add new languages here
   // de: {
   //   apiBaseUrl: 'https://api.todaigerman.com/api',
   //   origin: 'https://todaigerman.com',
@@ -30,20 +32,20 @@ const languageConfig: LanguageConfigMap = {
   // },
 };
 
-// API proxy URL - dựa vào môi trường hiện tại
+// API proxy URL - based on current environment
 const isProduction = process.env.NODE_ENV === 'production';
-// Trong môi trường development, sử dụng localhost:3001
-// Trong môi trường production, sử dụng đường dẫn tương đối để gọi API từ cùng domain
+// In development, use localhost:3001
+// In production, use relative path to call API from same domain
 export const API_PROXY_URL = isProduction 
   ? '/api' 
   : 'http://localhost:3001/api';
 
-// Định nghĩa interface cho apiClients
+// Define interface for apiClients
 interface ApiClientMap {
-  [key: string]: any; // any vì axios client không có interface rõ ràng
+  [key: string]: any; // any because axios client doesn't have a clear interface
 }
 
-// Hàm tạo API client dựa trên ngôn ngữ
+// Function to create API client based on language
 const createApiClient = (language: string) => {
   const config = languageConfig[language] || languageConfig.en;
   
@@ -60,10 +62,10 @@ const createApiClient = (language: string) => {
   });
 };
 
-// Cache các API client để không tạo mới mỗi lần gọi API
+// Cache API clients to avoid creating new ones on each API call
 const apiClients: ApiClientMap = {};
 
-// Lấy API client cho ngôn ngữ cụ thể, tạo mới nếu chưa có
+// Get API client for specific language, create new if not exists
 const getApiClient = (language: string) => {
   if (!apiClients[language]) {
     apiClients[language] = createApiClient(language);
@@ -71,7 +73,7 @@ const getApiClient = (language: string) => {
   return apiClients[language];
 };
 
-// Interface cho dữ liệu trả về từ API dịch
+// Interface for data returned from translation API
 export interface TranslationResponse {
   id: number;
   news_id: string;
@@ -87,7 +89,7 @@ export interface TranslationResponse {
   dislike?: number;
 }
 
-// Hàm gọi API để dịch bài viết
+// Function to call API for article translation
 export const fetchTranslation = async (
     newsId: string,
     language: string = 'vi',
@@ -96,10 +98,10 @@ export const fetchTranslation = async (
   try {
     console.log(`Fetching translation for news ID: ${newsId} in language: ${language}, useCache: ${useCache}`);
     
-    // Xác định endpoint dựa vào tham số useCache
+    // Determine endpoint based on useCache parameter
     const endpoint = useCache ? 'cached-translate' : 'translate';
     
-    // Gọi API qua proxy server để tránh vấn đề CORS
+    // Call API through proxy server to avoid CORS issues
     const response = await axios.get(`${API_PROXY_URL}/${endpoint}`, { 
       params: { 
         news_id: newsId, 
@@ -107,16 +109,16 @@ export const fetchTranslation = async (
       }
     });
 
-    // Kiểm tra và xử lý dữ liệu
+    // Check and process data
     if (response.data && response.data.length > 0) {
       return response.data[0];
     }
-    // Trả về giá trị mặc định khi không có dữ liệu
+    // Return default value when no data
     return null;
     
   } catch (error) {
     console.error('Error fetching translation:', error);
-    // Hiển thị thông báo lỗi chi tiết hơn
+    // Display detailed error message
     if (axios.isAxiosError(error)) {
       console.error('Response status:', error.response?.status);
       console.error('Response data:', error.response?.data);
@@ -128,8 +130,8 @@ export const fetchTranslation = async (
 
 export const fetchGoogleTranslation = async (text: string, targetLang: string = 'vi', srcLang: string = 'auto') => {
   try {
-    // Xác định ngôn ngữ nguồn dựa vào nội dung
-    // Mặc định sẽ tự động phát hiện ngôn ngữ nguồn
+    // Determine source language based on content
+    // By default, it will auto-detect the source language
     const sourceLang = srcLang === 'auto' ? (containsChineseCharacters(text) ? 'zh' : 'en') : srcLang;
     
     const response = await fetch(
@@ -142,10 +144,10 @@ export const fetchGoogleTranslation = async (text: string, targetLang: string = 
 
     const data = await response.json();
     
-    // Xử lý kết quả phức tạp từ Google
+    // Process complex results from Google
     let translatedText = '';
     
-    // Duyệt qua các phần tử trong mảng sentences
+    // Iterate through elements in the sentences array
     if (data.sentences) {
       for (const sentence of data.sentences) {
         if (sentence.trans) {
@@ -168,9 +170,9 @@ export const translateSentences = async (
   const translatedSentences = [];
   
   try {
-    // Tối ưu hóa: dịch theo lô các câu, thay vì dịch từng câu riêng biệt
+    // Optimization: translate sentences in batches rather than individually
     for (const sentence of sentences) {
-      if (!sentence.trim()) continue; // Bỏ qua câu rỗng
+      if (!sentence.trim()) continue; // Skip empty sentence
       
       const translatedSentence = await fetchGoogleTranslation(sentence, targetLang, sourceLang);
       if (translatedSentence) {
@@ -186,9 +188,9 @@ export const translateSentences = async (
 };
 
 
-// Hàm hỗ trợ kiểm tra xem văn bản có chứa ký tự tiếng Trung không
+// Helper function to check if text contains Chinese characters
 function containsChineseCharacters(text: string): boolean {
-  // Phạm vi Unicode cho các ký tự Hán
+  // Unicode range for Han characters
   const chineseRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/;
   return chineseRegex.test(text);
 }
@@ -205,15 +207,15 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
     limit: 40,
     page: 1,
     timestamp: today,
-    language: params.language || 'zh' // Mặc định là tiếng Trung nếu không chỉ định
+    language: params.language || 'zh' // Default to Chinese if not specified
   };
 
   const mergedParams = { ...defaultParams, ...params };
-  const { language, ...apiParams } = mergedParams; // Tách language ra để chọn API client phù hợp
+  const { language, ...apiParams } = mergedParams; // Extract language to select appropriate API client
   let targetLanguage = language || 'zh';
   
   try {
-    // Kiểm tra nếu ngôn ngữ được hỗ trợ
+    // Check if language is supported
     if (!languageConfig[targetLanguage]) {
       console.warn(`Language ${targetLanguage} is not supported. Falling back to English.`);
       targetLanguage = 'en';
@@ -221,15 +223,15 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
     
     console.log(`Fetching ${targetLanguage} news with params:`, apiParams);
     
-    // Lấy API client phù hợp cho ngôn ngữ đã chọn
+    // Get appropriate API client for chosen language
     const apiClient = getApiClient(targetLanguage);
     
-    // Gọi API endpoint chung cho tất cả ngôn ngữ
+    // Call common API endpoint for all languages
     const response = await apiClient.post('/news/filter', apiParams);
     
     console.log(`${targetLanguage.toUpperCase()} API response:`, response.data);
     
-    // API trả về mảng các NewsItem trực tiếp
+    // API returns array of NewsItem directly
     if (Array.isArray(response.data)) {
       return {
         data: response.data,
@@ -239,7 +241,7 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
       };
     }
     
-    // Nếu API không trả về mảng hoặc không có dữ liệu
+    // If API doesn't return array or has no data
     if (!response.data) {
       console.warn('API response does not match expected format, creating default structure');
       return {
@@ -264,7 +266,7 @@ export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResp
 };
 
 
-// Hàm lấy chi tiết tin tức
+// Function to get news details
 export const getNewsDetails = async (newsId: string, language: string = 'zh'): Promise<NewsDetail | null> => {
   try {
     const targetLanguage = languageConfig[language] ? language : 'zh';
@@ -272,13 +274,13 @@ export const getNewsDetails = async (newsId: string, language: string = 'zh'): P
     
     console.log(`Fetching news details for ID: ${newsId} in language: ${targetLanguage}`);
     
-    // Endpoint khác nhau tùy theo ngôn ngữ
+    // Different endpoints depending on language
     let endpoint = '';
     if (targetLanguage === 'en') {
-      // Endpoint cho tiếng Anh sử dụng query parameter
+      // Endpoint for English uses query parameter
       endpoint = `/news/detail?news_id=${newsId}`;
     } else {
-      // Endpoint cho tiếng Trung và các ngôn ngữ khác
+      // Endpoint for Chinese and other languages
       endpoint = `/detail/${newsId}`;
     }
     
@@ -297,4 +299,41 @@ export const getNewsDetails = async (newsId: string, language: string = 'zh'): P
     }
     return null;
   }
-}; 
+};
+
+// Common search function for vocabulary and kanji
+export const fetchDictionary = async (
+  term: string,
+  targetLang: string = 'vi',
+  type: string = 'word',
+  page: number = 1,
+  limit: number = 50
+): Promise<SearchResponse | KanjiResponse | null> => {
+  if (!term.trim()) return null;
+
+  try {
+    const response = await fetch(
+      `https://api.hanzii.net/api/search/${targetLang}/${encodeURIComponent(term)}?type=${type}&page=${page}&limit=${limit}`,
+      {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json, text/plain, */*',
+          'authorization': '37783281518601508919736764542798',
+          'origin': 'https://hanzii.net',
+          'referer': 'https://hanzii.net/'
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    const data = await response.json();
+    return data;
+    
+  } catch (error) {
+    console.error(`Error searching for ${type} ${term} ${targetLang} ${page} ${limit}:`, error);
+    return null;
+  }
+};

@@ -97,3 +97,73 @@ export interface NewsDetail {
   // Các trường khác có thể có trong response
   [key: string]: any;
 }
+
+
+// Interface for word search result
+export interface WordSearchResult {
+  id: number;
+  word: string;
+  pinyin: string;
+  cn_vi: string;
+  kind: string[];
+  content: Array<{
+    kind: string;
+    means: Array<{
+      mean: string;
+      explain: string;
+      examples: Array<{
+        e: string;
+        p: string;
+        m: string;
+      }>;
+    }>;
+  }>;
+  rank?: number;
+  lv_hsk_new?: string;
+  lv_tocfl?: number;
+  compound?: string | null;
+}
+
+// Interface for kanji search result
+export interface KanjiSearchResult {
+  _id: string;
+  word: string;
+  pinyin: string;
+  cn_vi: string;
+  netbut: string;
+  sets: string;
+  type: string;
+  count: number;
+  lucthu: string;
+  content: Array<{
+    key: string;
+    means: {
+      tdtc?: string[];
+      tdpt?: string[];
+      tdtd?: string[];
+      tg?: string[];
+    };
+  }>;
+  detail: {
+    scomp: string[];
+    comp: string[];
+  };
+  strokes: string;
+  popular?: string;
+}
+
+// Interface for word search response
+export interface SearchResponse {
+  total: number;
+  found: boolean;
+  result: WordSearchResult[];
+  query: string;
+}
+
+// Interface for kanji search response
+export interface KanjiResponse {
+  total: number;
+  found: boolean;
+  result: KanjiSearchResult[];
+  query: string;
+}
