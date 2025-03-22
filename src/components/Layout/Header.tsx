@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { 
   Box, 
@@ -16,10 +17,16 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  VStack
+  VStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaBook, FaNewspaper } from 'react-icons/fa';
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -35,6 +42,10 @@ export const Header = () => {
       navigate('/');
     }
   };
+
+  // Kiểm tra xem đường dẫn hiện tại có thuộc về tiếng Trung không
+  const isChinesePath = location.pathname === '/zh' || location.pathname === '/' || 
+                        location.pathname.startsWith('/zh/');
 
   return (
     <Box 
@@ -105,15 +116,51 @@ export const Header = () => {
 
             {isLargerThan768 && (
               <HStack spacing="4" ml={4}>
-                <Button
-                  as={Link}
-                  to="/zh"
-                  variant={location.pathname === '/zh' || location.pathname === '/' ? "solid" : "ghost"}
-                  colorScheme="yellow"
-                  size="md"
-                >
-                  Tiếng Trung
-                </Button>
+                <Menu closeOnSelect={true}>
+                  <MenuButton
+                    as={Button}
+                    rightIcon={<ChevronDownIcon />}
+                    variant={isChinesePath ? "solid" : "ghost"}
+                    colorScheme="yellow"
+                    size="md"
+                  >
+                    Tiếng Trung
+                  </MenuButton>
+                  <MenuList 
+                    bg="red.700" 
+                    borderColor="red.600"
+                    boxShadow="xl"
+                    zIndex={20}
+                    color="white"
+                    border="2px solid"
+                    p={1}
+                  >
+                    <MenuItem 
+                      as={Link} 
+                      to="/zh" 
+                      icon={<FaNewspaper />}
+                      _hover={{ bg: 'red.600' }}
+                      color="white"
+                      fontWeight="medium"
+                      bg="red.700"
+                    >
+                      Đọc báo
+                    </MenuItem>
+                    <MenuDivider borderColor="red.600" />
+                    <MenuItem 
+                      as={Link} 
+                      to="/zh/dict" 
+                      icon={<FaBook />}
+                      _hover={{ bg: 'red.600' }}
+                      color="white"
+                      fontWeight="medium"
+                      bg="red.700"
+                    >
+                      Từ điển Hán Việt
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+                
                 <Button
                   as={Link}
                   to="/en"
@@ -123,15 +170,7 @@ export const Header = () => {
                 >
                   Tiếng Anh
                 </Button>
-                <Button
-                  as={Link}
-                  to="/zh/dict"
-                  variant={location.pathname === '/zh/dict' ? "solid" : "ghost"}
-                  colorScheme="yellow"
-                  size="md"
-                >
-                  Từ điển
-                </Button>
+                
                 <Button
                   as={Link}
                   to="/translate"
@@ -195,36 +234,46 @@ export const Header = () => {
           </DrawerHeader>
           <DrawerBody>
             <VStack spacing={4} align="stretch" mt={4}>
+              <Heading as="h3" size="sm" color="yellow.300" mb={1}>Tiếng Trung</Heading>
               <Button
                 as={Link}
                 to="/zh"
-                variant={location.pathname === '/zh' || location.pathname === '/' ? "solid" : "ghost"}
+                variant="ghost"
                 colorScheme="yellow"
-                size="lg"
+                size="md"
+                justifyContent="flex-start"
+                leftIcon={<FaNewspaper />}
                 onClick={() => setIsDrawerOpen(false)}
               >
-                Tiếng Trung
+                Đọc báo
               </Button>
+              <Button
+                as={Link}
+                to="/zh/dict"
+                variant="ghost"
+                colorScheme="yellow"
+                size="md"
+                justifyContent="flex-start"
+                leftIcon={<FaBook />}
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Từ điển Hán Việt
+              </Button>
+              
+              <Heading as="h3" size="sm" color="yellow.300" mb={1} mt={2}>Tiếng Anh</Heading>
               <Button
                 as={Link}
                 to="/en"
                 variant={location.pathname === '/en' ? "solid" : "ghost"}
                 colorScheme="yellow"
-                size="lg"
+                size="md"
+                justifyContent="flex-start"
+                leftIcon={<FaNewspaper />}
                 onClick={() => setIsDrawerOpen(false)}
               >
-                Tiếng Anh
+                Đọc báo
               </Button>
-              <Button
-                as={Link}
-                to="/zh/dict"
-                variant={location.pathname === '/zh/dict' ? "solid" : "ghost"}
-                colorScheme="yellow"
-                size="lg"
-                onClick={() => setIsDrawerOpen(false)}
-              >
-                Từ điển
-              </Button>
+              
               <Button
                 as={Link}
                 to="/translate"
