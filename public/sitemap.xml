@@ -46,31 +46,19 @@
   
   <!-- Ví dụ các trang tin chi tiết tiếng Trung với ID thực tế -->
   <url>
-    <loc>https://shuijiao.com/zh/6502a9b1e22ad6925e2ec5a8</loc>
+    <loc>https://shuijiao.com/zh/r/6502a9b1e22ad6925e2ec5a8</loc>
     <lastmod>2023-08-15</lastmod>
     <changefreq>never</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <url>
-    <loc>https://shuijiao.com/zh/60f8c1a2f5b5e7a3c9b4a1d8</loc>
-    <lastmod>2023-08-10</lastmod>
-    <changefreq>never</changefreq>
-    <priority>0.7</priority>
-  </url>
+
   
   <!-- Ví dụ các trang tin chi tiết tiếng Anh với ID thực tế -->
   <url>
-    <loc>https://shuijiao.com/en/7a9b2c3d4e5f6g7h8i9j0k1l</loc>
+    <loc>https://shuijiao.com/en/r/7a9b2c3d4e5f6g7h8i9j0k1l</loc>
     <lastmod>2023-08-12</lastmod>
     <changefreq>never</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <url>
-    <loc>https://shuijiao.com/en/a1b2c3d4e5f6g7h8i9j0k1l2</loc>
-    <lastmod>2023-08-08</lastmod>
-    <changefreq>never</changefreq>
-    <priority>0.7</priority>
-  </url>
+
 </urlset> 
