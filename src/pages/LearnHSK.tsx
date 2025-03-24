@@ -19,44 +19,58 @@ import {
   AspectRatio,
   useColorModeValue,
   Skeleton,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { FaYoutube, FaBookOpen } from 'react-icons/fa';
 import SEO from '../components/Common/SEO';
 
-// Import hsk1.json
-import hsk1Data from '../data_example/hsk1.json';
+// Import color theme for different HSK levels
+const HSK_LEVEL_COLORS = {
+  '1': 'green',
+  '2': 'blue',
+  '3': 'purple',
+  '4': 'orange',
+  '5': 'pink',
+  '6': 'red',
+};
 
 const LearnHSK = () => {
   const { level } = useParams();
   const [lessons, setLessons] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Màu sắc dựa trên theme
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const cardBgColor = useColorModeValue('white', 'gray.800');
+  
+  // Lấy màu tương ứng với cấp độ HSK hiện tại
+  const levelColor = HSK_LEVEL_COLORS[level] || 'red';
 
   useEffect(() => {
     // Tạo hàm để load dữ liệu HSK
     const loadHSKData = async () => {
       try {
         setIsLoading(true);
+        setError(null);
         
-        // Dựa vào level để lấy dữ liệu từ file tương ứng
-        // Hiện tại chỉ có HSK 1
-        let data = [];
-        
-        if (level === '1') {
-          data = hsk1Data;
-        } else {
-          // Trong tương lai có thể thêm các cấp độ khác
-          data = [];
+        // Động lấy file HSK theo cấp độ
+        try {
+          // Sử dụng import động để tải file JSON theo cấp độ HSK
+          const hskModule = await import(`../data_example/hsk${level}.json`);
+          setLessons(hskModule.default || []);
+        } catch (importError) {
+          console.error(`Không thể tải file hsk${level}.json:`, importError);
+          setError(`Dữ liệu HSK ${level} chưa có sẵn. Vui lòng thử cấp độ khác.`);
+          setLessons([]);
         }
-        
-        setLessons(data);
       } catch (error) {
         console.error('Error loading HSK data:', error);
+        setError('Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.');
+        setLessons([]);
       } finally {
         setIsLoading(false);
       }
@@ -77,7 +91,7 @@ const LearnHSK = () => {
       <SEO 
         title={`Học HSK ${level || ''} - Shuijiao Chinese Learning`}
         description={`Học tiếng Trung với bài giảng HSK ${level || ''} trên Shuijiao. Bài giảng, từ vựng và ngữ pháp.`}
-        keywords="HSK, học tiếng Trung, tiếng Hán, Shuijiao, từ vựng HSK"
+        keywords={`HSK ${level}, học tiếng Trung, tiếng Hán, Shuijiao, từ vựng HSK, HSK${level}`}
       />
       
       <Container maxW="container.xl">
@@ -85,7 +99,7 @@ const LearnHSK = () => {
           {/* Header */}
           <Box textAlign="center" py={6}>
             <Badge 
-              colorScheme="red" 
+              colorScheme={levelColor} 
               fontSize="md" 
               py={1} 
               px={3} 
@@ -98,7 +112,7 @@ const LearnHSK = () => {
               as="h1" 
               size="2xl" 
               mb={6} 
-              bgGradient="linear(to-r, red.500, yellow.500)" 
+              bgGradient={`linear(to-r, ${levelColor}.500, yellow.500)`} 
               bgClip="text"
             >
               HSK {level || ''}
@@ -112,6 +126,14 @@ const LearnHSK = () => {
               Học tiếng Trung hiệu quả với các bài giảng video, từ vựng và cách đọc chuẩn HSK {level || ''}
             </Text>
           </Box>
+
+          {/* Error display */}
+          {error && (
+            <Alert status="warning" borderRadius="md">
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
 
           {/* Lessons Grid */}
           {isLoading ? (
@@ -140,7 +162,7 @@ const LearnHSK = () => {
                     </AspectRatio>
                     <Box p={5}>
                       <Stack spacing={2}>
-                        <Badge colorScheme="red" alignSelf="start">{lesson.episode}</Badge>
+                        <Badge colorScheme={levelColor} alignSelf="start">{lesson.episode}</Badge>
                         <Heading size="md" my={2}>
                           <LinkOverlay as={RouterLink} to={`/zh/vi/hsk/${level}/${lesson.id}`}>
                             {lesson.title}
@@ -161,7 +183,7 @@ const LearnHSK = () => {
                           </Button>
                           <Button 
                             rightIcon={<FaBookOpen />}
-                            colorScheme="yellow"
+                            colorScheme={levelColor}
                             as={RouterLink}
                             to={`/zh/vi/hsk/${level}/${lesson.id}`}
                             size="sm"

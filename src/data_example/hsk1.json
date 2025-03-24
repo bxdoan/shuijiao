@@ -8,6 +8,13 @@
         "episode": "BÀI 1",
         "words": [
             "你好", "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你好! 我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。",
+            "它们很可爱。"
         ]
     },
     {
@@ -19,6 +26,245 @@
         "episode": "BÀI 2",
         "words": [
             "你好", "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你好! 我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "3",
+        "youtube_url": "https://youtu.be/jxAljZD0B7Q?si=Lr1ys7Lp-rASfqB7",
+        "title": "HSK1 | BÀI 3 - HÁN 1 | NGÀY MAI GẶP LẠI | Tự học tiếng Trung giáo trình Hán ngữ - quyển 1",
+        "description": "HSK1 | BÀI 3 - HÁN 1 | NGÀY MAI GẶP LẠI | Tự học tiếng Trung giáo trình Hán ngữ - quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 3",
+        "words": [
+            "明天见", "再见", "再见", "再见", "再见", "再见", "再见", "再见", "再见", "再见", "再见"
+        ],
+        "sentences": [
+            "明天见! 我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "4",
+        "youtube_url": "https://youtu.be/8bkomCX3Kik?si=QP28ChSt80sAa9cT",
+        "title": "HSK 1| BÀI 4 - BẠN ĐI ĐÂU ĐẤY | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1| BÀI 4 - BẠN ĐI ĐÂU ĐẤY | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 4",
+        "words": [
+            "你", "我", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你叫什么名字？",
+            "我叫张三。",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "5",
+        "youtube_url": "https://youtu.be/ReP72B9hZzo?si=A2BYfG5G0HKw5ONQ",
+        "title": "HSK 1| BÀI 5 - ĐÂY LÀ THẦY VƯƠNG | Tự học tiếng Trung Hán ngữ quyển 11",
+        "description": "HSK 1| BÀI 5 - ĐÂY LÀ THẦY VƯƠNG | Tự học tiếng Trung Hán ngữ quyển 11",
+        "level": "HSK 1",
+        "episode": "BÀI 5",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "6",
+        "youtube_url": "https://youtu.be/oo8eFsJnIe0?si=y13JfkwLfCazq-Tw",
+        "title": "HSK 1| BÀI 6 - TÔI HỌC TIẾNG HÁN | Tự học tiếng Trung Hán ngữ 1",
+        "description": "HSK 1| BÀI 6 - TÔI HỌC TIẾNG HÁN | Tự học tiếng Trung Hán ngữ 1",
+        "level": "HSK 1",
+        "episode": "BÀI 6",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "7",
+        "youtube_url": "https://youtu.be/FOiwqIc-0wo?si=HFRCf35fsbs-6YSM",
+        "title": "HSK 1| BÀI 7 - BẠN ĂN GÌ? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1| BÀI 7 - BẠN ĂN GÌ? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 7",
+        "words": [
+            "你", "我", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你叫什么名字？",
+            "我叫张三。",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "8",
+        "youtube_url": "https://youtu.be/Ax2xbpaL8do?si=w8QIyLElAQ56RPX1",
+        "title": "HSK 1| BÀI 8 - TÁO MỘT CÂN BAO NHIÊU TIỀN? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1| BÀI 8 - TÁO MỘT CÂN BAO NHIÊU TIỀN? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 8",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你叫什么名字？",
+            "我叫张三。",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "9",
+        "youtube_url": "https://youtu.be/AS6Y0c5tO-g?si=aE_vg9diAkv1s4pi",
+        "title": "HSK 1| BÀI 9 - TÔI ĐỔI TIỀN NHÂN DÂN TỆ | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1| BÀI 9 - TÔI ĐỔI TIỀN NHÂN DÂN TỆ | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 9",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "10",
+        "youtube_url": "https://youtu.be/kLwqA8Fu5dE?si=wWGzvODytoWAKCq-",
+        "title": "HSK 1| BÀI 10 - ÔNG ẤY SỐNG Ở ĐÂU | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1| BÀI 10 - ÔNG ẤY SỐNG Ở ĐÂU | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 10",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "11",
+        "youtube_url": "https://youtu.be/_Dns35iZ3eo?si=5vD0UzQ2f3zPDlPu",
+        "title": "HSK 1 | BÀI 11 - CHÚNG TÔI ĐỀU LÀ LƯU HỌC SINH | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1 | BÀI 11 - CHÚNG TÔI ĐỀU LÀ LƯU HỌC SINH | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 11",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "12",
+        "youtube_url": "https://youtu.be/8hnDvVvwbnY?si=_2vF1eYSjYdwLb-5",
+        "title": "HSK 1 | BÀI 12 - BẠN HỌC TIẾNG HÁN Ở ĐÂU? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1 | BÀI 12 - BẠN HỌC TIẾNG HÁN Ở ĐÂU? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 12",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "13",
+        "youtube_url": "https://youtu.be/ttagSMB1ir8?si=Me2QWZJxbyv7g-0T",
+        "title": "HSK 1 | BÀI 13 - PHẦN 2 | ĐÂY CÓ PHẢI LÀ THUỐC ĐÔNG Y KHÔNG? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1 | BÀI 13 - PHẦN 2 | ĐÂY CÓ PHẢI LÀ THUỐC ĐÔNG Y KHÔNG? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 13",
+        "words": [
+            "你", "我", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你叫什么名字？",
+            "我叫张三。",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "14",
+        "youtube_url": "https://youtu.be/4wjvRzwfkDA?si=6ImR_AVlzrwbXbj4",
+        "title": "HSK 1 | BÀI 14 - XE CỦA BẠN MỚI HAY CŨ? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1 | BÀI 14 - XE CỦA BẠN MỚI HAY CŨ? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 14",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "你叫什么名字？",
+            "我叫张三。",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "15",
+        "youtube_url": "https://youtu.be/-rfNmLc0IjQ?si=IFUowPDSkpWwpOnX",
+        "title": "HSK 1 | BÀI 15 - CÔNG TY ÔNG CÓ BAO NHIÊU NHÂN VIÊN? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "description": "HSK 1 | BÀI 15 - CÔNG TY ÔNG CÓ BAO NHIÊU NHÂN VIÊN? | Tự học tiếng Trung Hán ngữ quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 15",
+        "words": [
+            "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ],
+        "sentences": [
+            "我叫张三。",
+            "你叫什么名字？",
+            "他很高兴见到你。",
+            "她正在学习汉语。"
+        ]
+    },
+    {
+        "id": "16",
+        "youtube_url": "https://youtu.be/JFJI_MPgVzI?si=Eel7H-6QtbVcbpC1",
+        "title": "QUY TẮC VIẾT VÀ CÁCH GHI NHỚ CHỮ HÁN | Tiếng Trung người mới bắt đầu",
+        "description": "QUY TẮC VIẾT VÀ CÁCH GHI NHỚ CHỮ HÁN | Tiếng Trung người mới bắt đầu",
+        "level": "HSK 1",
+        "episode": "QUY TẮC VIẾT VÀ CÁCH GHI NHỚ CHỮ HÁN",
+        "words": [
+        ],
+        "sentences": [
         ]
     }
 ]

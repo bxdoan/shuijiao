@@ -26,15 +26,26 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { FaYoutube, FaArrowLeft, FaBookOpen, FaExternalLinkAlt } from 'react-icons/fa';
 import { ChevronRightIcon } from '@chakra-ui/icons';
-import SEO from '../components/Common/SEO';
 
-// Import hsk1.json
-import hsk1Data from '../data_example/hsk1.json';
+import SEO from '../components/Common/SEO';
 import { fetchDictionary } from '../api/newsApi';
+
+// Import HSK level colors
+const HSK_LEVEL_COLORS = {
+  '1': 'green',
+  '2': 'blue',
+  '3': 'purple',
+  '4': 'orange',
+  '5': 'pink',
+  '6': 'red',
+};
+
 
 // WordData interface
 interface WordData {
@@ -53,6 +64,7 @@ const HSKDetails = () => {
   const { level, lessonId } = useParams();
   const [lesson, setLesson] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [wordData, setWordData] = useState<Record<string, WordData>>({});
   const openPopoverRef = useRef<string | null>(null);
@@ -65,24 +77,37 @@ const HSKDetails = () => {
   const tagBgColor = useColorModeValue('red.50', 'red.900');
   const tagColor = useColorModeValue('red.600', 'red.200');
   const pageBgColor = useColorModeValue('gray.50', 'gray.900');
+  
+  // Lấy màu tương ứng với cấp độ HSK hiện tại
+  const levelColor = HSK_LEVEL_COLORS[level] || 'red';
 
   useEffect(() => {
     // Tạo hàm để load dữ liệu bài học HSK
     const loadHSKLesson = async () => {
       try {
         setIsLoading(true);
+        setError(null);
         
-        // Dựa vào level và lessonId để lấy dữ liệu bài học cụ thể
-        let foundLesson = null;
-        
-        if (level === '1') {
-          foundLesson = hsk1Data.find(l => l.id === lessonId);
-        } 
-        // Trong tương lai có thể thêm các cấp độ khác
-        
-        setLesson(foundLesson);
+        // Sử dụng import động để tải file JSON theo cấp độ HSK
+        try {
+          const hskModule = await import(`../data_example/hsk${level}.json`);
+          const hskData = hskModule.default || [];
+          
+          // Tìm bài học theo lessonId
+          const foundLesson = hskData.find(l => l.id === lessonId);
+          
+          if (foundLesson) {
+            setLesson(foundLesson);
+          } else {
+            setError(`Không tìm thấy bài học ID: ${lessonId} trong HSK ${level}`);
+          }
+        } catch (importError) {
+          console.error(`Không thể tải file hsk${level}.json:`, importError);
+          setError(`Dữ liệu HSK ${level} chưa có sẵn. Vui lòng thử cấp độ khác.`);
+        }
       } catch (error) {
         console.error('Error loading HSK lesson:', error);
+        setError('Đã xảy ra lỗi khi tải dữ liệu bài học. Vui lòng thử lại sau.');
       } finally {
         setIsLoading(false);
       }
@@ -181,8 +206,27 @@ const HSKDetails = () => {
   if (isLoading) {
     return (
       <Flex justify="center" align="center" minHeight="50vh">
-        <Spinner size="xl" color="red.500" thickness="4px" />
+        <Spinner size="xl" color={`${levelColor}.500`} thickness="4px" />
       </Flex>
+    );
+  }
+
+  // Hiển thị thông báo lỗi nếu có
+  if (error) {
+    return (
+      <Box py={10} textAlign="center">
+        <Alert status="warning" maxW="container.md" mx="auto" mb={6}>
+          <AlertIcon />
+          {error}
+        </Alert>
+        <Button 
+          leftIcon={<FaArrowLeft />} 
+          colorScheme={levelColor} 
+          onClick={() => navigate(`/zh/vi/hsk/${level}`)}
+        >
+          Quay lại danh sách bài học
+        </Button>
+      </Box>
     );
   }
 
@@ -193,7 +237,7 @@ const HSKDetails = () => {
         <Text mb={6}>Không tìm thấy bài học HSK {level} - ID: {lessonId}</Text>
         <Button 
           leftIcon={<FaArrowLeft />} 
-          colorScheme="blue" 
+          colorScheme={levelColor} 
           onClick={() => navigate(`/zh/vi/hsk/${level}`)}
         >
           Quay lại danh sách bài học
@@ -228,7 +272,7 @@ const HSKDetails = () => {
           {/* Header */}
           <Box>
             <HStack spacing={2} mb={2}>
-              <Badge colorScheme="red">{lesson.level}</Badge>
+              <Badge colorScheme={levelColor}>{lesson.level}</Badge>
               <Badge colorScheme="yellow">{lesson.episode}</Badge>
             </HStack>
             <Heading 
@@ -384,7 +428,7 @@ const HSKDetails = () => {
                 
                 <Button 
                   leftIcon={<FaArrowLeft />}
-                  colorScheme="blue"
+                  colorScheme={levelColor}
                   variant="outline"
                   size="md"
                   width="full"
