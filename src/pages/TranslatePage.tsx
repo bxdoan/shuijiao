@@ -22,7 +22,7 @@ import {
   keyframes,
 } from '@chakra-ui/react';
 import { RepeatIcon, CopyIcon, CloseIcon, ArrowRightIcon } from '@chakra-ui/icons';
-import { fetchGoogleTranslation } from '../api/newsApi';
+import { fetchGoogleTranslation } from '../api/translateApi';
 import SEO from '../components/Common/SEO';
 import { DonationBox } from '../components/Common/DonationBox';
 

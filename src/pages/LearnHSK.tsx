@@ -25,16 +25,7 @@ import {
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { FaYoutube, FaBookOpen } from 'react-icons/fa';
 import SEO from '../components/Common/SEO';
-
-// Import color theme for different HSK levels
-const HSK_LEVEL_COLORS = {
-  '1': 'green',
-  '2': 'blue',
-  '3': 'purple',
-  '4': 'orange',
-  '5': 'pink',
-  '6': 'red',
-};
+import { HSK_LEVEL_COLORS } from '../constant/hsk';
 
 const LearnHSK = () => {
   const { level } = useParams();
@@ -170,17 +161,6 @@ const LearnHSK = () => {
                         </Heading>
                         <Text fontSize="sm" noOfLines={2}>{lesson.description}</Text>
                         <Flex justify="space-between" mt={3}>
-                          <Button 
-                            leftIcon={<FaYoutube />}
-                            colorScheme="red"
-                            variant="outline"
-                            as="a"
-                            href={lesson.youtube_url}
-                            target="_blank"
-                            size="sm"
-                          >
-                            YouTube
-                          </Button>
                           <Button 
                             rightIcon={<FaBookOpen />}
                             colorScheme={levelColor}

@@ -9,6 +9,7 @@ import {
   NewsDetailEnglish
 } from '../types';
 import * as utils from '../utils/utils';
+import { fetchGoogleTranslation } from './translateApi';
 
 // Create a configuration structure to manage settings for multiple languages
 const languageConfig: LanguageConfigMap = {
@@ -150,40 +151,6 @@ export const fetchTranslation = async (
   }
 };
 
-export const fetchGoogleTranslation = async (text: string, targetLang: string = 'vi', srcLang: string = 'auto') => {
-  try {
-    // Determine source language based on content
-    // By default, it will auto-detect the source language
-    const sourceLang = srcLang === 'auto' ? (containsChineseCharacters(text) ? 'zh' : 'en') : srcLang;
-    
-    const response = await fetch(
-      `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&sl=${sourceLang}&tl=${targetLang}&q=${encodeURIComponent(text)}`
-    );
-    
-    if (!response.ok) {
-      throw new Error(`Google Translate error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    
-    // Process complex results from Google
-    let translatedText = '';
-    
-    // Iterate through elements in the sentences array
-    if (data.sentences) {
-      for (const sentence of data.sentences) {
-        if (sentence.trans) {
-          translatedText += sentence.trans;
-        }
-      }
-    }
-    
-    return translatedText;
-  } catch (error) {
-    console.error('Google Translate API error:', error);
-    throw error;
-  }
-};
 
 export const translateSentences = async (
   text: string, sourceLang: string = 'zh', targetLang: string = 'vi'

@@ -28,24 +28,36 @@ import {
   BreadcrumbLink,
   Alert,
   AlertIcon,
+  List,
+  ListItem,
+  Icon,
+  Card,
+  CardBody,
+  CardHeader,
+  Skeleton,
+  IconButton,
 } from '@chakra-ui/react';
-import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
-import { FaYoutube, FaArrowLeft, FaBookOpen, FaExternalLinkAlt } from 'react-icons/fa';
+import {
+  useParams,
+  Link as RouterLink,
+  useNavigate } from 'react-router-dom';
+import {
+  FaYoutube,
+  FaArrowLeft,
+  FaBookOpen,
+  FaExternalLinkAlt,
+  FaCommentAlt } from 'react-icons/fa';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 import SEO from '../components/Common/SEO';
-import { fetchDictionary } from '../api/newsApi';
-
-// Import HSK level colors
-const HSK_LEVEL_COLORS = {
-  '1': 'green',
-  '2': 'blue',
-  '3': 'purple',
-  '4': 'orange',
-  '5': 'pink',
-  '6': 'red',
-};
-
+import { 
+    fetchDictionary, 
+    translateSentences 
+} from '../api/newsApi';
+import { getChinesePinyin } from '../api/translateApi';
+import { HSK_LEVEL_COLORS } from '../constant/hsk';
+import { DonationBox } from '../components/Common/DonationBox';
+import { ShareModal } from '../components/Common/ShareModal';
 
 // WordData interface
 interface WordData {
@@ -60,6 +72,14 @@ interface WordData {
   isLoading: boolean;
 }
 
+// SentenceData interface
+interface SentenceData {
+  original: string;
+  pinyin: string;
+  translation: string;
+  isLoading: boolean;
+}
+
 const HSKDetails = () => {
   const { level, lessonId } = useParams();
   const [lesson, setLesson] = useState(null);
@@ -67,6 +87,7 @@ const HSKDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [wordData, setWordData] = useState<Record<string, WordData>>({});
+  const [sentencesData, setSentencesData] = useState<Record<string, SentenceData>>({});
   const openPopoverRef = useRef<string | null>(null);
 
   // Màu sắc dựa trên theme - Di chuyển tất cả các hook useColorModeValue lên đây
@@ -77,6 +98,10 @@ const HSKDetails = () => {
   const tagBgColor = useColorModeValue('red.50', 'red.900');
   const tagColor = useColorModeValue('red.600', 'red.200');
   const pageBgColor = useColorModeValue('gray.50', 'gray.900');
+  const cardBgColor = useColorModeValue('white', 'gray.800');
+  const sentenceColor = useColorModeValue('gray.700', 'gray.300');
+  const pinyinColor = useColorModeValue('blue.600', 'blue.300');
+  const translationColor = useColorModeValue('green.600', 'green.300');
   
   // Lấy màu tương ứng với cấp độ HSK hiện tại
   const levelColor = HSK_LEVEL_COLORS[level] || 'red';
@@ -98,6 +123,52 @@ const HSKDetails = () => {
           
           if (foundLesson) {
             setLesson(foundLesson);
+            
+            // Khởi tạo dữ liệu câu với trạng thái loading
+            if (foundLesson.sentences && foundLesson.sentences.length > 0) {
+              const initialSentencesData = {};
+              foundLesson.sentences.forEach(sentence => {
+                initialSentencesData[sentence] = {
+                  original: sentence,
+                  pinyin: '',
+                  translation: '',
+                  isLoading: true
+                };
+              });
+              setSentencesData(initialSentencesData);
+              
+              // Xử lý từng câu
+              foundLesson.sentences.forEach(async sentence => {
+                try {
+                  // Lấy dịch nghĩa và pinyin đồng thời
+                  const [translation, pinyin] = await Promise.all([
+                    translateSentences(sentence, 'zh', 'vi'),
+                    getChinesePinyin(sentence)
+                  ]);
+                  
+                  setSentencesData(prev => ({
+                    ...prev,
+                    [sentence]: {
+                      ...prev[sentence],
+                      translation,
+                      pinyin,
+                      isLoading: false
+                    }
+                  }));
+                } catch (error) {
+                  console.error('Lỗi khi xử lý câu:', error);
+                  setSentencesData(prev => ({
+                    ...prev,
+                    [sentence]: {
+                      ...prev[sentence],
+                      translation: 'Lỗi dịch',
+                      pinyin: 'Lỗi lấy pinyin',
+                      isLoading: false
+                    }
+                  }));
+                }
+              });
+            }
           } else {
             setError(`Không tìm thấy bài học ID: ${lessonId} trong HSK ${level}`);
           }
@@ -290,7 +361,7 @@ const HSKDetails = () => {
             gap={8}
           >
             {/* Left column - Video */}
-            <Box flex="1" borderRadius="lg" overflow="hidden" bg={bgColor} boxShadow="base">
+            <Box flex="1" borderRadius="lg" overflow="hidden" bg={bgColor} boxShadow="base" position="relative">
               <AspectRatio ratio={16 / 9}>
                 <iframe
                   title={lesson.title}
@@ -300,17 +371,41 @@ const HSKDetails = () => {
               </AspectRatio>
               <Box p={5}>
                 <Text fontWeight="medium" mb={4}>{lesson.description}</Text>
-                <Button 
-                  leftIcon={<FaYoutube />}
-                  colorScheme="red"
-                  as="a"
-                  href={lesson.youtube_url}
-                  target="_blank"
-                  size="md"
-                  rightIcon={<FaExternalLinkAlt />}
-                >
-                  Xem trên YouTube
-                </Button>
+                
+                {/* Navigation buttons for lessons */}
+                <Flex justify="space-between" w="100%" mt={4}>
+                  <Button
+                    leftIcon={<FaArrowLeft />}
+                    colorScheme={levelColor}
+                    variant="outline"
+                    size="md"
+                    onClick={() => {
+                      const prevLessonId = parseInt(lessonId) - 1;
+                      if (prevLessonId >= 1) {
+                        navigate(`/zh/vi/hsk/${level}/${prevLessonId}`);
+                      }
+                    }}
+                    isDisabled={parseInt(lessonId) <= 1}
+                  >
+                    Bài trước
+                  </Button>
+                  
+                  {/* Share button */}
+                  <ShareButton lesson={lesson} level={level} levelColor={levelColor}/>
+                  
+                  <Button
+                    rightIcon={<ChevronRightIcon />}
+                    colorScheme={levelColor}
+                    variant="solid"
+                    size="md"
+                    onClick={() => {
+                      const nextLessonId = parseInt(lessonId) + 1;
+                      navigate(`/zh/vi/hsk/${level}/${nextLessonId}`);
+                    }}
+                  >
+                    Bài tiếp theo
+                  </Button>
+                </Flex>
               </Box>
             </Box>
             
@@ -440,9 +535,102 @@ const HSKDetails = () => {
               </VStack>
             </Box>
           </Flex>
+          
+          {/* Phần câu ví dụ và dịch nghĩa */}
+          {lesson.sentences && lesson.sentences.length > 0 && (
+            <Box mt={6}>
+              <Card 
+                bg={cardBgColor} 
+                boxShadow="md" 
+                borderRadius="lg"
+                borderWidth="1px"
+                borderColor={borderColor}
+              >
+                <CardHeader pb={2}>
+                  <HStack>
+                    <Icon as={FaCommentAlt} color={`${levelColor}.500`} />
+                    <Heading size="md">Câu ví dụ</Heading>
+                  </HStack>
+                </CardHeader>
+                <CardBody pt={0}>
+                  <List spacing={4}>
+                    {lesson.sentences.map((sentence, index) => (
+                      <ListItem key={index}>
+                        <Card variant="outline" mb={2} borderColor={`${levelColor}.200`}>
+                          <CardBody py={3}>
+                            <Text fontSize="lg" fontWeight="bold" color={sentenceColor}>
+                              {sentence}
+                            </Text>
+                            
+                            {sentencesData[sentence] ? (
+                              sentencesData[sentence].isLoading ? (
+                                <Skeleton height="20px" mt={2} />
+                              ) : (
+                                <>
+                                  <Text fontSize="md" fontStyle="italic" color={pinyinColor} mt={1}>
+                                    {sentencesData[sentence].pinyin}
+                                  </Text>
+                                  <Text fontSize="md" color={translationColor} mt={1}>
+                                    {sentencesData[sentence].translation}
+                                  </Text>
+                                </>
+                              )
+                            ) : (
+                              <Skeleton height="20px" mt={2} />
+                            )}
+                          </CardBody>
+                        </Card>
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardBody>
+              </Card>
+            </Box>
+          )}
+          
+          {/* Box ủng hộ dự án */}
+          <Box mt={6}>
+            <DonationBox 
+              title="Ủng hộ dự án Shuijiao"
+              description="Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới."
+              bankName="MBBANK"
+              accountNumber="0904195065"
+              accountHolder="Bui Xuan Doan"
+              transferMessage="Ho tro Shuijiao"
+            />
+          </Box>
         </VStack>
       </Container>
     </Box>
+  );
+};
+
+// Thêm ShareButton component ngay dưới HSKDetails component
+const ShareButton = ({ lesson, level, levelColor }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const onOpen = () => setIsOpen(true);
+  const onClose = () => setIsOpen(false);
+  
+  return (
+    <>
+      <Button
+        leftIcon={<FaExternalLinkAlt />}
+        colorScheme="yellow"
+        variant="solid"
+        size="md"
+        onClick={onOpen}
+      >
+        Chia sẻ
+      </Button>
+      
+      <ShareModal 
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Chia sẻ bài học này"
+        shareText={`Học tiếng Trung với ${lesson.title} - HSK ${level} | Shuijiao Chinese Learning`}
+      />
+    </>
   );
 };
 
