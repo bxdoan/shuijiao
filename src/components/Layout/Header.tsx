@@ -24,9 +24,20 @@ import {
   MenuItem,
   MenuDivider
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaBook, FaNewspaper } from 'react-icons/fa';
+import { 
+  MoonIcon, 
+  SunIcon, 
+  ChevronDownIcon
+} from '@chakra-ui/icons';
+import { 
+  Link, 
+  useLocation, 
+  useNavigate 
+} from 'react-router-dom';
+import { 
+  FaBook, 
+  FaNewspaper 
+} from 'react-icons/fa';
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -180,6 +191,16 @@ export const Header = () => {
                 >
                   Dịch
                 </Button>
+                
+                <Button
+                  as={Link}
+                  to="/contact"
+                  variant={location.pathname === '/contact' ? "solid" : "ghost"}
+                  colorScheme="yellow"
+                  size="md"
+                >
+                  Liên hệ
+                </Button>
               </HStack>
             )}
           </Flex>
@@ -257,7 +278,7 @@ export const Header = () => {
                 leftIcon={<FaBook />}
                 onClick={() => setIsDrawerOpen(false)}
               >
-                Từ điển Hán Việt
+                Từ điển Hán Việt
               </Button>
               
               <Heading as="h3" size="sm" color="yellow.300" mb={1} mt={2}>Tiếng Anh</Heading>
@@ -283,6 +304,17 @@ export const Header = () => {
                 onClick={() => setIsDrawerOpen(false)}
               >
                 Dịch
+              </Button>
+              
+              <Button
+                as={Link}
+                to="/contact"
+                variant={location.pathname === '/contact' ? "solid" : "ghost"}
+                colorScheme="yellow"
+                size="lg"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Liên hệ
               </Button>
             </VStack>
           </DrawerBody>
