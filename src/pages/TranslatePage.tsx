@@ -22,7 +22,7 @@ import {
   keyframes,
 } from '@chakra-ui/react';
 import { RepeatIcon, CopyIcon, CloseIcon, ArrowRightIcon } from '@chakra-ui/icons';
-import { fetchGoogleTranslation } from '../api/translateApi';
+import { fetchGoogleTranslation, getChinesePinyin } from '../api/translateApi';
 import SEO from '../components/Common/SEO';
 import { DonationBox } from '../components/Common/DonationBox';
 
@@ -42,11 +42,13 @@ const LANGUAGES = [
 const TranslatePage: React.FC = () => {
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
+  const [pinyinText, setPinyinText] = useState('');
   const [sourceLang, setSourceLang] = useState('zh');
   const [targetLang, setTargetLang] = useState('vi');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingPinyin, setIsLoadingPinyin] = useState(false);
   const [isAutoTranslate, setIsAutoTranslate] = useState(false);
-  const [translationHistory, setTranslationHistory] = useState<Array<{ source: string, target: string, sourceLang: string, targetLang: string }>>([]);
+  const [translationHistory, setTranslationHistory] = useState<Array<{ source: string, target: string, sourceLang: string, targetLang: string, pinyin?: string }>>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isRotating, setIsRotating] = useState(false);
   
@@ -90,15 +92,43 @@ const TranslatePage: React.FC = () => {
   const handleTranslate = async () => {
     if (!sourceText.trim()) {
       setTranslatedText('');
+      setPinyinText('');
       return;
     }
 
     setIsLoading(true);
     setErrorMessage('');
+    setPinyinText('');
 
     try {
       const result = await fetchGoogleTranslation(sourceText, targetLang, sourceLang);
       setTranslatedText(result);
+      
+      // Lấy pinyin nếu nguồn hoặc đích là tiếng Trung
+      let pinyin = '';
+      if (sourceLang === 'zh') {
+        setIsLoadingPinyin(true);
+        try {
+          pinyin = await getChinesePinyin(sourceText);
+        } catch (error) {
+          console.error('Error getting pinyin for source text:', error);
+        } finally {
+          setIsLoadingPinyin(false);
+        }
+      } else if (targetLang === 'zh') {
+        setIsLoadingPinyin(true);
+        try {
+          pinyin = await getChinesePinyin(result);
+        } catch (error) {
+          console.error('Error getting pinyin for translated text:', error);
+        } finally {
+          setIsLoadingPinyin(false);
+        }
+      }
+      
+      if (pinyin) {
+        setPinyinText(pinyin);
+      }
       
       // Lưu vào lịch sử dịch nếu không phải auto translate
       if (!isAutoTranslate) {
@@ -107,7 +137,8 @@ const TranslatePage: React.FC = () => {
             source: sourceText, 
             target: result, 
             sourceLang, 
-            targetLang 
+            targetLang,
+            pinyin: pinyin || undefined
           }, ...prev.slice(0, 9)]; // Giữ tối đa 10 mục
           
           // Lưu vào localStorage
@@ -171,6 +202,7 @@ const TranslatePage: React.FC = () => {
     setTargetLang(historyItem.targetLang);
     setSourceText(historyItem.source);
     setTranslatedText(historyItem.target);
+    setPinyinText(historyItem.pinyin || '');
   };
 
   return (
@@ -309,6 +341,27 @@ const TranslatePage: React.FC = () => {
                   )}
                 </Box>
                 
+                {pinyinText && (
+                  <Box 
+                    p={3} 
+                    borderWidth="1px" 
+                    borderRadius="md" 
+                    borderColor="blue.200"
+                    bg="blue.50"
+                    _dark={{
+                      borderColor: "blue.700",
+                      bg: "blue.900"
+                    }}
+                  >
+                    <Text fontWeight="medium" mb={1} color="blue.700" _dark={{ color: "blue.300" }}>
+                      Pinyin:
+                    </Text>
+                    <Text fontStyle="italic" color="blue.600" _dark={{ color: "blue.300" }}>
+                      {isLoadingPinyin ? "Đang tải..." : pinyinText}
+                    </Text>
+                  </Box>
+                )}
+                
                 <Button 
                   colorScheme="blue" 
                   rightIcon={<ArrowRightIcon />}
@@ -395,10 +448,17 @@ const TranslatePage: React.FC = () => {
                       <Text noOfLines={1} fontWeight="bold">
                         {item.source.slice(0, 50)}{item.source.length > 50 ? '...' : ''}
                       </Text>
-                      <Text fontSize="sm" color="gray.500">
-                        {LANGUAGES.find(l => l.code === item.sourceLang)?.name} → 
-                        {LANGUAGES.find(l => l.code === item.targetLang)?.name}
-                      </Text>
+                      <Flex justify="space-between" align="center">
+                        <Text fontSize="sm" color="gray.500">
+                          {LANGUAGES.find(l => l.code === item.sourceLang)?.name} → 
+                          {LANGUAGES.find(l => l.code === item.targetLang)?.name}
+                        </Text>
+                        {item.pinyin && (
+                          <Text fontSize="xs" color="blue.500" fontStyle="italic">
+                            Có pinyin
+                          </Text>
+                        )}
+                      </Flex>
                     </Box>
                   ))
                 ) : (
