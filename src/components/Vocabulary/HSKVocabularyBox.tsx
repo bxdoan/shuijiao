@@ -1,5 +1,5 @@
 // @ts-nocheck - Bỏ qua kiểm tra TypeScript để tránh lỗi Union Type phức tạp
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Box,
   Text,
@@ -13,8 +13,17 @@ import {
   AccordionPanel,
   AccordionIcon,
   HStack,
-  Tooltip,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  Spinner,
+  Flex,
 } from '@chakra-ui/react';
+import { fetchDictionary } from '../../api/newsApi';
 
 interface HSKVocabularyBoxProps {
   levelHSK: {
@@ -24,6 +33,19 @@ interface HSKVocabularyBoxProps {
 
 interface HSKLevelConfig {
   [key: string]: { color: string; title: string };
+}
+
+// Cấu trúc dữ liệu từ vựng
+interface WordData {
+  word: string;
+  pinyin: string;
+  cn_vi: string;
+  example?: {
+    e: string;
+    p: string;
+    m: string;
+  };
+  isLoading: boolean;
 }
 
 // Map các cấp độ HSK sang màu sắc và tiêu đề
@@ -44,6 +66,92 @@ const displayOrder = ['1', '2', '3', '4', '5', '6', 'unknown'];
 const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const popoverBgColor = useColorModeValue('white', 'gray.700');
+  
+  // State lưu trữ dữ liệu từ vựng đã tìm kiếm
+  const [wordData, setWordData] = useState<Record<string, WordData>>({});
+  
+  // Ref để theo dõi Popover hiện tại đang mở
+  const openPopoverRef = useRef<string | null>(null);
+  
+  // Hàm tìm kiếm từ vựng
+  const handleWordClick = async (word: string) => {
+    // Kiểm tra xem đã có dữ liệu từ này chưa
+    if (!wordData[word]) {
+      // Nếu chưa, tạo một bản ghi tạm thời với trạng thái đang tải
+      setWordData(prev => ({
+        ...prev,
+        [word]: {
+          word,
+          pinyin: '',
+          cn_vi: '',
+          isLoading: true
+        }
+      }));
+      
+      try {
+        // Gọi API để lấy thông tin từ vựng
+        const data = await fetchDictionary(word, 'vi', 'word');
+        
+        if (data && data.found && data.result.length > 0) {
+          const firstResult = data.result[0];
+          
+          // Xử lý để lấy ví dụ đầu tiên (nếu có)
+          let example = undefined;
+          if (firstResult.content && 
+              firstResult.content[0] && 
+              firstResult.content[0].means && 
+              firstResult.content[0].means[0] && 
+              firstResult.content[0].means[0].examples && 
+              firstResult.content[0].means[0].examples.length > 0) {
+            example = firstResult.content[0].means[0].examples[0];
+          }
+          
+          // Cập nhật dữ liệu từ vựng
+          setWordData(prev => ({
+            ...prev,
+            [word]: {
+              word: firstResult.word,
+              pinyin: firstResult.pinyin,
+              cn_vi: firstResult.cn_vi,
+              example,
+              isLoading: false
+            }
+          }));
+        } else {
+          // Nếu không tìm thấy kết quả, cập nhật với thông tin không có dữ liệu
+          setWordData(prev => ({
+            ...prev,
+            [word]: {
+              word,
+              pinyin: 'Không có dữ liệu',
+              cn_vi: 'Không tìm thấy',
+              isLoading: false
+            }
+          }));
+        }
+      } catch (error) {
+        console.error('Lỗi khi tìm kiếm từ vựng:', error);
+        setWordData(prev => ({
+          ...prev,
+          [word]: {
+            word,
+            pinyin: 'Lỗi tìm kiếm',
+            cn_vi: 'Không thể tải dữ liệu',
+            isLoading: false
+          }
+        }));
+      }
+    }
+    
+    // Lưu từ hiện tại vào ref
+    openPopoverRef.current = word;
+  };
+  
+  // Hàm xử lý khi đóng Popover
+  const handlePopoverClose = () => {
+    openPopoverRef.current = null;
+  };
   
   // Kiểm tra nếu không có dữ liệu
   if (!levelHSK || Object.keys(levelHSK).length === 0) {
@@ -89,27 +197,82 @@ const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
               <AccordionPanel pb={4}>
                 <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={2}>
                   {levelHSK[level].map((word, index) => (
-                    <Tooltip 
-                      key={`${level}-${index}`} 
-                      label="Bấm vào từ để xem chi tiết (chức năng sắp ra mắt)"
-                      hasArrow
+                    <Popover 
+                      key={`${level}-${index}`}
+                      isLazy
+                      placement="top"
+                      onOpen={() => handleWordClick(word)}
+                      onClose={handlePopoverClose}
                     >
-                      <Box 
-                        p={2} 
-                        borderWidth="1px" 
-                        borderRadius="md" 
-                        borderColor={`${config.color}.200`}
-                        bg={`${config.color}.50`}
-                        _hover={{ bg: `${config.color}.100`, cursor: 'pointer' }}
+                      <PopoverTrigger>
+                        <Box 
+                          p={2} 
+                          borderWidth="1px" 
+                          borderRadius="md" 
+                          borderColor={`${config.color}.200`}
+                          bg={`${config.color}.50`}
+                          _hover={{ bg: `${config.color}.100`, cursor: 'pointer' }}
+                          _dark={{
+                            bg: `${config.color}.900`,
+                            borderColor: `${config.color}.700`,
+                            _hover: { bg: `${config.color}.800` }
+                          }}
+                        >
+                          <Text fontSize="md" textAlign="center">{word}</Text>
+                        </Box>
+                      </PopoverTrigger>
+                      <PopoverContent 
+                        bg={popoverBgColor} 
+                        borderColor="gray.200" 
+                        boxShadow="xl"
                         _dark={{
-                          bg: `${config.color}.900`,
-                          borderColor: `${config.color}.700`,
-                          _hover: { bg: `${config.color}.800` }
+                          borderColor: "gray.600"
                         }}
                       >
-                        <Text fontSize="md" textAlign="center">{word}</Text>
-                      </Box>
-                    </Tooltip>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader fontWeight="semibold" borderBottomWidth="1px">
+                          {word}
+                        </PopoverHeader>
+                        <PopoverBody p={3}>
+                          {wordData[word] ? (
+                            wordData[word].isLoading ? (
+                              <Flex justify="center" py={2}>
+                                <Spinner size="sm" color="blue.500" mr={2} />
+                                <Text>Đang tải...</Text>
+                              </Flex>
+                            ) : (
+                              <Box>
+                                <Text fontStyle="italic" color="gray.600" mb={1}>
+                                  {wordData[word].pinyin}
+                                </Text>
+                                <Text fontWeight="medium" color="blue.600" mb={2}>
+                                  {wordData[word].cn_vi}
+                                </Text>
+                                {wordData[word].example && (
+                                  <Box 
+                                    mt={2} 
+                                    borderLeft="2px" 
+                                    borderColor="blue.500" 
+                                    pl={2}
+                                    fontSize="sm"
+                                  >
+                                    <Text fontWeight="semibold">{wordData[word].example.e}</Text>
+                                    <Text fontStyle="italic">{wordData[word].example.p}</Text>
+                                    <Text color="blue.600">{wordData[word].example.m}</Text>
+                                  </Box>
+                                )}
+                              </Box>
+                            )
+                          ) : (
+                            <Flex justify="center" py={2}>
+                              <Spinner size="sm" color="blue.500" mr={2} />
+                              <Text>Đang tải...</Text>
+                            </Flex>
+                          )}
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
                   ))}
                 </SimpleGrid>
               </AccordionPanel>
