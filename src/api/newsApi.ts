@@ -177,13 +177,6 @@ export const translateSentences = async (
 };
 
 
-// Helper function to check if text contains Chinese characters
-function containsChineseCharacters(text: string): boolean {
-  // Unicode range for Han characters
-  const chineseRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/;
-  return chineseRegex.test(text);
-}
-
 export const fetchNews = async (params: NewsFilterParams = {}): Promise<NewsResponse> => {
   // Ensure we have today's date in the correct format
   const today = new Date().toISOString().split('T')[0];

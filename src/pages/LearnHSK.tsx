@@ -23,7 +23,7 @@ import {
   AlertIcon,
 } from '@chakra-ui/react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { FaYoutube, FaBookOpen } from 'react-icons/fa';
+import { FaBookOpen } from 'react-icons/fa';
 import SEO from '../components/Common/SEO';
 import { HSK_LEVEL_COLORS } from '../constant/hsk';
 

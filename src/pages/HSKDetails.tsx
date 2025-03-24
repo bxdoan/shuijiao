@@ -35,14 +35,12 @@ import {
   CardBody,
   CardHeader,
   Skeleton,
-  IconButton,
 } from '@chakra-ui/react';
 import {
   useParams,
   Link as RouterLink,
   useNavigate } from 'react-router-dom';
 import {
-  FaYoutube,
   FaArrowLeft,
   FaBookOpen,
   FaExternalLinkAlt,
