@@ -1,0 +1,24 @@
+[
+    {
+        "id": "1",
+        "youtube_url": "https://youtu.be/NGl9izvlVKA?si=Tsutb9nAxxihyDEE",
+        "title": "HSK1 | BÀI 1-HÁN 1 | XIN CHÀO 你好 | Giáo trình Hán ngữ Quyển 1",
+        "description": "HSK1 | BÀI 1-HÁN 1 | XIN CHÀO 你好 | Giáo trình Hán ngữ Quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 1",
+        "words": [
+            "你好", "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ]
+    },
+    {
+        "id": "2",
+        "youtube_url": "https://youtu.be/Qjq0cIrN3TE?si=1Md3NAEH9oDoelQ7",
+        "title": "HSK1 | BÀI 2- HÁN 1 | TIẾNG HÁN KHÔNG KHÓ LẮM | Tự học giáo trình Hán ngữ - quyển 1",
+        "description": "HSK1 | BÀI 2- HÁN 1 | TIẾNG HÁN KHÔNG KHÓ LẮM | Tự học giáo trình Hán ngữ - quyển 1",
+        "level": "HSK 1",
+        "episode": "BÀI 2",
+        "words": [
+            "你好", "我", "你", "他", "她", "它", "我们", "你们", "他们", "她们", "它们"
+        ]
+    }
+]

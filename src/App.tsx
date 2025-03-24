@@ -13,6 +13,8 @@ import NewsDetailPage from './pages/NewsDetailPage';
 import TranslatePage from './pages/TranslatePage';
 import DictPage from './pages/DictPage';
 import ContactPage from './pages/ContactPage';
+import LearnHSK from './pages/LearnHSK';
+import HSKDetails from './pages/HSKDetails';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 
@@ -48,6 +50,9 @@ function App() {
                   <Route path="/zh/dict" element={<DictPage />} />
                   <Route path="/zh/r/:newsId" element={<NewsDetailPage />} />
                   <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
+                  {/* HSK routes */}
+                  <Route path="/zh/vi/hsk/:level" element={<LearnHSK />} />
+                  <Route path="/zh/vi/hsk/:level/:lessonId" element={<HSKDetails />} />
                 </Routes>
               </Box>
               <Footer />

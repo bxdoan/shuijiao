@@ -36,7 +36,8 @@ import {
 } from 'react-router-dom';
 import { 
   FaBook, 
-  FaNewspaper 
+  FaNewspaper,
+  FaGraduationCap
 } from 'react-icons/fa';
 
 export const Header = () => {
@@ -169,6 +170,18 @@ export const Header = () => {
                     >
                       Từ điển Hán Việt
                     </MenuItem>
+                    <MenuDivider borderColor="red.600" />
+                    <MenuItem 
+                      as={Link} 
+                      to="/zh/vi/hsk/1" 
+                      icon={<FaGraduationCap />}
+                      _hover={{ bg: 'red.600' }}
+                      color="white"
+                      fontWeight="medium"
+                      bg="red.700"
+                    >
+                      Học HSK 1
+                    </MenuItem>
                   </MenuList>
                 </Menu>
                 
@@ -279,6 +292,19 @@ export const Header = () => {
                 onClick={() => setIsDrawerOpen(false)}
               >
                 Từ điển Hán Việt
+              </Button>
+              
+              <Button
+                as={Link}
+                to="/zh/vi/hsk/1"
+                variant="ghost"
+                colorScheme="yellow"
+                size="md"
+                justifyContent="flex-start"
+                leftIcon={<FaGraduationCap />}
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Học HSK 1
               </Button>
               
               <Heading as="h3" size="sm" color="yellow.300" mb={1} mt={2}>Tiếng Anh</Heading>
