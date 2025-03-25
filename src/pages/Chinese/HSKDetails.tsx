@@ -47,15 +47,15 @@ import {
   FaCommentAlt } from 'react-icons/fa';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
-import SEO from '../components/Common/SEO';
+import SEO from '../../components/Common/SEO';
 import { 
     fetchDictionary, 
     translateSentences 
-} from '../api/newsApi';
-import { getChinesePinyin } from '../api/translateApi';
-import { HSK_LEVEL_COLORS } from '../constant/hsk';
-import { DonationBox } from '../components/Common/DonationBox';
-import { ShareModal } from '../components/Common/ShareModal';
+} from '../../api/newsApi';
+import { getChinesePinyin } from '../../api/translateApi';
+import { HSK_LEVEL_COLORS } from '../../constant/hsk';
+import { DonationBox } from '../../components/Common/DonationBox';
+import { ShareModal } from '../../components/Common/ShareModal';
 
 // WordData interface
 interface WordData {

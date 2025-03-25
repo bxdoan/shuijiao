@@ -22,17 +22,22 @@ import {
   Alert,
   AlertIcon,
 } from '@chakra-ui/react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { 
+  useParams, Link as RouterLink, 
+  useNavigate 
+} from 'react-router-dom';
 import { FaBookOpen } from 'react-icons/fa';
-import SEO from '../components/Common/SEO';
-import { HSK_LEVEL_COLORS } from '../constant/hsk';
+
+import SEO from '../../components/Common/SEO';
+import { HSK_LEVEL_COLORS } from '../../constant/hsk';
+import { DonationBoxCompact } from '../../components/Common/DonationBox';
 
 const LearnHSK = () => {
   const { level } = useParams();
   const [lessons, setLessons] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   // Màu sắc dựa trên theme
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -75,6 +80,10 @@ const LearnHSK = () => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
+  };
+
+  const goToLesson = (lessonId) => {
+    navigate(`/zh/vi/hsk/${level}/${lessonId}`);
   };
 
   return (
@@ -140,42 +149,59 @@ const LearnHSK = () => {
             </SimpleGrid>
           ) : lessons.length > 0 ? (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {lessons.map((lesson) => (
-                <LinkBox as={Card} key={lesson.id} overflow="hidden" variant="outline" bg={cardBgColor} _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }} transition="all 0.3s">
-                  <CardBody p={0}>
-                    <AspectRatio ratio={16 / 9}>
-                      <Image
-                        src={`https://img.youtube.com/vi/${getYoutubeId(lesson.youtube_url)}/maxresdefault.jpg`}
-                        alt={lesson.title}
-                        objectFit="cover"
-                        fallbackSrc="https://via.placeholder.com/640x360?text=Shuijiao+HSK"
-                      />
-                    </AspectRatio>
-                    <Box p={5}>
-                      <Stack spacing={2}>
-                        <Badge colorScheme={levelColor} alignSelf="start">{lesson.episode}</Badge>
-                        <Heading size="md" my={2}>
-                          <LinkOverlay as={RouterLink} to={`/zh/vi/hsk/${level}/${lesson.id}`}>
-                            {lesson.title}
-                          </LinkOverlay>
-                        </Heading>
-                        <Text fontSize="sm" noOfLines={2}>{lesson.description}</Text>
-                        <Flex justify="space-between" mt={3}>
-                          <Button 
-                            rightIcon={<FaBookOpen />}
-                            colorScheme={levelColor}
-                            as={RouterLink}
-                            to={`/zh/vi/hsk/${level}/${lesson.id}`}
-                            size="sm"
-                          >
-                            Xem thêm
-                          </Button>
-                        </Flex>
-                      </Stack>
-                    </Box>
-                  </CardBody>
-                </LinkBox>
-              ))}
+              {lessons.map((lesson, index) => {
+                const renderItems = [];
+                
+                // Thêm bài học
+                renderItems.push(
+                  <LinkBox as={Card} key={lesson.id} overflow="hidden" variant="outline" bg={cardBgColor} _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }} transition="all 0.3s">
+                    <CardBody p={0}>
+                      <AspectRatio ratio={16 / 9}>
+                        <Image
+                          src={`https://img.youtube.com/vi/${getYoutubeId(lesson.youtube_url)}/maxresdefault.jpg`}
+                          alt={lesson.title}
+                          objectFit="cover"
+                          fallbackSrc="https://via.placeholder.com/640x360?text=Shuijiao+HSK"
+                        />
+                      </AspectRatio>
+                      <Box p={5}>
+                        <Stack spacing={2}>
+                          <Badge colorScheme={levelColor} alignSelf="start">{lesson.episode}</Badge>
+                          <Heading size="md" my={2}>
+                            <LinkOverlay as={RouterLink} to={`/zh/vi/hsk/${level}/${lesson.id}`}>
+                              {lesson.title}
+                            </LinkOverlay>
+                          </Heading>
+                          <Text fontSize="sm" noOfLines={2}>{lesson.description}</Text>
+                          <Flex justify="space-between" mt={3}>
+                            <Button 
+                              rightIcon={<FaBookOpen />}
+                              colorScheme={levelColor}
+                              onClick={() => goToLesson(lesson.id)}
+                              size="sm"
+                            >
+                              Xem thêm
+                            </Button>
+                          </Flex>
+                        </Stack>
+                      </Box>
+                    </CardBody>
+                  </LinkBox>
+                );
+
+                // Thêm DonationBox sau mỗi 5 bài học và không phải là bài học cuối cùng
+                if ((index + 1) % 5 === 0 && index !== lessons.length - 1) {
+                  renderItems.push(
+                    <DonationBoxCompact 
+                      key={`donation-${index}`}
+                      title="Ủng hộ phát triển Shuijiao"
+                      description="Giúp chúng tôi duy trì và phát triển dịch vụ này miễn phí."
+                    />
+                  );
+                }
+
+                return renderItems;
+              }).flat()}
             </SimpleGrid>
           ) : (
             <Box textAlign="center" py={10} bg={bgColor} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>

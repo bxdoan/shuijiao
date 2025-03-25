@@ -11,18 +11,16 @@ import {
     Spinner,
     SimpleGrid
 } from '@chakra-ui/react';
+import NewsFilter from '../../components/News/NewsFilter';
+import NewsCard from '../../components/News/NewsCard';
+import ScrollToTopBottom from '../../components/Common/ScrollToTopBottom';
+import { DonationBoxCompact } from '../../components/Common/DonationBox';
+import { NewsFilterParams, NewsItem } from '../../types';
+import { useNews } from '../../hooks/useNews';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import SEO from '../../components/Common/SEO';
 
-import NewsFilter from '../components/News/NewsFilter';
-import NewsCard from '../components/News/NewsCard';
-import ScrollToTopBottom from '../components/Common/ScrollToTopBottom';
-import { DonationBoxCompact } from '../components/Common/DonationBox';
-import { NewsFilterParams, NewsItem } from '../types';
-import { useNews } from '../hooks/useNews';
-import SEO from '../components/Common/SEO';
-import ChineseSearch from '../components/Search/ChineseSearch';
-
-const ChinesePage: React.FC = () => {
+const EnglishPage: React.FC = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
   const [loadedDates, setLoadedDates] = useState<string[]>([]);
   const [currentDate, setCurrentDate] = useState<string>(new Date().toISOString().split('T')[0]);
@@ -31,10 +29,10 @@ const ChinesePage: React.FC = () => {
     source: '',
     type: 'easy',
     page: 1,
-    limit: 40, // Tăng limit để lấy tất cả tin tức trong ngày
+    limit: 40,
     date: new Date().toISOString().split('T')[0],
     timestamp: new Date().toISOString().split('T')[0],
-    language: 'zh' // Chỉ định rõ là tiếng Trung
+    language: 'en' // Chỉ định là tiếng Anh
   });
   
   const [showAlert, setShowAlert] = useState(false);
@@ -78,7 +76,7 @@ const ChinesePage: React.FC = () => {
     if (isError && error) {
       setShowAlert(true);
       setAlertMessage('Lỗi khi tải tin tức. Vui lòng thử lại sau.');
-      console.error('HomePage error:', error);
+      console.error('EnglishPage error:', error);
       setIsLoadingMore(false);
     }
   }, [isError, error]);
@@ -99,7 +97,7 @@ const ChinesePage: React.FC = () => {
       page: 1,
       date: newDate,
       timestamp: newDate,
-      language: 'zh' // Đảm bảo vẫn là tiếng Trung khi cập nhật filter
+      language: 'en' // Đảm bảo vẫn là tiếng Anh khi cập nhật filter
     });
   };
 
@@ -150,7 +148,7 @@ const ChinesePage: React.FC = () => {
         <NewsCard 
           key={newsKey} 
           news={item} 
-          sourceLang="zh" 
+          sourceLang="en" 
           targetLang={targetLang}
         />
       );
@@ -160,8 +158,8 @@ const ChinesePage: React.FC = () => {
         renderItems.push(
           <DonationBoxCompact 
             key={`donation-${index}`}
-            title="Ủng hộ phát triển Shuijiao"
-            description="Giúp chúng tôi duy trì và phát triển dịch vụ này miễn phí."
+            title="Support Shuijiao Development"
+            description="Help us maintain and develop this free service."
           />
         );
       }
@@ -179,9 +177,9 @@ const ChinesePage: React.FC = () => {
   return (
     <>
       <SEO 
-        title="Shuijiao - Học tiếng Trung qua tin tức thực tế hàng ngày"
-        description="Nền tảng học tiếng Trung hiệu quả thông qua tin tức thực tế hàng ngày. Cập nhật liên tục với nhiều chủ đề và mức độ khó khác nhau."
-        keywords="học tiếng Trung, tin tức tiếng Trung, tiếng Trung thực tế, đọc báo tiếng Trung, luyện đọc tiếng Trung"
+        title="Shuijiao - Học tiếng Anh qua tin tức thực tế hàng ngày"
+        description="Nền tảng học tiếng Anh hiệu quả thông qua tin tức thực tế hàng ngày. Cập nhật liên tục với nhiều chủ đề và mức độ khó khác nhau."
+        keywords="học tiếng Anh, tin tức tiếng Anh, tiếng Anh thực tế, đọc báo tiếng Anh, luyện đọc tiếng Anh"
         ogType="website"
       />
       <Container maxW="container.xl" py={8}>
@@ -195,11 +193,11 @@ const ChinesePage: React.FC = () => {
 
         <Box textAlign="center" mb={8}>
           <Heading as="h1" size="2xl" mb={2}>
-            Học tiếng Trung qua các bài báo thực tế
+            Học tiếng Anh qua các bài báo thực tế
           </Heading>
         </Box>
 
-        <NewsFilter filters={filters} onFilterChange={handleFilterChange} sourceLang="zh" />
+        <NewsFilter filters={filters} onFilterChange={handleFilterChange} sourceLang="en" />
         
         {renderNewsContent()}
         
@@ -218,12 +216,11 @@ const ChinesePage: React.FC = () => {
             </Button>
           </Center>
         )}
-
-        <ChineseSearch targetLang="vi" />
+        
         <ScrollToTopBottom />
       </Container>
     </>
   );
 };
 
-export default ChinesePage; 
+export default EnglishPage; 
