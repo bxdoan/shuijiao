@@ -12,7 +12,6 @@ import {
   Spinner,
   useColorModeValue,
   VStack,
-  IconButton,
   Container,
   Heading,
   Card,
@@ -27,7 +26,6 @@ import {
 import {
   SearchIcon,
   CloseIcon,
-  RepeatIcon
 } from '@chakra-ui/icons';
 
 // Import API functions
@@ -37,6 +35,8 @@ import {
   SearchResponse, 
   KanjiResponse,
 } from '../../api/newsApi';
+
+import HantuStrokeRenderer from './HantuStrokeRenderer';
 
 interface ChineseDictProps {
   targetLang?: string;
@@ -51,7 +51,6 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHantu, setIsLoadingHantu] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [strokesKey, setStrokesKey] = useState(0);
   const skipEffectRef = useRef(false);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   
@@ -289,179 +288,6 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
     );
   };
 
-  // HantuStrokeRenderer component
-  const HantuStrokeRenderer: React.FC<{ strokesData: string, strokesKey: number }> = ({ strokesData, strokesKey }) => {
-    // State to manage stroke display
-    const [visibleStrokes, setVisibleStrokes] = useState<number>(0);
-    // State variable to store strokes
-    const [strokes, setStrokes] = useState<string[]>([]);
-    
-    // Parse stroke data when strokesData changes
-    useEffect(() => {
-      if (!strokesData) return;
-      
-      // Parse stroke data
-      let parsedStrokes: string[] = [];
-      
-      try {
-        // Case 1: Data is already JSON
-        try {
-          const strokesObj = JSON.parse(strokesData);
-          if (strokesObj.strokes && Array.isArray(strokesObj.strokes)) {
-            // Format { strokes: [...] }
-            parsedStrokes = strokesObj.strokes;
-          } else if (Array.isArray(strokesObj)) {
-            // Format is directly an array
-            parsedStrokes = strokesObj;
-          }
-        } catch (e) {
-          // Not JSON, could be a string
-        }
-        
-        // Case 2: Data is a string containing SVG path commands
-        if (parsedStrokes.length === 0 && typeof strokesData === 'string') {
-          // Split strokes based on "M " (move command in SVG path)
-          // Use regex to find all paths starting with M
-          const matches = strokesData.match(/M[^M]+/g);
-          if (matches && matches.length > 0) {
-            parsedStrokes = matches.map(m => m.trim());
-          }
-        }
-        
-        // Case 3: Parse from console.log format
-        if (parsedStrokes.length === 0 && typeof strokesData === 'string') {
-          // Handle data from console.log like: "strokes: M ... Z, M ... Z"
-          // Remove "strokes: " if present
-          let cleanData = strokesData;
-          if (cleanData.includes('strokes:')) {
-            cleanData = cleanData.split('strokes:')[1].trim();
-          }
-          
-          // Split based on comma when encountering M at beginning of next part
-          const pathsArray = [];
-          let currentPath = '';
-          
-          // Split string by commas
-          const parts = cleanData.split(',');
-          
-          for (let i = 0; i < parts.length; i++) {
-            const part = parts[i].trim();
-            
-            // If this part starts with M, start a new path
-            if (part.startsWith('M ')) {
-              if (currentPath) {
-                pathsArray.push(currentPath);
-              }
-              currentPath = part;
-            } else if (currentPath) {
-              // Otherwise, add to current path
-              currentPath += ', ' + part;
-            }
-          }
-          
-          // Add the last path if exists
-          if (currentPath) {
-            pathsArray.push(currentPath);
-          }
-          
-          if (pathsArray.length > 0) {
-            parsedStrokes = pathsArray;
-          }
-        }
-        
-        // Save strokes to state
-        setStrokes(parsedStrokes);
-      } catch (error) {
-        console.error('Error parsing strokes data:', error);
-        setStrokes([]);
-      }
-    }, [strokesData]);
-    
-    // Effect to display each stroke when strokesKey changes
-    useEffect(() => {
-      if (!strokesData || strokes.length === 0) return;
-      
-      // Reset visible strokes count
-      setVisibleStrokes(0);
-      
-      // Create effect to display strokes with delay
-      let strokeIndex = 0;
-      const intervalId = setInterval(() => {
-        setVisibleStrokes(prev => {
-          strokeIndex = prev + 1;
-          // If all strokes are shown, stop
-          if (strokeIndex >= strokes.length) {
-            clearInterval(intervalId);
-          }
-          return strokeIndex;
-        });
-      }, 200); // Stroke display speed - 200ms
-      
-      return () => clearInterval(intervalId);
-    }, [strokesKey, strokesData, strokes]);
-    
-    if (!strokesData || strokes.length === 0) return null;
-    
-    // CSS Keyframes for animation
-    const keyframes = `
-      @keyframes drawStroke {
-        0% {
-          stroke-dasharray: 2000;
-          stroke-dashoffset: 2000;
-        }
-        100% {
-          stroke-dasharray: 2000;
-          stroke-dashoffset: 0;
-        }
-      }
-    `;
-    
-    return (
-      <Box width="100%" display="flex" flexDirection="column" alignItems="center" my={4}>
-        <Box position="relative" width="200px" height="200px">
-          <IconButton
-            aria-label="Vẽ lại hán tự"
-            icon={<RepeatIcon />}
-            size="sm"
-            colorScheme="blue"
-            variant="ghost"
-            position="absolute"
-            top="0"
-            right="0"
-            zIndex="1"
-            onClick={() => setStrokesKey(prev => prev + 1)}
-          />
-          <style dangerouslySetInnerHTML={{ __html: keyframes }} />
-          <svg 
-            viewBox="0 0 1024 1024" 
-            width="200" 
-            height="200"
-          >
-            <g transform="scale(1, -1) translate(0, -900)">
-              {strokes.slice(0, visibleStrokes).map((path, index) => (
-                <path
-                  key={index}
-                  d={path}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="30"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{
-                    animation: `drawStroke 0.5s ease forwards`
-                  }}
-                />
-              ))}
-            </g>
-          </svg>
-        </Box>
-        <Text fontSize="sm" color="gray.600" mt={2}>
-          {visibleStrokes}/{strokes.length} nét
-        </Text>
-      </Box>
-    );
-  };
-
   // Function to render SVG of kanji
   const renderHantuStroke = (strokesData: string) => {
     if (!strokesData) return null;
@@ -469,7 +295,7 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
     // Use new component
     return (
       <Box width="100%" display="flex" flexDirection="column" alignItems="center" my={4}>
-        <HantuStrokeRenderer strokesData={strokesData} strokesKey={strokesKey} />
+        <HantuStrokeRenderer strokesData={strokesData}/>
       </Box>
     );
   };
