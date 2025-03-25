@@ -1,5 +1,6 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -20,20 +21,31 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useVideo } from '../../hooks/useVideo';
 import VideoCard from '../../components/Video/VideoCard';
 import SEO from '../../components/Common/SEO';
+import { DonationVideoBox } from '../../components/Common/DonationBox';
 
 const VideoPage: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 11;
 
-  const videoTypes = [
-    { name: 'Tất cả', type: 'Chinese' },
-    { name: 'Âm nhạc', type: 'Chinese Voice_Music' },
-    { name: 'Tin tức', type: 'Chinese Voice_News' },
-    { name: 'Văn hóa', type: 'Chinese Voice_Culture' },
-    { name: 'Học tập', type: 'Chinese Voice_Learning' },
-    { name: 'Giải trí', type: 'Chinese Voice_Entertainment' },
-  ];
+  const videoTypes = useMemo(() => [
+    { name: 'Tất cả', type: 'Chinese', param: 'all' },
+    { name: 'Âm nhạc', type: 'Chinese Voice_Music', param: 'music' },
+    { name: 'Tin tức', type: 'Chinese Voice_News', param: 'news' },
+    { name: 'Văn hóa', type: 'Chinese Voice_Culture', param: 'culture' },
+    { name: 'Học tập', type: 'Chinese Voice_Learning', param: 'learning' },
+    { name: 'Giải trí', type: 'Chinese Voice_Entertainment', param: 'entertainment' },
+  ], []);
+
+  useEffect(() => {
+    const typeParam = searchParams.get('type') || 'all';
+    const tabIndex = videoTypes.findIndex(type => type.param === typeParam);
+    if (tabIndex !== -1) {
+      setActiveTab(tabIndex);
+    }
+  }, [searchParams, videoTypes]);
 
   const { data, isLoading, isError } = useVideo(
     videoTypes[activeTab].type,
@@ -43,7 +55,9 @@ const VideoPage: React.FC = () => {
 
   const handleTabChange = (index: number) => {
     setActiveTab(index);
-    setCurrentPage(1); // Reset về trang 1 khi chuyển tab
+    setCurrentPage(1);
+    setSearchParams({ type: videoTypes[index].param });
+    navigate(`?type=${videoTypes[index].param}`, { replace: true });
   };
 
   const handlePageChange = (newPage: number) => {
@@ -77,6 +91,17 @@ const VideoPage: React.FC = () => {
     );
   };
 
+  const renderVideosWithDonation = (videos: any[]) => {
+    const result = [];
+    for (let i = 0; i < videos.length; i++) {
+      result.push(<VideoCard key={videos[i].id} video={videos[i]} />);
+      if (i === 4) {
+        result.push(<DonationVideoBox key={`donation-${i}`} />);
+      }
+    }
+    return result;
+  };
+
   return (
     <>
       <SEO
@@ -92,11 +117,11 @@ const VideoPage: React.FC = () => {
           </Heading>
         </Box>
 
-        <Tabs onChange={handleTabChange} colorScheme="blue" variant="enclosed">
+        <Tabs onChange={handleTabChange} colorScheme="blue" variant="enclosed" index={activeTab}>
           <TabList mb={6} display="flex" justifyContent="center">
             {videoTypes.map((type, index) => (
               <Tab key={index} flex="1" maxW="200px">
-                <Text fontSize="md" fontWeight="bold"> {type.name}</Text>
+                <Text fontSize="md" fontWeight="bold">{type.name}</Text>
               </Tab>
             ))}
           </TabList>
@@ -115,9 +140,7 @@ const VideoPage: React.FC = () => {
                 ) : data?.Song && data.Song.length > 0 ? (
                   <>
                     <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-                      {data.Song.map((video) => (
-                        <VideoCard key={video.id} video={video} />
-                      ))}
+                      {renderVideosWithDonation(data.Song)}
                     </SimpleGrid>
                     {renderPagination()}
                   </>

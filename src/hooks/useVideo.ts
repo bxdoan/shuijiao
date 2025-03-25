@@ -84,7 +84,6 @@ export const useVideoDetail = (songId: number) => {
 export const useRelatedVideos = (
     videoType: string, 
     currentId: number, 
-    page: number = 1, 
     limit: number = 12
 ) => {
   return useQuery<VideoResponse>({
@@ -93,7 +92,6 @@ export const useRelatedVideos = (
       const response = await axios.get(`${API_BASE_URL}/Songs/listpopular`, {
         params: {
           video_type: videoType,
-          skip: (page - 1) * limit,
           limit: limit
         },
         headers: {

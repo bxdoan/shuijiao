@@ -12,7 +12,8 @@ import {
   HStack,
   Stack,
   Badge,
-  IconButton
+  IconButton,
+  VStack
 } from '@chakra-ui/react';
 import { CopyIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { FaHandHoldingHeart } from 'react-icons/fa';
@@ -350,4 +351,148 @@ export const DonationBoxCompact: React.FC<DonationBoxProps> = ({
   );
 };
 
-export default DonationBox; 
+export const DonationVideoBox: React.FC<DonationBoxProps> = ({
+  title = "Ủng hộ dự án Shuijiao",
+  description = "Hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới.",
+  bankName = "MBBANK",
+  accountNumber = "0904195065",
+  accountHolder = "Bui Xuan Doan",
+  transferMessage = "Ho tro Shuijiao",
+}) => {
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const infoBoxBg = useColorModeValue('blue.50', 'blue.900');
+  const labelColor = useColorModeValue('gray.600', 'gray.400');
+  const valueColor = useColorModeValue('gray.800', 'white');
+  const toast = useToast();
+
+  const handleCopy = (text: string, fieldName: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Đã sao chép",
+      description: `${fieldName} đã được sao chép vào clipboard`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "bottom"
+    });
+  };
+
+  return (
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      bg={bgColor}
+      borderColor={borderColor}
+      boxShadow="md"
+      transition="transform 0.2s"
+      _hover={{ transform: 'scale(1.02)' }}
+      height="100%"
+      display="flex"
+      flexDirection="column"
+    >
+      <Box position="relative" display="flex" justifyContent="center" alignItems="center" w="100%" bg="gray.50" p={2}>
+        <Image
+          src={process.env.PUBLIC_URL + '/assets/MBBank-compact.png'} 
+          alt="Donation thumbnail"
+          height="120px"
+          width="120px"
+          objectFit="cover"
+          borderRadius="md"
+        />
+      </Box>
+
+      <VStack p={4} align="start" spacing={2} flex="1">
+        <Text fontWeight="bold" noOfLines={2}>
+          {title}
+        </Text>
+        <Text fontSize="sm" color="gray.600" noOfLines={2}>
+          {description}
+        </Text>
+        
+        <Box w="100%" p={2} bg={infoBoxBg} borderRadius="md">
+          <VStack align="start" spacing={1}>
+            <HStack justify="space-between" w="100%">
+              <Text fontSize="sm" fontWeight="medium" color={labelColor}>Ngân hàng:</Text>
+              <HStack spacing={1}>
+                <Text fontSize="sm" fontWeight="bold" color={valueColor}>{bankName}</Text>
+                <Button 
+                  size="xs" 
+                  onClick={() => handleCopy(bankName, "Ngân hàng")}
+                  colorScheme="blue"
+                  variant="ghost"
+                  h="1.4rem"
+                  minW="3rem"
+                  p={0}
+                  leftIcon={<CopyIcon fontSize="10px" />}
+                >
+                  Copy
+                </Button>
+              </HStack>
+            </HStack>
+            
+            <HStack justify="space-between" w="100%">
+              <Text fontSize="sm" fontWeight="medium" color={labelColor}>Số TK:</Text>
+              <HStack spacing={1}>
+                <Text fontSize="sm" fontWeight="bold" color={valueColor}>{accountNumber}</Text>
+                <Button 
+                  size="xs" 
+                  onClick={() => handleCopy(accountNumber, "Số tài khoản")}
+                  colorScheme="blue"
+                  variant="ghost"
+                  h="1.4rem"
+                  minW="3rem"
+                  p={0}
+                  leftIcon={<CopyIcon fontSize="10px" />}
+                >
+                  Copy
+                </Button>
+              </HStack>
+            </HStack>
+            
+            <HStack justify="space-between" w="100%">
+              <Text fontSize="sm" fontWeight="medium" color={labelColor}>Chủ TK:</Text>
+              <HStack spacing={1}>
+                <Text fontSize="sm" fontWeight="bold" color={valueColor}>{accountHolder}</Text>
+                <Button 
+                  size="xs" 
+                  onClick={() => handleCopy(accountHolder, "Chủ tài khoản")}
+                  colorScheme="blue"
+                  variant="ghost"
+                  h="1.4rem"
+                  minW="3rem"
+                  p={0}
+                  leftIcon={<CopyIcon fontSize="10px" />}
+                >
+                  Copy
+                </Button>
+              </HStack>
+            </HStack>
+            
+            <HStack justify="space-between" w="100%">
+              <Text fontSize="sm" fontWeight="medium" color={labelColor}>Nội dung:</Text>
+              <HStack spacing={1}>
+                <Text fontSize="sm" fontWeight="bold" fontStyle="italic" color={valueColor}>{transferMessage}</Text>
+                <Button 
+                  size="xs" 
+                  onClick={() => handleCopy(transferMessage, "Nội dung")}
+                  colorScheme="blue"
+                  variant="ghost"
+                  h="1.4rem"
+                  minW="3rem"
+                  p={0}
+                  leftIcon={<CopyIcon fontSize="10px" />}
+                >
+                  Copy
+                </Button>
+              </HStack>
+            </HStack>
+          </VStack>
+        </Box>
+      </VStack>
+    </Box>
+  );
+};
+
+export default DonationBox;

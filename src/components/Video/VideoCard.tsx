@@ -22,11 +22,14 @@ interface VideoCardProps {
   };
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
+const VideoCard: React.FC<VideoCardProps> = ({ 
+    video,
+    backId = null
+ }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/zh/video/${video.id}`);
+    navigate(`/zh/video/${video.id}${backId ? `?backId=${backId}` : ''}`);
   };
 
   return (
