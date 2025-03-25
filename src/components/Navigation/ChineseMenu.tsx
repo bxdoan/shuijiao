@@ -25,7 +25,8 @@ import {
 import { 
   FaBook, 
   FaNewspaper,
-  FaGraduationCap
+  FaGraduationCap,
+  FaVideo,
 } from 'react-icons/fa';
 
 // HSK levels available
@@ -82,6 +83,20 @@ const ChineseMenu = () => {
           bg="red.700"
         >
           Đọc báo
+        </MenuItem>
+        
+        <MenuDivider borderColor="red.600" />
+
+        <MenuItem 
+          as={Link} 
+          to="/zh/video" 
+          icon={<FaVideo />}
+          _hover={{ bg: 'red.600' }}
+          color="white" 
+          fontWeight="medium"
+          bg="red.700"
+        >
+          Video
         </MenuItem>
         
         <MenuDivider borderColor="red.600" />

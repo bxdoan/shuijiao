@@ -1,0 +1,136 @@
+// @ts-nocheck
+import React, { useState } from 'react';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  SimpleGrid,
+  Center,
+  Spinner,
+  Button,
+  HStack,
+} from '@chakra-ui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { useVideo } from '../../hooks/useVideo';
+import VideoCard from '../../components/Video/VideoCard';
+import SEO from '../../components/Common/SEO';
+
+const VideoPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 12;
+
+  const videoTypes = [
+    { name: 'Tất cả', type: 'Chinese' },
+    { name: 'Âm nhạc', type: 'Chinese Voice_Music' },
+    { name: 'Tin tức', type: 'Chinese Voice_News' },
+    { name: 'Văn hóa', type: 'Chinese Voice_Culture' },
+    { name: 'Học tập', type: 'Chinese Voice_Learning' },
+    { name: 'Giải trí', type: 'Chinese Voice_Entertainment' },
+  ];
+
+  const { data, isLoading, isError } = useVideo(
+    videoTypes[activeTab].type,
+    currentPage,
+    ITEMS_PER_PAGE
+  );
+
+  const handleTabChange = (index: number) => {
+    setActiveTab(index);
+    setCurrentPage(1); // Reset về trang 1 khi chuyển tab
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderPagination = () => {
+    if (!data?.Song || data.Song.length < ITEMS_PER_PAGE) return null;
+
+    return (
+      <Center py={6}>
+        <HStack spacing={2}>
+          <Button
+            leftIcon={<ChevronLeftIcon />}
+            onClick={() => handlePageChange(currentPage - 1)}
+            isDisabled={currentPage === 1}
+          >
+            Trang trước
+          </Button>
+          <Text fontWeight="bold">Trang {currentPage}</Text>
+          <Button
+            rightIcon={<ChevronRightIcon />}
+            onClick={() => handlePageChange(currentPage + 1)}
+            isDisabled={!data.Song || data.Song.length < ITEMS_PER_PAGE}
+          >
+            Trang sau
+          </Button>
+        </HStack>
+      </Center>
+    );
+  };
+
+  return (
+    <>
+      <SEO
+        title="Shuijiao - Học tiếng Trung qua video"
+        description="Nền tảng học tiếng Trung hiệu quả thông qua video. Cập nhật liên tục với nhiều chủ đề và mức độ khó khác nhau."
+        keywords="học tiếng Trung, video tiếng Trung, tiếng Trung thực tế, xem video tiếng Trung, luyện nghe tiếng Trung"
+        ogType="website"
+      />
+      <Container maxW="container.xl" py={8}>
+        <Box textAlign="center" mb={8}>
+          <Heading as="h1" size="2xl" mb={2}>
+            Học tiếng Trung qua video
+          </Heading>
+        </Box>
+
+        <Tabs onChange={handleTabChange} colorScheme="blue" variant="enclosed">
+          <TabList mb={6} overflowX="auto">
+            {videoTypes.map((type, index) => (
+              <Tab key={index}>{type.name}</Tab>
+            ))}
+          </TabList>
+
+          <TabPanels>
+            {videoTypes.map((type, index) => (
+              <TabPanel key={index}>
+                {isLoading ? (
+                  <Center py={10}>
+                    <Spinner size="xl" color="blue.500" thickness="4px" />
+                  </Center>
+                ) : isError ? (
+                  <Center py={10}>
+                    <Text>Đã xảy ra lỗi khi tải video. Vui lòng thử lại sau.</Text>
+                  </Center>
+                ) : data?.Song && data.Song.length > 0 ? (
+                  <>
+                    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+                      {data.Song.map((video) => (
+                        <VideoCard key={video.id} video={video} />
+                      ))}
+                    </SimpleGrid>
+                    {renderPagination()}
+                  </>
+                ) : (
+                  <Center py={10}>
+                    <Text>Không tìm thấy video nào.</Text>
+                  </Center>
+                )}
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
+      </Container>
+    </>
+  );
+};
+
+export default VideoPage; 

@@ -15,6 +15,8 @@ import DictPage from './pages/DictPage';
 import ContactPage from './pages/ContactPage';
 import LearnHSK from './pages/Chinese/LearnHSK';
 import HSKDetails from './pages/Chinese/HSKDetails';
+import VideoPage from './pages/Chinese/VideoPage';
+import VideoDetailPage from './pages/Chinese/VideoDetailPage';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 
@@ -53,6 +55,9 @@ function App() {
                   {/* HSK routes */}
                   <Route path="/zh/vi/hsk/:level" element={<LearnHSK />} />
                   <Route path="/zh/vi/hsk/:level/:lessonId" element={<HSKDetails />} />
+                  {/* Video routes */}
+                  <Route path="/zh/video" element={<VideoPage />} />
+                  <Route path="/zh/video/:id" element={<VideoDetailPage />} />
                 </Routes>
               </Box>
               <Footer />
