@@ -113,7 +113,7 @@ const HSKDetails = () => {
         
         // Sử dụng import động để tải file JSON theo cấp độ HSK
         try {
-          const hskModule = await import(`../data_example/hsk${level}.json`);
+          const hskModule = await import(`../../data_example/hsk${level}.json`);
           const hskData = hskModule.default || [];
           
           // Tìm bài học theo lessonId

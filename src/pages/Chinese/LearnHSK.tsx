@@ -56,7 +56,7 @@ const LearnHSK = () => {
         // Động lấy file HSK theo cấp độ
         try {
           // Sử dụng import động để tải file JSON theo cấp độ HSK
-          const hskModule = await import(`../data_example/hsk${level}.json`);
+          const hskModule = await import(`../../data_example/hsk${level}.json`);
           setLessons(hskModule.default || []);
         } catch (importError) {
           console.error(`Không thể tải file hsk${level}.json:`, importError);
