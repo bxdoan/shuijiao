@@ -16,7 +16,10 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 
-import { useVideoDetail, useRelatedVideos } from '../../hooks/useVideo';
+import { 
+    useVideoDetail, 
+    useRelatedVideos 
+} from '../../hooks/useVideo';
 import VideoCard from '../../components/Video/VideoCard';
 import SEO from '../../components/Common/SEO';
 
@@ -29,7 +32,7 @@ const VideoDetailPage: React.FC = () => {
     videoType,
     Number(id),
     1,
-    12
+    10
   );
 
   if (isLoading) {

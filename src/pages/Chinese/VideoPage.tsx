@@ -24,7 +24,7 @@ import SEO from '../../components/Common/SEO';
 const VideoPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 12;
+  const ITEMS_PER_PAGE = 10;
 
   const videoTypes = [
     { name: 'Tất cả', type: 'Chinese' },
@@ -93,9 +93,11 @@ const VideoPage: React.FC = () => {
         </Box>
 
         <Tabs onChange={handleTabChange} colorScheme="blue" variant="enclosed">
-          <TabList mb={6} overflowX="auto">
+          <TabList mb={6} display="flex" justifyContent="center">
             {videoTypes.map((type, index) => (
-              <Tab key={index}>{type.name}</Tab>
+              <Tab key={index} flex="1" maxW="200px">
+                <Text fontSize="md" fontWeight="bold"> {type.name}</Text>
+              </Tab>
             ))}
           </TabList>
 
