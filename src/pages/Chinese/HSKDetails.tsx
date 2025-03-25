@@ -363,7 +363,7 @@ const HSKDetails = () => {
               <AspectRatio ratio={16 / 9}>
                 <iframe
                   title={lesson.title}
-                  src={`https://www.youtube.com/embed/${getYoutubeId(lesson.youtube_url)}`}
+                  src={`https://www.youtube.com/embed/${getYoutubeId(lesson.youtube_url)}?start=10`}
                   allowFullScreen
                 />
               </AspectRatio>
