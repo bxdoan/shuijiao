@@ -39,6 +39,145 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Trang flashcard -->
+  <url>
+    <loc>https://shuijiao.com/zh/flashcard</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Trang hsk -->
+  <url>
+    <loc>https://shuijiao.com/zh/hsk</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Trang hsk detail -->
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Trang hsk detail episode 1-16 -->
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/1</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/2</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/3</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/4</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/5</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/6</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/7</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/8</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/9</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/10</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/11</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/12</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/13</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/14</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://shuijiao.com/zh/hsk/1/15</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Trang video -->
+  <url>
+    <loc>https://shuijiao.com/zh/video</loc>
+    <lastmod>2025-03-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
   
   <!-- 
     CHÚC Ý: Đây là ví dụ về sitemap tĩnh. Trong thực tế, bạn nên sử dụng sitemap động.
