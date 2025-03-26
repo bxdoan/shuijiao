@@ -51,6 +51,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
   const navigate = useNavigate();
   const [wordsParams, setWordsParams] = useState<Notebook[]>([]);
   const [wordsShow, setWordsShow] = useState<Notebook[]>([]);
+  const [moreData, setMoreData] = useState<Notebook[]>([]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,6 +91,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
           const endIndex = startIndex + WORDS_PER_PAGE;
           const currentShowWords = buildWords.slice(startIndex, endIndex);
           setWordsShow(currentShowWords);
+          setMoreData(currentShowWords);
         } catch (error) {
           console.error('Error decoding words:', error);
           navigate('/zh');
@@ -100,6 +102,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
             category, currentPage, WORDS_PER_PAGE
           );
           setWordsShow(response.result);
+          setMoreData(response.result);
           setTotalItems(response.total);
         } catch (error) {
           console.error('Error loading vocabulary items:', error);
@@ -144,7 +147,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
     const results = await Promise.all(promises);
     
     // update for wordsShow from startIndex
-    setWordsShow(prev => { 
+    setMoreData(prev => { 
       const newWords = [...prev];
       results.forEach((result, index) => {
         newWords[index] = result;
@@ -187,12 +190,12 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
 
   const toggleFlashcardMode = async () => {
     if (category) {
-      // get all words from category via api
       try {
         const response = await fetchVocabularyItems(
           category, 1, totalItems
         );    
         setWordsShow(response.result);
+        setMoreData(response.result);
       } catch (error) {
         console.error('Error fetching vocabulary items:', error);
       }
@@ -231,6 +234,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
   }
 
   const currentWord = category ? wordsShow[currentIndex] : wordsParams[currentIndex];
+  const currentMoreWord = moreData[currentIndex];
 
   return (
     <>
@@ -310,13 +314,13 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                   <Text fontSize="4xl" fontWeight="bold" color={textColor}>
                     {currentWord.w}
                   </Text>
-                  {showMeaning && (
+                  {showMeaning && currentMoreWord && (
                     <>
                       <Text fontSize="xl" color={pinyinColor}>
-                        {currentWord.p}
+                        {currentMoreWord.p}
                       </Text>
                       <Text fontSize="lg" color={meaningColor}>
-                        {currentWord.m}
+                        {currentMoreWord.m}
                       </Text>
                     </>
                   )}
@@ -372,18 +376,17 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                                 size="sm"
                               />
                             </HStack>
-                            {
-                              word.isLoading ? (
-                                <Spinner size="sm" color="blue.500" />
-                              ) : (
-                                <>
+                            { moreData[index] ? (
+                              <>
                                   <Text color={pinyinColor}>
-                                    {word.p}
+                                    {moreData[index].p}
                                   </Text>
                                   <Text color={meaningColor}>
-                                    {word.m}
+                                    {moreData[index].m}
                                   </Text>
                                 </>
+                              ) : (
+                                <Spinner size="sm" color="blue.500" />
                               )
                             }
                           </VStack>
