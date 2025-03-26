@@ -25,7 +25,9 @@ import {
 
 import { 
     FaArrowLeft, 
-    FaVolumeUp 
+    FaVolumeUp,
+    FaEye,
+    FaEyeSlash
 } from 'react-icons/fa';
 
 import { fetchDictionary, fetchVocabularyItems } from '../../api/newsApi';
@@ -56,6 +58,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
   const [isFlashcardMode, setIsFlashcardMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [autoShowMeaning, setAutoShowMeaning] = useState(false);
   const WORDS_PER_PAGE = 12;
 
   // Màu sắc dựa trên theme
@@ -171,24 +174,28 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
   const handleNextWord = () => {
     if (currentIndex < wordsShow.length - 1) {
       setCurrentIndex(prev => prev + 1);
-      setShowMeaning(false);
+      setShowMeaning(autoShowMeaning);
     }
   };
 
   const handlePrevWord = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
-      setShowMeaning(false);
+      setShowMeaning(autoShowMeaning);
     }
   };
 
   const toggleFlashcardMode = async () => {
     if (category) {
       // get all words from category via api
-      const response = await fetchVocabularyItems(
-        category, currentPage, WORDS_PER_PAGE
-      );    
-      setWordsShow(response.result);
+      try {
+        const response = await fetchVocabularyItems(
+          category, 1, totalItems
+        );    
+        setWordsShow(response.result);
+      } catch (error) {
+        console.error('Error fetching vocabulary items:', error);
+      }
     } else {
       setWordsShow(wordsParams);
     }
@@ -223,8 +230,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
     );
   }
 
-  const currentWord = category ? wordsShow[currentIndex].w : wordsParams[currentIndex].w;
-  const wordInfo = category ? wordsShow[currentIndex] : wordsParams[currentIndex];
+  const currentWord = category ? wordsShow[currentIndex] : wordsParams[currentIndex];
 
   return (
     <>
@@ -271,35 +277,50 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
             >
               <CardBody p={8}>
                 <VStack spacing={4} align="center">
-                  <HStack width="100%" justify="flex-start" mb={2}>
+                  <HStack width="100%" justify="space-between" mb={2}>
                     <Text fontSize="sm" color="gray.500" fontWeight="bold">
                       {currentIndex + 1} / {category ? totalItems : wordsParams.length}
                     </Text>
+                    <VStack spacing={2} align="flex-end">
+                      <IconButton
+                        aria-label="Phát âm"
+                        icon={<FaVolumeUp />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playPronunciation(currentWord.w);
+                        }}
+                        colorScheme="blue"
+                        variant="ghost"
+                        size="sm"
+                      />
+                      <IconButton
+                        aria-label={autoShowMeaning ? "Tắt tự động hiện nghĩa" : "Bật tự động hiện nghĩa"}
+                        icon={autoShowMeaning ? <FaEye /> : <FaEyeSlash />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setAutoShowMeaning(!autoShowMeaning);
+                          setShowMeaning(!autoShowMeaning);
+                        }}
+                        colorScheme={autoShowMeaning ? "green" : "gray"}
+                        variant="ghost"
+                        size="sm"
+                      />
+                    </VStack>
                   </HStack>
                   <Text fontSize="4xl" fontWeight="bold" color={textColor}>
-                    {currentWord}
+                    {currentWord.w}
                   </Text>
-                  {showMeaning && wordInfo && (
+                  {showMeaning && (
                     <>
                       <Text fontSize="xl" color={pinyinColor}>
-                        {wordInfo.p}
+                        {currentWord.p}
                       </Text>
                       <Text fontSize="lg" color={meaningColor}>
-                        {wordInfo.m}
+                        {currentWord.m}
                       </Text>
                     </>
                   )}
                   <HStack spacing={4} mt={4}>
-                    <IconButton
-                      aria-label="Phát âm"
-                      icon={<FaVolumeUp />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        playPronunciation(currentWord);
-                      }}
-                      colorScheme="blue"
-                      variant="ghost"
-                    />
                     <Button
                       leftIcon={<ChevronLeftIcon />}
                       onClick={(e) => {
