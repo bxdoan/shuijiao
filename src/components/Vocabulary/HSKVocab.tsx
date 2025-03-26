@@ -22,8 +22,11 @@ import {
   PopoverBody,
   Spinner,
   Flex,
+  Button,
 } from '@chakra-ui/react';
 import { fetchDictionary } from '../../api/newsApi';
+import { useNavigate } from 'react-router-dom';
+import { FaBookOpen } from 'react-icons/fa';
 
 interface HSKVocabularyBoxProps {
   levelHSK: {
@@ -64,6 +67,7 @@ const displayOrder = ['1', '2', '3', '4', '5', '6', 'unknown'];
 
 // @ts-ignore - Bỏ qua kiểm tra TypeScript để tránh lỗi Union Type phức tạp
 const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
+  const navigate = useNavigate();
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const popoverBgColor = useColorModeValue('white', 'gray.700');
@@ -153,6 +157,22 @@ const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
     openPopoverRef.current = null;
   };
   
+  // Hàm lấy tất cả từ vựng từ tất cả các cấp độ
+  const getAllWords = () => {
+    const allWords: string[] = [];
+    Object.values(levelHSK).forEach(words => {
+      allWords.push(...words);
+    });
+    return allWords;
+  };
+
+  // Hàm xử lý khi click nút Flashcard
+  const handleFlashcardClick = () => {
+    const allWords = getAllWords();
+    const wordsParam = encodeURIComponent(allWords.join(','));
+    navigate(`/zh/flashcard?backRoute=${window.location.pathname}&words=${wordsParam}`);
+  };
+  
   // Kiểm tra nếu không có dữ liệu
   if (!levelHSK || Object.keys(levelHSK).length === 0) {
     return null;
@@ -168,9 +188,19 @@ const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
       boxShadow="md"
       p={4}
     >
-      <Heading as="h3" size="md" mb={4} textAlign="center">
-        Từ vựng HSK trong bài
-      </Heading>
+      <HStack justify="space-between" mb={4}>
+        <Heading as="h3" size="md">
+          Từ vựng HSK trong bài
+        </Heading>
+        <Button
+          leftIcon={<FaBookOpen />}
+          colorScheme="blue"
+          size="md"
+          onClick={handleFlashcardClick}
+        >
+          Học với Flashcard
+        </Button>
+      </HStack>
       
       <Accordion allowMultiple defaultIndex={[0]}>
         {displayOrder.map((level) => {

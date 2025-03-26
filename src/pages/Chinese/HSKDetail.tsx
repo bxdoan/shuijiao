@@ -510,6 +510,19 @@ const HSKDetails = () => {
               <VStack spacing={3}>
                 <Button 
                   leftIcon={<FaBookOpen />}
+                  colorScheme="blue"
+                  size="md"
+                  width="full"
+                  onClick={() => {
+                    const wordsParam = encodeURIComponent(lesson.words.join(','));
+                    navigate(`/zh/flashcard?backRoute=${window.location.pathname}&words=${wordsParam}`);
+                  }}
+                >
+                  Flashcard
+                </Button>
+
+                <Button 
+                  leftIcon={<FaBookOpen />}
                   colorScheme="yellow"
                   size="md"
                   width="full"
@@ -518,7 +531,7 @@ const HSKDetails = () => {
                 >
                   Tra cứu từ điển
                 </Button>
-                
+
                 <Button 
                   leftIcon={<FaArrowLeft />}
                   colorScheme={levelColor}

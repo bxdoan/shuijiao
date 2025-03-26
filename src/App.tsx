@@ -6,17 +6,18 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Analytics } from '@vercel/analytics/react';
 import { Header } from './components/Layout/Header';
 import { Footer } from './components/Layout/Footer';
-import ChinesePage from './pages/Chinese/ChinesePage';
+import ChinesePage from './pages/Chinese/Reading';
 import AboutPage from './pages/AboutPage';
 import EnglishPage from './pages/English/EnglishPage';
 import NewsDetailPage from './pages/NewsDetailPage';
 import TranslatePage from './pages/TranslatePage';
 import DictPage from './pages/DictPage';
 import ContactPage from './pages/ContactPage';
-import LearnHSK from './pages/Chinese/LearnHSK';
-import HSKDetails from './pages/Chinese/HSKDetails';
-import VideoPage from './pages/Chinese/VideoPage';
-import VideoDetailPage from './pages/Chinese/VideoDetailPage';
+import LearnHSK from './pages/Chinese/HSK';
+import HSKDetails from './pages/Chinese/HSKDetail';
+import ChineseFlashCard from './pages/Chinese/FlashCard';
+import VideoPage from './pages/Chinese/Video';
+import VideoDetailPage from './pages/Chinese/VideoDetail';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 
@@ -58,6 +59,8 @@ function App() {
                   {/* Video routes */}
                   <Route path="/zh/video" element={<VideoPage />} />
                   <Route path="/zh/video/:id" element={<VideoDetailPage />} />
+                  {/* Flashcard route */}
+                  <Route path="/zh/flashcard" element={<ChineseFlashCard />} />
                 </Routes>
               </Box>
               <Footer />
