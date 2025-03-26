@@ -24,6 +24,7 @@ import {
   FaNewspaper,
   FaGraduationCap,
   FaVideo,
+  FaList
 } from 'react-icons/fa';
 
 // HSK levels available
@@ -79,6 +80,19 @@ const MobileChineseMenu = ({ onCloseDrawer }: MobileChineseMenuProps) => {
         onClick={onCloseDrawer}
       >
         Video
+      </Button>
+  
+      <Button 
+        as={Link}
+        to="/zh/vocab"
+        variant="ghost"
+        colorScheme="yellow"
+        size="md"
+        justifyContent="flex-start"
+        leftIcon={<FaList />}
+        onClick={onCloseDrawer}
+      >
+        Từ vựng
       </Button>
       
       

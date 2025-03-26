@@ -20,6 +20,8 @@ import VideoPage from './pages/Chinese/Video';
 import VideoDetailPage from './pages/Chinese/VideoDetail';
 import SEO from './components/Common/SEO';
 import theme from './theme';
+import ChineseVocabulary from './pages/Chinese/Vocabulary';
+import ChineseVocabularyDetail from './pages/Chinese/VocabularyDetail';
 
 // Create a client with default options
 const queryClient = new QueryClient({
@@ -56,8 +58,10 @@ function App() {
                   <Route path="/zh/vi/hsk/:level/:lessonId" element={<HSKDetails />} />
                   <Route path="/zh/video" element={<VideoPage />} />
                   <Route path="/zh/video/:id" element={<VideoDetailPage />} />
-                  <Route path="/zh/flashcard" element={<ChineseFlashCard />} />
+                  <Route path="/zh/flashcard" element={<ChineseFlashCard words={[]} />} />
                   <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
+                  <Route path="/zh/vocab" element={<ChineseVocabulary />} />
+                  <Route path="/zh/vocab/:category" element={<ChineseVocabularyDetail />} />
                 </Routes>
               </Box>
               <Footer />

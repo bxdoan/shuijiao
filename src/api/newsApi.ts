@@ -6,7 +6,9 @@ import {
   SearchResponse,
   KanjiResponse,
   NewsDetailChinese,
-  NewsDetailEnglish
+  NewsDetailEnglish,
+  VocabularyCategoryResponse,
+  VocabularyResponse
 } from '../types';
 import * as utils from '../utils/utils';
 import { fetchGoogleTranslation } from './translateApi';
@@ -315,5 +317,35 @@ export const fetchDictionary = async (
     console.error(`Error searching for ${type} ${term} ${targetLang} ${page} ${limit}:`, error);
     return null;
   }
+};
+
+export const fetchVocabularyCategories = async (): Promise<VocabularyCategoryResponse> => {
+  const response = await fetch('https://api.hanzii.net/api/category/premium', {
+    headers: {
+      'accept': 'application/json, text/plain, */*',
+      'accept-language': 'en-US,en;q=0.9,vi;q=0.8',
+      'authorization': '37783281518601508919736764542798',
+      'content-type': 'application/json',
+      'origin': 'https://hanzii.net',
+      'referer': 'https://hanzii.net/',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
+    }
+  });
+  return response.json();
+};
+
+export const fetchVocabularyItems = async (category: string, page: number = 1, limit: number = 10): Promise<VocabularyResponse> => {
+  const response = await fetch(`https://api.hanzii.net/api/notebooks/premium/${category}?page=${page}&limit=${limit}`, {
+    headers: {
+      'accept': 'application/json, text/plain, */*',
+      'accept-language': 'en-US,en;q=0.9,vi;q=0.8',
+      'authorization': '37783281518601508919736764542798',
+      'content-type': 'application/json',
+      'origin': 'https://hanzii.net',
+      'referer': 'https://hanzii.net/',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
+    }
+  });
+  return response.json();
 };
 

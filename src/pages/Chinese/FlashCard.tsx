@@ -28,21 +28,34 @@ import {
     FaVolumeUp 
 } from 'react-icons/fa';
 
-import { fetchDictionary } from '../../api/newsApi';
+import { fetchDictionary, fetchVocabularyItems } from '../../api/newsApi';
 import SEO from '../../components/Common/SEO';
-import { WordData } from '../../types';
+import { 
+  Notebook
+} from '../../types';
 
+interface FlashCardProps {
+  category?: string;
+  words?: string[];
+  routeBack?: string;
+}
 
-const ChineseFlashCard: React.FC = () => {
+const ChineseFlashCard: React.FC<FlashCardProps> = ({ 
+  category,
+  words: propWords,
+  routeBack,
+}) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [words, setWords] = useState<string[]>([]);
-  const [wordData, setWordData] = useState<Record<string, WordData>>({});
+  const [wordsParams, setWordsParams] = useState<Notebook[]>([]);
+  const [wordsShow, setWordsShow] = useState<Notebook[]>([]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showMeaning, setShowMeaning] = useState(false);
   const [isFlashcardMode, setIsFlashcardMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const WORDS_PER_PAGE = 12;
 
   // Màu sắc dựa trên theme
@@ -53,88 +66,110 @@ const ChineseFlashCard: React.FC = () => {
   const meaningColor = useColorModeValue('green.600', 'green.300');
 
   useEffect(() => {
-    const wordsParam = searchParams.get('words');
-    if (!wordsParam) {
-      navigate('/zh');
-      return;
-    }
+    const loadVocabularyItems = async () => {
+      if (!category) {
+        const wordsParam = searchParams.get('words');
+        if (!wordsParam) {
+          navigate('/zh');
+          return;
+        }
 
-    try {
-      const decodedWords = decodeURIComponent(wordsParam).split(',');
-      setWords(decodedWords);
+        try {
+          const decodedWords = decodeURIComponent(wordsParam).split(',');
+          const buildWords = decodedWords.map(word => ({
+            w: word,
+            p: '',
+            m: '',
+            isLoading: true
+          }));
+          setWordsParams(buildWords);
+          const startIndex = (currentPage - 1) * WORDS_PER_PAGE;
+          const endIndex = startIndex + WORDS_PER_PAGE;
+          const currentShowWords = buildWords.slice(startIndex, endIndex);
+          setWordsShow(currentShowWords);
+        } catch (error) {
+          console.error('Error decoding words:', error);
+          navigate('/zh');
+        }
+      } else {
+        try {
+          const response = await fetchVocabularyItems(
+            category, currentPage, WORDS_PER_PAGE
+          );
+          setWordsShow(response.result);
+          setTotalItems(response.total);
+        } catch (error) {
+          console.error('Error loading vocabulary items:', error);
+        }
+      }
       setIsLoading(false);
-    } catch (error) {
-      console.error('Error decoding words:', error);
-      navigate('/zh');
-    }
-  }, [searchParams, navigate]);
+    };
+
+    loadVocabularyItems();
+  }, [category, currentPage, searchParams, navigate]);
+
 
   const loadWordData = useCallback(async () => {
-    const startIndex = (currentPage - 1) * WORDS_PER_PAGE;
-    const endIndex = startIndex + WORDS_PER_PAGE;
-    const currentWords = words.slice(startIndex, endIndex);
+    if (category) return;
 
-    // Tạo mảng các promise để load song song
-    const promises = currentWords.map(async (word) => {
+    const promises = wordsShow.map(async (word: Notebook) => {
       try {
-        const data = await fetchDictionary(word, 'vi', 'word');
+        const data = await fetchDictionary(
+          word.w, 'vi', 'word', 1, 2
+        );
         if (data && data.found && data.result.length > 0) {
           const firstResult = data.result[0];
           return {
-            word,
-            data: {
-              word: firstResult.word,
-              pinyin: firstResult.pinyin,
-              cn_vi: firstResult.cn_vi,
-              isLoading: false
-            }
+            ...word,
+            p: firstResult.pinyin,
+            m: firstResult.cn_vi,
+            isLoading: false
           };
         }
       } catch (error) {
         console.error('Error fetching word data:', error);
       }
       return {
-        word,
-        data: {
-          word,
-          pinyin: 'Lỗi tải dữ liệu',
-          cn_vi: 'Lỗi tải dữ liệu',
-          isLoading: false
-        }
+        ...word,
+        p: 'Lỗi tải dữ liệu',
+        m: 'Lỗi tải dữ liệu',
+        isLoading: false
       };
     });
 
-    // Chờ tất cả promise hoàn thành
+    // wait for all promises to finish
     const results = await Promise.all(promises);
     
-    // Cập nhật state với dữ liệu mới
-    setWordData(prev => {
-      const newWordData = { ...prev };
-      results.forEach(result => {
-        newWordData[result.word] = result.data;
+    // update for wordsShow from startIndex
+    setWordsShow(prev => { 
+      const newWords = [...prev];
+      results.forEach((result, index) => {
+        newWords[index] = result;
       });
-      return newWordData;
+      return newWords;
     });
-  }, [currentPage, words]);
+  }, [category, wordsShow]);
 
   useEffect(() => {
     loadWordData();
   }, [loadWordData]);
 
   const handleNextPage = () => {
-    if (currentPage * WORDS_PER_PAGE < words.length) {
+    if (currentPage * WORDS_PER_PAGE < (category ? totalItems : wordsParams.length)) {
       setCurrentPage(prev => prev + 1);
+      setIsLoading(true);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(prev => prev - 1);
+      setIsLoading(true);
     }
   };
 
   const handleNextWord = () => {
-    if (currentIndex < words.length - 1) {
+    if (currentIndex < wordsShow.length - 1) {
       setCurrentIndex(prev => prev + 1);
       setShowMeaning(false);
     }
@@ -147,7 +182,16 @@ const ChineseFlashCard: React.FC = () => {
     }
   };
 
-  const toggleFlashcardMode = () => {
+  const toggleFlashcardMode = async () => {
+    if (category) {
+      // get all words from category via api
+      const response = await fetchVocabularyItems(
+        category, currentPage, WORDS_PER_PAGE
+      );    
+      setWordsShow(response.result);
+    } else {
+      setWordsShow(wordsParams);
+    }
     setIsFlashcardMode(!isFlashcardMode);
     setCurrentIndex(0);
     setShowMeaning(false);
@@ -161,9 +205,11 @@ const ChineseFlashCard: React.FC = () => {
 
   // Hàm xử lý nút quay lại
   const handleBack = () => {
-    const backRoute = searchParams.get('backRoute');
-    if (backRoute) {
-      navigate(`${backRoute}`);
+    const backRouteParam = searchParams.get('backRoute');
+    if (routeBack) {
+      navigate(`${routeBack}`);
+    } else if (backRouteParam) {
+      navigate(`${backRouteParam}`);
     } else {
       navigate('/zh');
     }
@@ -177,8 +223,8 @@ const ChineseFlashCard: React.FC = () => {
     );
   }
 
-  const currentWord = words[currentIndex];
-  const wordInfo = wordData[currentWord];
+  const currentWord = category ? wordsShow[currentIndex].w : wordsParams[currentIndex].w;
+  const wordInfo = category ? wordsShow[currentIndex] : wordsParams[currentIndex];
 
   return (
     <>
@@ -225,16 +271,21 @@ const ChineseFlashCard: React.FC = () => {
             >
               <CardBody p={8}>
                 <VStack spacing={4} align="center">
+                  <HStack width="100%" justify="flex-start" mb={2}>
+                    <Text fontSize="sm" color="gray.500" fontWeight="bold">
+                      {currentIndex + 1} / {category ? totalItems : wordsParams.length}
+                    </Text>
+                  </HStack>
                   <Text fontSize="4xl" fontWeight="bold" color={textColor}>
                     {currentWord}
                   </Text>
                   {showMeaning && wordInfo && (
                     <>
                       <Text fontSize="xl" color={pinyinColor}>
-                        {wordInfo.pinyin}
+                        {wordInfo.p}
                       </Text>
                       <Text fontSize="lg" color={meaningColor}>
-                        {wordInfo.cn_vi}
+                        {wordInfo.m}
                       </Text>
                     </>
                   )}
@@ -265,7 +316,7 @@ const ChineseFlashCard: React.FC = () => {
                         e.stopPropagation();
                         handleNextWord();
                       }}
-                      isDisabled={currentIndex === words.length - 1}
+                      isDisabled={currentIndex === wordsShow.length - 1}
                     >
                       Từ tiếp
                     </Button>
@@ -277,13 +328,9 @@ const ChineseFlashCard: React.FC = () => {
             // List Mode
             <>
               <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-                {words
-                  .slice((currentPage - 1) * WORDS_PER_PAGE, currentPage * WORDS_PER_PAGE)
-                  .map((word, index) => {
-                    const info = wordData[word];
+                {wordsShow && wordsShow.map((word, index) => {
                     return (
                       <Card
-                        key={word}
                         bg={bgColor}
                         borderWidth="1px"
                         borderColor={borderColor}
@@ -293,29 +340,31 @@ const ChineseFlashCard: React.FC = () => {
                           <VStack align="start" spacing={2}>
                             <HStack width="100%" justify="space-between">
                               <Text fontSize="xl" fontWeight="bold" color={textColor}>
-                                {word}
+                                {word.w}
                               </Text>
                               <IconButton
                                 aria-label="Phát âm"
                                 icon={<FaVolumeUp />}
-                                onClick={() => playPronunciation(word)}
+                                onClick={() => playPronunciation(word.w)}
                                 colorScheme="blue"
                                 variant="ghost"
                                 size="sm"
                               />
                             </HStack>
-                            {info ? (
-                              info.isLoading ? (
+                            {
+                              word.isLoading ? (
                                 <Spinner size="sm" color="blue.500" />
                               ) : (
                                 <>
-                                  <Text color={pinyinColor}>{info.pinyin}</Text>
-                                  <Text color={meaningColor}>{info.cn_vi}</Text>
+                                  <Text color={pinyinColor}>
+                                    {word.p}
+                                  </Text>
+                                  <Text color={meaningColor}>
+                                    {word.m}
+                                  </Text>
                                 </>
                               )
-                            ) : (
-                              <Text color="gray.500">Đang tải...</Text>
-                            )}
+                            }
                           </VStack>
                         </CardBody>
                       </Card>
@@ -331,11 +380,11 @@ const ChineseFlashCard: React.FC = () => {
                 >
                   Trang trước
                 </Button>
-                <Text fontWeight="bold">Trang {currentPage}</Text>
+                <Text fontWeight="bold">Trang {currentPage} / {Math.ceil((category ? totalItems : wordsParams.length) / WORDS_PER_PAGE)}</Text>
                 <Button
                   rightIcon={<ChevronRightIcon />}
                   onClick={handleNextPage}
-                  isDisabled={currentPage * WORDS_PER_PAGE >= words.length}
+                  isDisabled={currentPage * WORDS_PER_PAGE >= (category ? totalItems : wordsParams.length)}
                 >
                   Trang sau
                 </Button>

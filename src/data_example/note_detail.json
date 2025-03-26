@@ -1,0 +1,65 @@
+{
+    "result": [
+        {
+            "w": "\u5019\u8f66\u5ba4",
+            "m": "Ph\u00f2ng ch\u1edd t\u00e0u",
+            "p": "h\u00f2uch\u0113 sh\u00ec",
+            "m_en": "Train waiting room"
+        },
+        {
+            "w": "(\u4e0a\u4e0b)\u8f66\u9053",
+            "m": "\u0110\u01b0\u1eddng \u0111\u1ec3 l\u00ean xu\u1ed1ng t\u00e0u",
+            "p": "(sh\u00e0ngxi\u00e0) ch\u0113d\u00e0o",
+            "m_en": "Way to get on and off the train"
+        },
+        {
+            "w": "\u7ad9\u53f0",
+            "m": "Th\u1ec1m ga, s\u00e2n ga",
+            "p": "zh\u00e0nt\u00e1i",
+            "m_en": "Platforms, platforms"
+        },
+        {
+            "w": "\u4e0b\u5ba2\u7ad9\u53f0",
+            "m": "Th\u1ec1m, b\u1ee5c xu\u1ed1ng t\u00e0u",
+            "p": "xi\u00e0 k\u00e8 zh\u00e0nt\u00e1i",
+            "m_en": "Rows and platforms to board the ships"
+        },
+        {
+            "w": "\u53d1\u8f66\u7ad9\u53f0",
+            "m": "S\u00e2n ga (n\u01a1i t\u00e0u l\u0103n b\u00e1nh)",
+            "p": "f\u0101ch\u0113 zh\u00e0nt\u00e1i",
+            "m_en": "Platform platform (where the train rolls)"
+        },
+        {
+            "w": "\u81ea\u52a8\u4eba\u884c\u9053",
+            "m": "Thang truy\u1ec1n t\u1ef1 \u0111\u1ed9ng",
+            "p": "z\u00ecd\u00f2ng r\u00e9nx\u00edngd\u00e0o",
+            "m_en": "Automatic transmission ladder"
+        },
+        {
+            "w": "\u81ea\u52a8\u6276\u68af",
+            "m": "C\u1ea7u thang c\u00f3 tay v\u1ecbn t\u1ef1 \u0111\u1ed9ng",
+            "p": "z\u00ecd\u00f2ng f\u00fat\u012b",
+            "m_en": "Stairs have automatic handrails"
+        },
+        {
+            "w": "\u884c\u674e",
+            "m": "H\u00e0nh l\u00fd",
+            "p": "x\u00edngl\u01d0",
+            "m_en": "Luggage"
+        },
+        {
+            "w": "\u624b\u63d0\u8f7b\u4fbf\u884c\u674e",
+            "m": "H\u00e0nh l\u00fd x\u00e1ch tay",
+            "p": "sh\u01d2ut\u00ed q\u012bngbi\u00e0n x\u00edngl\u01d0",
+            "m_en": "Luggage"
+        },
+        {
+            "w": "\u968f\u8eab\u884c\u674e",
+            "m": "H\u00e0nh l\u00fd mang theo ng\u01b0\u1eddi",
+            "p": "su\u00edsh\u0113n h\u00e1ng l\u01d0",
+            "m_en": "Luggage to carry people"
+        }
+    ],
+    "total": 178
+}

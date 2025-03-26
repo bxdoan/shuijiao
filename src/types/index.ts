@@ -1,4 +1,3 @@
-
 // Định nghĩa interface cho cấu hình của mỗi ngôn ngữ
 interface LanguageConfigItem {
   apiBaseUrl: string;
@@ -192,9 +191,50 @@ export interface WordData {
   isLoading: boolean;
 }
 
+export interface Notebook {
+  m: string;
+  m_en?: string;
+  isLoading?: boolean;
+  example?: {
+    e: string;
+    p: string;
+    m: string;
+  };
+  p: string;
+  w: string;
+}
+
+export interface NotebookResponse {
+  result: Notebook[];
+  total: number;
+}
+
 export interface SentenceData {
   original: string;
   pinyin: string;
   translation: string;
   isLoading: boolean;
+}
+
+export interface VocabularyCategory {
+  n_vi: string;
+  n_en: string;
+  p: string;
+  notebooks_count: number;
+}
+
+export interface VocabularyItem {
+  w: string;
+  m: string;
+  p: string;
+  m_en: string;
+}
+
+export interface VocabularyResponse {
+  result: VocabularyItem[];
+  total: number;
+}
+
+export interface VocabularyCategoryResponse {
+  result: VocabularyCategory[];
 }

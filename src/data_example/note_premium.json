@@ -1,0 +1,754 @@
+{
+    "result": [
+        {
+            "n_vi": "\u0110\u1ed9ng t\u1eeb li h\u1ee3p",
+            "n_en": "Separable verb",
+            "p": "separable_verbs",
+            "notebooks_count": 322
+        },
+        {
+            "n_vi": "L\u01b0\u1ee3ng t\u1eeb",
+            "n_en": "Measure words",
+            "p": "measure_words",
+            "notebooks_count": 232
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 b\u01b0u \u0111i\u1ec7n b\u01b0u ch\u00ednh",
+            "n_en": "Vocabulary about postal post offices",
+            "p": "tu_vung_de_buu_dien_buu_chinh",
+            "notebooks_count": 85
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 ch\u1ee5p \u1ea3nh",
+            "n_en": "Vocabulary subject to photography",
+            "p": "tu_vung_chu_de_chup_anh",
+            "notebooks_count": 82
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 phim \u1ea3nh \u0111i\u1ec7n \u1ea3nh",
+            "n_en": "Movie-movie vocabulary",
+            "p": "tu_vung_chu_de_phim_anh_dien_anh",
+            "notebooks_count": 227
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng nh\u1ef1a cao su",
+            "n_en": "Rubber plastic vocabulary",
+            "p": "tu_vung_nhua_cao_su",
+            "notebooks_count": 81
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng picnic d\u00e3 ngo\u1ea1i",
+            "n_en": "Picnic vocabulary",
+            "p": "tu_vung_picnic_da_ngoai",
+            "notebooks_count": 21
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 c\u01a1 kh\u00ed",
+            "n_en": "Mechanical topic vocabulary",
+            "p": "tu_vung_chu_de_co_khi",
+            "notebooks_count": 132
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec3 m\u00e1y bay s\u00e2n bay",
+            "n_en": "Vocabulary for airport aircraft",
+            "p": "tu_vung_chu_de_may_bay_san_bay",
+            "notebooks_count": 146
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec3 b\u00e1nh k\u1eb9o",
+            "n_en": "Theme vocabulary for confectionery",
+            "p": "tu_vung_chu_de_banh_keo",
+            "notebooks_count": 84
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng nh\u00e0 ga t\u00e0u ho\u1ea3",
+            "n_en": "Train station vocabulary",
+            "p": "tu_vung_nha_ga_tau_hoa",
+            "notebooks_count": 178
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 d\u1ea7u m\u1ecf d\u1ea7u kh\u00ed",
+            "n_en": "Vocabulary subject to oil and gas",
+            "p": "tu_vung_chu_de_dau_mo_dau_khi",
+            "notebooks_count": 190
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng vui ch\u01a1i gi\u1ea3i tr\u00ed",
+            "n_en": "Entertainment vocabulary",
+            "p": "tu_vung_vui_choi_giai_tri",
+            "notebooks_count": 187
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 c\u1eaft may qu\u1ea7n \u00e1o",
+            "n_en": "Topic vocabulary of clothing cutting",
+            "p": "tu_vung_chu_de_cat_may_quan_ao",
+            "notebooks_count": 78
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ng\u00e0nh \u0111i\u1ec7n n\u01b0\u1edbc m\u00e1y b\u01a1m",
+            "n_en": "Vocabulary of electricity and water pumps",
+            "p": "tu_vung_nganh_dien_nuoc_may_bom",
+            "notebooks_count": 49
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 du l\u1ecbch",
+            "n_en": "Travel topic vocabulary",
+            "p": "tu_vung_chu_de_du_lich",
+            "notebooks_count": 138
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh gi\u00e0y da",
+            "n_en": "Vocabulary specialized in leather shoes",
+            "p": "tu_vung_chuyen_nganh_giay_da",
+            "notebooks_count": 1647
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u1ea5t \u0111\u1ed9ng s\u1ea3n",
+            "n_en": "The vocabulary of real estate",
+            "p": "tu_vung_chu_de_bat_dong_san",
+            "notebooks_count": 143
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u0103n ph\u00f2ng ph\u1ea9m",
+            "n_en": "Stationery vocabulary",
+            "p": "tu_vung_van_phong_pham",
+            "notebooks_count": 145
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng word excel powerpoint",
+            "n_en": "Word excel powerpoint words",
+            "p": "tu_vung_word_excel_va_powerpoint",
+            "notebooks_count": 24
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 h\u1ea3i s\u1ea3n",
+            "n_en": "Seafood topic vocabulary",
+            "p": "tu_vung_chu_de_hai_san",
+            "notebooks_count": 59
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u00f3ng \u0111\u00e1",
+            "n_en": "Vocabulary theme soccer",
+            "p": "tu_vung_chu_de_bong_da",
+            "notebooks_count": 51
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u00f4ng vi\u1ec7c ngh\u1ec1 nghi\u1ec7p",
+            "n_en": "Job career vocabulary",
+            "p": "tu_vung_cong_viec_nghe_nghiep",
+            "notebooks_count": 158
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng khai th\u00e1c kho\u00e1ng s\u1ea3n",
+            "n_en": "Mining vocabulary",
+            "p": "tu_vung_khai_thac_khoang_san",
+            "notebooks_count": 50
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u00e1c lo\u1ea1i tr\u00e1i c\u00e2y",
+            "n_en": "Vocabulary of fruits",
+            "p": "tu_vung_cac_loai_trai_cay",
+            "notebooks_count": 207
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh s\u1eaft th\u00e9p",
+            "n_en": "Specialized vocabulary of iron and steel",
+            "p": "tu_vung_chuyen_nghanh_sat_thep",
+            "notebooks_count": 58
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ph\u00f2ng ch\u00e1y ch\u1eefa ch\u00e1y",
+            "n_en": "Fire protection vocabulary",
+            "p": "tu_vung_phong_chay_chua_chay",
+            "notebooks_count": 91
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ng\u00e0nh n\u00f4ng nghi\u1ec7p",
+            "n_en": "Agricultural vocabulary",
+            "p": "tu_vung_nganh_nong_nghiep",
+            "notebooks_count": 172
+        },
+        {
+            "n_vi": "H\u1ed9i tho\u1ea1i ti\u1ebfng hoa h\u00e0ng ng\u00e0y",
+            "n_en": "Daily Chinese conversation",
+            "p": "hoi_thoai_tieng_hoa_hang_ngay",
+            "notebooks_count": 52
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u01b0\u1edbi h\u1ecfi",
+            "n_en": "Wedding vocabulary",
+            "p": "tu_vung_cuoi_hoi",
+            "notebooks_count": 98
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng th\u1ec3 thao d\u01b0\u1edbi n\u01b0\u1edbc",
+            "n_en": "Vocabulary of water sports",
+            "p": "tu_vung_the_thao_duoi_nuoc",
+            "notebooks_count": 92
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ph\u1ecfng v\u1ea5n xin vi\u1ec7c",
+            "n_en": "Job interview vocabulary",
+            "p": "tu_vung_phong_van_xin_viec",
+            "notebooks_count": 99
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng rau c\u1ee7 qu\u1ea3",
+            "n_en": "Vegetable vocabulary",
+            "p": "tu_vung_rau_cu_qua",
+            "notebooks_count": 91
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u00e1c ng\u00e0nh c\u00f4ng nghi\u1ec7p",
+            "n_en": "Vocabulary industries",
+            "p": "tu_vung_cac_nganh_cong_nghiep",
+            "notebooks_count": 68
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 m\u00f4i tr\u01b0\u1eddng",
+            "n_en": "Vocabulary about the environment",
+            "p": "tu_vung_ve_moi_truong",
+            "notebooks_count": 218
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh may m\u1eb7c",
+            "n_en": "Vocabulary specialized in apparel",
+            "p": "tu_vung_chuyen_nganh_may_mac",
+            "notebooks_count": 129
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 gi\u1edbi showbiz",
+            "n_en": "Vocabulary about showbiz world",
+            "p": "tu_vung_ve_gioi_showbiz",
+            "notebooks_count": 47
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 th\u1eddi gian v\u00e0 th\u1eddi ti\u1ebft",
+            "n_en": "The topic vocabulary of time and weather",
+            "p": "tu_vung_chu_de_thoi_gian_va_thoi_tiet",
+            "notebooks_count": 75
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 ph\u00f2ng t\u1eafm",
+            "n_en": "Bathroom theme vocabulary",
+            "p": "tu_vung_chu_de_phong_tam",
+            "notebooks_count": 65
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh v\u1ec1 \u1ed1c v\u00edt",
+            "n_en": "Specialized vocabulary about screws",
+            "p": "tu_vung_chuyen_nganh_ve_oc_vit",
+            "notebooks_count": 23
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng mua b\u00e1n h\u00e0ng online",
+            "n_en": "Online shopping vocabulary",
+            "p": "tu_vung_mua_ban_hang_online",
+            "notebooks_count": 62
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng t\u00ean c\u00e1c lo\u1ea1i g\u1ea1o",
+            "n_en": "Vocabulary names of rice types",
+            "p": "tu_vung_ten_cac_loai_gao",
+            "notebooks_count": 17
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng th\u01b0\u01a1ng hi\u1ec7u n\u1ed5i ti\u1ebfng",
+            "n_en": "Famous brand vocabulary",
+            "p": "tu_vung_thuong_hieu_noi_tieng",
+            "notebooks_count": 95
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh nh\u00e2n s\u1ef1",
+            "n_en": "Human resources specialized vocabulary",
+            "p": "tu_vung_chuyen_nganh_nhan_su",
+            "notebooks_count": 144
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh g\u1ed7",
+            "n_en": "Specialized vocabulary in wood",
+            "p": "tu_vung_chuyen_nganh_go",
+            "notebooks_count": 77
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 t\u1ed9i ph\u1ea1m",
+            "n_en": "Criminal topic vocabulary",
+            "p": "tu_vung_chu_de_toi_pham",
+            "notebooks_count": 117
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec3 c\u00e1c lo\u1ea1i gia v\u1ecb",
+            "n_en": "Topic vocabulary for spices",
+            "p": "tu_vung_chu_de_cac_loai_gia_vi",
+            "notebooks_count": 34
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng phim c\u1ed5 trang",
+            "n_en": "Historical movie vocabulary",
+            "p": "tu_vung_phim_co_trang",
+            "notebooks_count": 104
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng n\u1ed9i th\u1ea5t ngo\u1ea1i th\u1ea5t",
+            "n_en": "Vocabulary of interior and exterior",
+            "p": "tu_vung_noi_that_ngoai_that",
+            "notebooks_count": 98
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng thi\u1ebft b\u1ecb ng\u00e0nh \u0111i\u1ec7n",
+            "n_en": "Electrical equipment vocabulary",
+            "p": "tu_vung_thiet_bi_dien_nghanh_dien",
+            "notebooks_count": 419
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 t\u00ednh c\u00e1ch c\u1ea3m x\u00fac",
+            "n_en": "Vocabulary of emotional personality",
+            "p": "tu_vung_ve_tinh_cach_cam_xuc",
+            "notebooks_count": 175
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 t\u1eeb ngo\u1ea1i lai",
+            "n_en": "Vocabulary of foreign words",
+            "p": "tu_vung_ve_tu_ngoai_lai",
+            "notebooks_count": 58
+        },
+        {
+            "n_vi": "T\u1eea v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u00f3ng r\u1ed5",
+            "n_en": "Vocabulary subject to basketball",
+            "p": "tu_vung_chu_de_bong_ro",
+            "notebooks_count": 94
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 \u0111\u1ed9c th\u00e2n",
+            "n_en": "Single topic vocabulary",
+            "p": "tu_vung_chu_de_doc_than",
+            "notebooks_count": 16
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 m\u00e1y t\u00ednh",
+            "n_en": "Computer topic vocabulary",
+            "p": "tu_vung_chu_de_may_tinh",
+            "notebooks_count": 340
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec3 c\u00e1c lo\u1ea1i th\u1ecbt",
+            "n_en": "Vocabulary for all types of meat",
+            "p": "tu_vung_ve_cac_loai_thit",
+            "notebooks_count": 37
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u00f3ng ch\u00e0y",
+            "n_en": "Vocabulary subject to baseball",
+            "p": "tu_vung_chu_de_bong_chay",
+            "notebooks_count": 53
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 th\u1ec3 thao",
+            "n_en": "Sports subject vocabulary",
+            "p": "tu_vung_chu_de_the_thao",
+            "notebooks_count": 26
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 c\u1eaft t\u00f3c",
+            "n_en": "Haircutting topic vocabulary",
+            "p": "tu_vung_chu_de_cat_toc",
+            "notebooks_count": 107
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u1ebfn xe kh\u00e1ch",
+            "n_en": "Vocabulary topic of bus station",
+            "p": "tu_vung_chu_de_ben_xe_khach",
+            "notebooks_count": 129
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1eadt li\u1ec7u x\u00e2y d\u1ef1ng",
+            "n_en": "Building materials vocabulary",
+            "p": "tu_vung_vat_lieu_xay_dung",
+            "notebooks_count": 59
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh d\u1ec7t s\u1ee3i d\u1ec7t may",
+            "n_en": "Specialized vocabulary of textile and apparel",
+            "p": "tu_vung_chuyen_nganh_det_soi_det_may",
+            "notebooks_count": 110
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u00f3ng chuy\u1ec1n",
+            "n_en": "Volleyball topic vocabulary",
+            "p": "tu_vung_chu_de_bong_chuyen",
+            "notebooks_count": 62
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 \u1ed1m \u0111au",
+            "n_en": "Sickness subject vocabulary",
+            "p": "tu_vung_chu_de_om_dau",
+            "notebooks_count": 189
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 con v\u1eadt \u0111\u1ed9ng v\u1eadt",
+            "n_en": "Animal theme vocabulary",
+            "p": "tu_vung_chu_de_con_vat_dong_vat",
+            "notebooks_count": 214
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh ki\u1ebfn tr\u00fac",
+            "n_en": "Architecture vocabulary",
+            "p": "tu_vung_chuyen_nghanh_kien_truc",
+            "notebooks_count": 33
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng t\u00ean c\u00e1c lo\u1ea1i n\u1ea5m",
+            "n_en": "Vocabulary names of mushrooms",
+            "p": "tu_vung_ten_cac_loai_nam",
+            "notebooks_count": 25
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 c\u00e1c lo\u00e0i chim",
+            "n_en": "Vocabulary for birds",
+            "p": "tu_vung_chu_de_cac_loai_chim",
+            "notebooks_count": 197
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 t\u1ed1 t\u1ee5ng h\u00ecnh s\u1ef1",
+            "n_en": "Vocabulary subject to criminal proceedings",
+            "p": "tu_vung_chu_de_to_tung_hinh_su",
+            "notebooks_count": 94
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh h\u00e0n x\u00ec",
+            "n_en": "Specialized vocabulary welding",
+            "p": "tu_vung_chuyen_nganh_han_xi",
+            "notebooks_count": 15
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng h\u1ecd t\u00ean ti\u1ebfng trung",
+            "n_en": "Vocabulary of Chinese full name",
+            "p": "tu_vung_ho_ten_tieng_trung",
+            "notebooks_count": 312
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 tang l\u1ec5",
+            "n_en": "Funeral-themed vocabulary",
+            "p": "tu_vung_chu_de_tang_le",
+            "notebooks_count": 76
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh kinh t\u1ebf",
+            "n_en": "Vocabulary specialized in economics",
+            "p": "tu_vung_chuyen_nganh_kinh_te",
+            "notebooks_count": 179
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh c\u00e1c lo\u1ea1i v\u1ea3i",
+            "n_en": "Specialized vocabulary of fabrics",
+            "p": "tu_vung_chuyen_nganh_cac_loai_vai",
+            "notebooks_count": 96
+        },
+        {
+            "n_vi": "Th\u00e0nh ng\u1eef t\u1ee5c ng\u1eef ti\u1ebfng trung",
+            "n_en": "Chinese proverbs",
+            "p": "thanh_ngu_tuc_ngu_tieng_trung",
+            "notebooks_count": 1052
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng b\u1ed9 ph\u1eadn ch\u1ee9c v\u1ef1 ph\u00f2ng ban",
+            "n_en": "Vocabulary of departmental departments",
+            "p": "tu_vung_bo_phan_chuc_vu_phong_ban",
+            "notebooks_count": 88
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 \u00e2m nh\u1ea1c",
+            "n_en": "Music theme vocabulary",
+            "p": "tu_vung_chu_de_am_nhac",
+            "notebooks_count": 377
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng \u0111i\u1ec7n t\u1eed \u0111i\u1ec7n l\u1ea1nh",
+            "n_en": "Electronic refrigeration vocabulary",
+            "p": "tu_vung_dien_tu_dien_lanh",
+            "notebooks_count": 101
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng linh ki\u1ec7n ph\u1ee5 t\u00f9ng xe m\u00e1y",
+            "n_en": "Vocabulary of motorcycle spare parts",
+            "p": "tu_vung_linh_kien_phu_tung_xe_may",
+            "notebooks_count": 38
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u00e1c lo\u1ea1i b\u1ed9t",
+            "n_en": "Vocabulary of powders",
+            "p": "tu_vung_cac_loai_bot",
+            "notebooks_count": 20
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 m\u00f4n \u0111i\u1ec1n kinh",
+            "n_en": "Vocabulary of athletics",
+            "p": "tu_vung_ve_mon_dien",
+            "notebooks_count": 62
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 th\u1ef1c ph\u1ea9m",
+            "n_en": "Vocabulary about food",
+            "p": "tu_vung_thuc_pham_pham",
+            "notebooks_count": 205
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng h\u1ee3p \u0111\u1ed3ng mua b\u00e1n",
+            "n_en": "Purchase contract vocabulary",
+            "p": "tu_vung_hop_dong_mua_ban",
+            "notebooks_count": 104
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 d\u1ef1 ti\u1ec7c",
+            "n_en": "Party topic vocabulary",
+            "p": "tu_vung_chu_de_du_tiec",
+            "notebooks_count": 138
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 m\u00f3n \u0103n",
+            "n_en": "Vocabulary of dishes",
+            "p": "tu_vung_ve_mon_an",
+            "notebooks_count": 185
+        },
+        {
+            "n_vi": "Thu\u1eadt ng\u1eef chuy\u00ean ng\u00e0nh th\u01b0\u01a1ng m\u1ea1i",
+            "n_en": "Specialized trade terminology",
+            "p": "thuat_ngu_chuyen_nganh_thuong_mai",
+            "notebooks_count": 443
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng s\u01a1 y\u1ebfu l\u00fd l\u1ecbch",
+            "n_en": "Vocabulary resume",
+            "p": "tu_vung_so_yeu_ly_lich",
+            "notebooks_count": 100
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng xu\u1ea5t nh\u1eadp c\u1ea3nh",
+            "n_en": "Immigration vocabulary",
+            "p": "tu_vung_xuat_nhap_canh",
+            "notebooks_count": 44
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 gi\u00e1ng sinh",
+            "n_en": "Christmas theme vocabulary",
+            "p": "tu_vung_chu_de_giang_sinh",
+            "notebooks_count": 22
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 c\u00f4ng x\u01b0\u1edfng",
+            "n_en": "Factory topic vocabulary",
+            "p": "tu_vung_chu_de_cong_xuong",
+            "notebooks_count": 136
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 g\u1ecdi \u0111\u1ed3 u\u1ed1ng",
+            "n_en": "Theme vocabulary to order drinks",
+            "p": "tu_vung_chu_de_goi_do_uong",
+            "notebooks_count": 57
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 thu\u00ea nh\u00e0",
+            "n_en": "Topic vocabulary for rent",
+            "p": "tu_vung_chu_de_thue_nha",
+            "notebooks_count": 63
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 \u0111i\u1ec7n tho\u1ea1i",
+            "n_en": "Phone vocabulary",
+            "p": "tu_vung_ve_dien_thoai",
+            "notebooks_count": 132
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 giao th\u00f4ng",
+            "n_en": "Traffic topic vocabulary",
+            "p": "tu_vung_chu_de_giao_thong",
+            "notebooks_count": 86
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng t\u00ecnh y\u00eau ng\u00f4n t\u00ecnh",
+            "n_en": "Words love language",
+            "p": "tu_vung_tinh_yeu_ngon_tinh",
+            "notebooks_count": 64
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 m\u00e0u s\u1eafc",
+            "n_en": "Color topic vocabulary",
+            "p": "tu_vung_chu_de_mau_sac",
+            "notebooks_count": 111
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng nh\u00e0 h\u00e0ng kh\u00e1ch s\u1ea1n",
+            "n_en": "Hotel restaurant vocabulary",
+            "p": "tu_vung_nha_hang_khach_san",
+            "notebooks_count": 27
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh spa",
+            "n_en": "Specialized spa vocabulary",
+            "p": "tu_vung_chuyen_nghanh_spa",
+            "notebooks_count": 57
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 m\u1ef9 ph\u1ea9m",
+            "n_en": "Cosmetic topic vocabulary",
+            "p": "tu_vung_chu_de_my_pham",
+            "notebooks_count": 48
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 qu\u1ea7n \u00e1o",
+            "n_en": "Clothing topic vocabulary",
+            "p": "tu_vung_chu_de_quan_ao",
+            "notebooks_count": 262
+        },
+        {
+            "n_vi": "C\u00e1ch \u0111\u1ecdc ti\u1ec1n t\u1ec7 trong ti\u1ebfng Trung",
+            "n_en": "How to read currency in Chinese",
+            "p": "tu_vung_cach_doc_tien_te_trong_tieng_trung",
+            "notebooks_count": 54
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng qu\u1ea3ng c\u00e1o marketing",
+            "n_en": "Marketing advertising vocabulary",
+            "p": "tu_vung_quang_cao_marketing",
+            "notebooks_count": 104
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 t\u1ebft nguy\u00ean \u0111\u00e1n",
+            "n_en": "Vocabulary about Lunar New Year",
+            "p": "tu_vung_ve_tet_nguyen_dan",
+            "notebooks_count": 176
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng v\u1ec1 thu\u1ebf v\u00e0 h\u1ea3i quan",
+            "n_en": "Vocabulary about taxes and customs",
+            "p": "tu_vung_thue_va_hai_quan",
+            "notebooks_count": 126
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 qu\u00e2n s\u1ef1 qu\u00e2n \u0111\u1ed9i",
+            "n_en": "Military vocabulary subject",
+            "p": "tu_cung_chu_de_quan_su_quan_doi",
+            "notebooks_count": 325
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 tr\u01b0\u1eddng h\u1ecdc",
+            "n_en": "School topic vocabulary",
+            "p": "tu_vung_chu_de_truong_hoc",
+            "notebooks_count": 300
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng t\u1ed5 ch\u1ee9c ch\u00fanh tr\u1ecb nh\u00e0 n\u01b0\u1edbc",
+            "n_en": "Vocabulary of state political organizations",
+            "p": "tu_vung_to_chuc_chinh_tri_nha_nuoc",
+            "notebooks_count": 92
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng t\u00ean c\u00e1c lo\u1ea1i hoa",
+            "n_en": "Vocabulary of names of flowers",
+            "p": "tu_vung_ten_cac_loai_hoa",
+            "notebooks_count": 107
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 \u0111\u00e1nh golf",
+            "n_en": "Vocabulary topic for golf",
+            "p": "tu_vung_chu_de_danh_golf",
+            "notebooks_count": 87
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh lu\u1eadt",
+            "n_en": "Law vocabulary",
+            "p": "tu_vung_chuyen_nghanh_luat",
+            "notebooks_count": 108
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 tennis",
+            "n_en": "Tennis topic vocabulary",
+            "p": "tu_vung_chu_de_tennis",
+            "notebooks_count": 87
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng \u00f4t\u00f4 v\u00e0 ph\u1ee5 t\u00f9ng",
+            "n_en": "Auto vocabulary and spare parts",
+            "p": "tu_vung_o_to_phu_tung_o_to",
+            "notebooks_count": 125
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng gia c\u1ea7m v\u00e0 tr\u1ee9ng",
+            "n_en": "Poultry and egg vocabulary",
+            "p": "tu_vung_ve_gia_cam_va_trung",
+            "notebooks_count": 21
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 n\u1ea5u \u0103n",
+            "n_en": "Cooking topic vocabulary",
+            "p": "tu_vung_chu_de_nau_an",
+            "notebooks_count": 174
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng video cassette m\u00e0u",
+            "n_en": "Video cassette vocabulary in color",
+            "p": "tu_vung_video_cassette_mau",
+            "notebooks_count": 39
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u00e1c lo\u1ea1i than",
+            "n_en": "Vocabulary of coals",
+            "p": "tu_vung_cac_loai_than_trong_tieng_trung",
+            "notebooks_count": 48
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh xu\u1ea5t nh\u1eadp kh\u1ea9u",
+            "n_en": "Import and export specialized vocabulary",
+            "p": "tu_vung_chuyen_nganh_xuat_nhap_khau",
+            "notebooks_count": 219
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 gia \u0111\u00ecnh",
+            "n_en": "Family topic vocabulary",
+            "p": "tu_vung_chu_de_gia_dinh",
+            "notebooks_count": 78
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 ngo\u1ea1i th\u01b0\u01a1ng",
+            "n_en": "Vocabulary of foreign trade topic",
+            "p": "tu_vung_chu_de_ngoai_thuong",
+            "notebooks_count": 222
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng c\u00e1c b\u1ed9 ph\u1eadn c\u01a1 th\u1ec3 ng\u01b0\u1eddi",
+            "n_en": "Vocabulary of human body parts",
+            "p": "tu_vung_cac_bo_phan_co_the_nguoi",
+            "notebooks_count": 214
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng kh\u00ed h\u1eadu kh\u00ed t\u01b0\u1ee3ng thu\u1ef7 v\u0103n",
+            "n_en": "Climatology, hydro-meteorological vocabulary",
+            "p": "tu_vung_khi_hau_khi_tuong_thuy_van",
+            "notebooks_count": 194
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh k\u1ebf to\u00e1n",
+            "n_en": "Vocabulary specialized in accounting",
+            "p": "tu_vung_chuyen_nganh_ke_toan",
+            "notebooks_count": 381
+        },
+        {
+            "n_vi": "T\u00ean c\u00e1c n\u01b0\u1edbc tr\u00ean th\u1ebf gi\u1edbi",
+            "n_en": "Names of countries in the world",
+            "p": "ten_cac_nuoc_tren_the_gioi",
+            "notebooks_count": 239
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng chuy\u00ean ng\u00e0nh y t\u1ebf",
+            "n_en": "Medical vocabulary",
+            "p": "tu_vung_chuyen_nganh_y_te",
+            "notebooks_count": 278
+        },
+        {
+            "n_vi": "T\u1eeb v\u1ef1ng ch\u1ee7 \u0111\u1ec1 b\u1ea3o hi\u1ec3m",
+            "n_en": "Covered topic vocabulary",
+            "p": "tu_vung_chu_de_bao_hiem",
+            "notebooks_count": 268
+        }
+    ]
+}
