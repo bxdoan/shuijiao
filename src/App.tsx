@@ -52,15 +52,12 @@ function App() {
                   <Route path="/translate" element={<TranslatePage />} />
                   <Route path="/zh/dict" element={<DictPage />} />
                   <Route path="/zh/r/:newsId" element={<NewsDetailPage />} />
-                  <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
-                  {/* HSK routes */}
                   <Route path="/zh/vi/hsk/:level" element={<LearnHSK />} />
                   <Route path="/zh/vi/hsk/:level/:lessonId" element={<HSKDetails />} />
-                  {/* Video routes */}
                   <Route path="/zh/video" element={<VideoPage />} />
                   <Route path="/zh/video/:id" element={<VideoDetailPage />} />
-                  {/* Flashcard route */}
                   <Route path="/zh/flashcard" element={<ChineseFlashCard />} />
+                  <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
                 </Routes>
               </Box>
               <Footer />

@@ -56,27 +56,11 @@ import { getChinesePinyin } from '../../api/translateApi';
 import { HSK_LEVEL_COLORS } from '../../constant/hsk';
 import { DonationBox } from '../../components/Common/DonationBox';
 import { ShareModal } from '../../components/Common/ShareModal';
+import { 
+  WordData,
+  SentenceData
+} from '../../types';
 
-// WordData interface
-interface WordData {
-  word: string;
-  pinyin: string;
-  cn_vi: string;
-  example?: {
-    e: string;
-    p: string;
-    m: string;
-  };
-  isLoading: boolean;
-}
-
-// SentenceData interface
-interface SentenceData {
-  original: string;
-  pinyin: string;
-  translation: string;
-  isLoading: boolean;
-}
 
 const HSKDetails = () => {
   const { level, lessonId } = useParams();

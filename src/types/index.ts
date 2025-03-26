@@ -179,3 +179,22 @@ export interface KanjiResponse {
   result: KanjiSearchResult[];
   query: string;
 }
+
+export interface WordData {
+  word: string;
+  pinyin: string;
+  cn_vi: string;
+  example?: {
+    e: string;
+    p: string;
+    m: string;
+  };
+  isLoading: boolean;
+}
+
+export interface SentenceData {
+  original: string;
+  pinyin: string;
+  translation: string;
+  isLoading: boolean;
+}

@@ -30,13 +30,8 @@ import {
 
 import { fetchDictionary } from '../../api/newsApi';
 import SEO from '../../components/Common/SEO';
+import { WordData } from '../../types';
 
-interface WordData {
-  word: string;
-  pinyin: string;
-  cn_vi: string;
-  isLoading: boolean;
-}
 
 const ChineseFlashCard: React.FC = () => {
   const [searchParams] = useSearchParams();
