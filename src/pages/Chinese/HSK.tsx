@@ -190,15 +190,15 @@ const LearnHSK = () => {
                 );
 
                 // Thêm DonationBox sau mỗi 5 bài học và không phải là bài học cuối cùng
-                if ((index + 1) % 5 === 0 && index !== lessons.length - 1) {
-                  renderItems.push(
-                    <DonationBoxCompact 
-                      key={`donation-${index}`}
-                      title="Ủng hộ phát triển Shuijiao"
-                      description="Giúp chúng tôi duy trì và phát triển dịch vụ này miễn phí."
-                    />
-                  );
-                }
+                // if ((index + 1) % 5 === 0 && index !== lessons.length - 1) {
+                //   renderItems.push(
+                //     <DonationBoxCompact 
+                //       key={`donation-${index}`}
+                //       title="Ủng hộ phát triển Shuijiao"
+                //       description="Giúp chúng tôi duy trì và phát triển dịch vụ này miễn phí."
+                //     />
+                //   );
+                // }
 
                 return renderItems;
               }).flat()}

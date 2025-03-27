@@ -528,7 +528,7 @@ const NewsDetailPage: React.FC = () => {
                 </Box>
                 
                 {/* Box ủng hộ dự án - chỉ hiển thị với bề ngang của nội dung bài viết */}
-                <Box mt={6}>
+                {/* <Box mt={6}>
                   <DonationBox 
                     title="Ủng hộ dự án Shuijiao"
                     description="Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới."
@@ -537,7 +537,7 @@ const NewsDetailPage: React.FC = () => {
                     accountHolder="Bui Xuan Doan"
                     transferMessage="Ho tro Shuijiao"
                   />
-                </Box>
+                </Box> */}
                 
                 {/* Box từ vựng HSK - chỉ hiển thị với bài tiếng Trung */}
                 {currentLanguage === 'zh' && newsDetail?.level_hsk && (

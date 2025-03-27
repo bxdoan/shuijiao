@@ -212,9 +212,9 @@ const VideoDetailPage: React.FC = () => {
                     {relatedData.Song.map((relatedVideo, index) => (
                       <React.Fragment key={relatedVideo.id}>
                         <VideoCard video={relatedVideo} backId={id} />
-                        {index === 4 && (
+                        {/* {index === 4 && (
                           <DonationVideoBox />
-                        )}
+                        )} */}
                       </React.Fragment>
                     ))}
                   </SimpleGrid>

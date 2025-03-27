@@ -419,12 +419,12 @@ const TranslatePage: React.FC = () => {
           p={6}
         >
           <Flex direction={{ base: "column", md: "row" }} gap={6}>
-            <Box flex="1">
+            {/* <Box flex="1">
               <DonationBox 
                 title="Ủng hộ Shuijiao"
                 description="Giúp chúng tôi duy trì và phát triển dịch vụ này miễn phí"
               />
-            </Box>
+            </Box> */}
             
             <Box width={{ base: "100%", md: "40%" }}>
               <VStack spacing={4} align="stretch">

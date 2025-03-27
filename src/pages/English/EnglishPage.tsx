@@ -154,15 +154,15 @@ const EnglishPage: React.FC = () => {
       );
       
       // Nếu đã hiển thị 5 tin và chưa phải tin cuối cùng, thêm donation box
-      if ((index + 1) % 5 === 0 && index !== allNews.length - 1) {
-        renderItems.push(
-          <DonationBoxCompact 
-            key={`donation-${index}`}
-            title="Support Shuijiao Development"
-            description="Help us maintain and develop this free service."
-          />
-        );
-      }
+      // if ((index + 1) % 5 === 0 && index !== allNews.length - 1) {
+      //   renderItems.push(
+      //     <DonationBoxCompact 
+      //       key={`donation-${index}`}
+      //       title="Support Shuijiao Development"
+      //       description="Help us maintain and develop this free service."
+      //     />
+      //   );
+      // }
     });
 
     return (

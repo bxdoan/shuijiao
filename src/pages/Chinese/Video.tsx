@@ -95,9 +95,9 @@ const VideoPage: React.FC = () => {
     const result = [];
     for (let i = 0; i < videos.length; i++) {
       result.push(<VideoCard key={videos[i].id} video={videos[i]} />);
-      if (i === 4) {
-        result.push(<DonationVideoBox key={`donation-${i}`} />);
-      }
+      // if (i === 4) {
+      //   result.push(<DonationVideoBox key={`donation-${i}`} />);
+      // }
     }
     return result;
   };
