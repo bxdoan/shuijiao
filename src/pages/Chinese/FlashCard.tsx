@@ -389,9 +389,11 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                       />
                     </VStack>
                   </HStack>
-                  <Text fontSize="4xl" fontWeight="bold" color={textColor}>
-                    {currentWord.w}
-                  </Text>
+                  { currentWord && (
+                    <Text fontSize="4xl" fontWeight="bold" color={textColor}>
+                      {currentWord.w}
+                    </Text>
+                  )}
                   {showMeaning && currentMoreWord && (
                     <>
                       <Text fontSize="xl" color={pinyinColor}>
