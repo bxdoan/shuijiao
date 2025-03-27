@@ -28,13 +28,10 @@ import {
   useLocation, 
   useNavigate 
 } from 'react-router-dom';
-import { 
-  FaNewspaper
-} from 'react-icons/fa';
 
-// Import new custom menu components
-import ChineseMenu from '../Navigation/ChineseMenu';
-import MobileChineseMenu from '../Navigation/MobileChineseMenu';
+import { LanguageMenu } from '../Navigation/LanguageMenu';
+import { LanguggeMobileMenu } from '../Navigation/LanguggeMobileMenu';
+
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -123,40 +120,7 @@ export const Header = () => {
             )}
 
             {isLargerThan768 && (
-              <HStack spacing="4" ml={4}>
-                {/* Use the new ChineseMenu component */}
-                <ChineseMenu />
-                
-                <Button
-                  as={Link}
-                  to="/en"
-                  variant={location.pathname === '/en' ? "solid" : "ghost"}
-                  colorScheme="yellow"
-                  size="md"
-                >
-                  Tiếng Anh
-                </Button>
-                
-                <Button
-                  as={Link}
-                  to="/translate"
-                  variant={location.pathname === '/translate' ? "solid" : "ghost"}
-                  colorScheme="yellow"
-                  size="md"
-                >
-                  Dịch
-                </Button>
-                
-                <Button
-                  as={Link}
-                  to="/contact"
-                  variant={location.pathname === '/contact' ? "solid" : "ghost"}
-                  colorScheme="yellow"
-                  size="md"
-                >
-                  Liên hệ
-                </Button>
-              </HStack>
+              <LanguageMenu />
             )}
           </Flex>
 
@@ -215,21 +179,7 @@ export const Header = () => {
           <DrawerBody>
             <VStack spacing={4} align="stretch" mt={4}>
               {/* Use the new MobileChineseMenu component */}
-              <MobileChineseMenu onCloseDrawer={handleCloseDrawer} />
-              
-              <Heading as="h3" size="sm" color="yellow.300" mb={1}>Tiếng Anh</Heading>
-              <Button
-                as={Link}
-                to="/en"
-                variant={location.pathname === '/en' ? "solid" : "ghost"}
-                colorScheme="yellow"
-                size="md"
-                justifyContent="flex-start"
-                leftIcon={<FaNewspaper />}
-                onClick={handleCloseDrawer}
-              >
-                Đọc báo
-              </Button>
+              <LanguggeMobileMenu onCloseDrawer={handleCloseDrawer} />
               
               <Button
                 as={Link}

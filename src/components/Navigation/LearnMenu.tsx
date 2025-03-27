@@ -5,7 +5,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   MenuGroup,
   Button,
   Box,
@@ -23,46 +22,28 @@ import {
   useLocation
 } from 'react-router-dom';
 import { 
-  FaBook, 
-  FaNewspaper,
   FaGraduationCap,
-  FaVideo,
-  FaList
 } from 'react-icons/fa';
+import { HSK_LEVELS } from '../../constant/hsk';
 
-// HSK levels available
-const HSK_LEVELS = [
-  { level: "1", title: "HSK 1", color: "green" },
-  { level: "2", title: "HSK 2", color: "blue" },
-  { level: "3", title: "HSK 3", color: "purple" },
-  { level: "4", title: "HSK 4", color: "orange" },
-  { level: "5", title: "HSK 5", color: "pink" },
-  { level: "6", title: "HSK 6", color: "red" },
-];
-
-const ChineseMenu = () => {
+export const LearnMenu = () => {
   const location = useLocation();
-  
-  // Check if current path is a Chinese path
-  const isChinesePath = location.pathname === '/zh' || location.pathname === '/' || 
-                         location.pathname.startsWith('/zh/');
-  
   // Check if current path is HSK related
   const isHSKPath = location.pathname.includes('/zh/vi/hsk/');
   
   // Get current HSK level if on HSK path
   const currentLevel = isHSKPath ? location.pathname.split('/')[4] : null;
-  
+
   return (
     <Menu closeOnSelect={false}>
       <MenuButton
         as={Button}
         rightIcon={<ChevronDownIcon />}
-        variant={isChinesePath ? "solid" : "ghost"}
+        variant={isHSKPath ? "solid" : "ghost"}
         colorScheme="yellow"
         size="md"
       >
-        Tiếng Trung
+        Học
       </MenuButton>
       <MenuList 
         bg="red.700" 
@@ -74,62 +55,7 @@ const ChineseMenu = () => {
         p={1}
         minWidth="250px"
       >
-        <MenuItem 
-          as={Link} 
-          to="/zh" 
-          icon={<FaNewspaper />}
-          _hover={{ bg: 'red.600' }}
-          color="white"
-          fontWeight="medium"
-          bg="red.700"
-        >
-          Đọc báo
-        </MenuItem>
-        
-        <MenuDivider borderColor="red.600" />
-
-        <MenuItem 
-          as={Link} 
-          to="/zh/video" 
-          icon={<FaVideo />}
-          _hover={{ bg: 'red.600' }}
-          color="white" 
-          fontWeight="medium"
-          bg="red.700"
-        >
-          Video
-        </MenuItem>
-        
-        <MenuDivider borderColor="red.600" />
-
-        <MenuItem 
-          as={Link} 
-          to="/zh/vocab" 
-          icon={<FaList />}
-          _hover={{ bg: 'red.600' }}
-          color="white" 
-          fontWeight="medium"
-          bg="red.700"
-        >
-          Từ vựng
-        </MenuItem>
-        
-        <MenuDivider borderColor="red.600" />
-        
-        <MenuItem 
-          as={Link} 
-          to="/zh/dict" 
-          icon={<FaBook />}
-          _hover={{ bg: 'red.600' }}
-          color="white"
-          fontWeight="medium"
-          bg="red.700"
-        >
-          Từ điển Hán Việt
-        </MenuItem>
-        
-        <MenuDivider borderColor="red.600" />
-        
+       
         {/* HSK Submenu */}
         <MenuGroup 
           title="Học HSK" 
@@ -197,5 +123,3 @@ const ChineseMenu = () => {
     </Menu>
   );
 };
-
-export default ChineseMenu; 

@@ -185,8 +185,8 @@ const ContactPage: React.FC = () => {
               <ContactBox 
                 icon={<FaTelegram size={18} />}
                 title="Telegram"
-                value="@shuijiao"
-                link="https://t.me/shuijiao"
+                value="@shuijiaovn"
+                link="https://t.me/shuijiaovn"
                 color="telegram"
               />
               
@@ -201,16 +201,16 @@ const ContactPage: React.FC = () => {
               <ContactBox 
                 icon={<FaFacebookF size={18} />}
                 title="Facebook"
-                value="facebook.com/shuijiaochinese"
-                link="https://www.facebook.com/shuijiaochinese"
+                value="facebook.com/shuijiaovn"
+                link="https://www.facebook.com/shuijiaovn"
                 color="facebook"
               />
               
               <ContactBox 
                 icon={<FaGithub size={18} />}
                 title="GitHub"
-                value="github.com/shuijiaotech"
-                link="https://github.com/shuijiaotech"
+                value="github.com/bxdoan"
+                link="https://github.com/bxdoan"
                 color="gray"
               />
             </SimpleGrid>
