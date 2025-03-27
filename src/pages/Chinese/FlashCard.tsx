@@ -27,7 +27,8 @@ import {
     FaArrowLeft, 
     FaVolumeUp,
     FaEye,
-    FaEyeSlash
+    FaEyeSlash,
+    FaShare
 } from 'react-icons/fa';
 
 import { fetchDictionary, fetchVocabularyItems } from '../../api/newsApi';
@@ -35,6 +36,7 @@ import SEO from '../../components/Common/SEO';
 import { 
   Notebook
 } from '../../types';
+import { ShareModal } from '../../components/Common/ShareModal';
 
 interface FlashCardProps {
   category?: string;
@@ -68,6 +70,8 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
   const textColor = useColorModeValue('gray.800', 'white');
   const pinyinColor = useColorModeValue('blue.600', 'blue.300');
   const meaningColor = useColorModeValue('green.600', 'green.300');
+
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   useEffect(() => {
     const loadVocabularyItems = async () => {
@@ -258,14 +262,30 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
               />
               <Heading size="lg">Học từ vựng với Flashcard</Heading>
             </HStack>
-            <Button
-              colorScheme="blue"
-              variant={isFlashcardMode ? "solid" : "outline"}
-              onClick={toggleFlashcardMode}
-            >
-              {isFlashcardMode ? "Xem danh sách" : "Chế độ Flashcard"}
-            </Button>
+            <HStack spacing={2}>
+              <Button
+                colorScheme="blue"
+                variant={isFlashcardMode ? "solid" : "outline"}
+                onClick={toggleFlashcardMode}
+              >
+                {isFlashcardMode ? "Xem danh sách" : "Chế độ Flashcard"}
+              </Button>
+              <IconButton
+                aria-label="Chia sẻ"
+                icon={<FaShare />}
+                onClick={() => setIsShareModalOpen(true)}
+                colorScheme="blue"
+                variant="ghost"
+              />
+            </HStack>
           </HStack>
+
+          <ShareModal
+            isOpen={isShareModalOpen}
+            onClose={() => setIsShareModalOpen(false)}
+            title="Chia sẻ bộ từ vựng"
+            shareText={`Học từ vựng tiếng Trung với Shuijiao - ${category ? `Chủ đề: ${category}` : 'Từ vựng tùy chọn'}`}
+          />
 
           {isFlashcardMode ? (
             // Flashcard Mode

@@ -14,15 +14,18 @@ import {
   Spinner,
   Center,
   useColorModeValue,
+  IconButton,
 } from '@chakra-ui/react';
-import { FaBook } from 'react-icons/fa';
+import { FaBook, FaShare } from 'react-icons/fa';
 import { fetchVocabularyCategories } from '../../api/newsApi';
 import { VocabularyCategory } from '../../types';
 import SEO from '../../components/Common/SEO';
+import { ShareModal } from '../../components/Common/ShareModal';
 
 const ChineseVocabulary: React.FC = () => {
   const [categories, setCategories] = useState<VocabularyCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const bgColor = useColorModeValue('white', 'gray.800');
@@ -66,7 +69,24 @@ const ChineseVocabulary: React.FC = () => {
       />
       <Container maxW="container.xl" py={8}>
         <VStack spacing={6} align="stretch">
-          <Heading size="lg">Từ vựng tiếng Trung theo chủ đề</Heading>
+          <HStack justify="space-between">
+            <Heading size="lg">Từ vựng tiếng Trung theo chủ đề</Heading>
+            <IconButton
+              aria-label="Chia sẻ"
+              icon={<FaShare />}
+              onClick={() => setIsShareModalOpen(true)}
+              colorScheme="blue"
+              variant="ghost"
+              size="sm"
+            />
+          </HStack>
+
+          <ShareModal
+            isOpen={isShareModalOpen}
+            onClose={() => setIsShareModalOpen(false)}
+            title="Chia sẻ bộ từ vựng"
+            shareText="Học từ vựng tiếng Trung theo chủ đề với Shuijiao"
+          />
           
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             {categories.map((category) => (
