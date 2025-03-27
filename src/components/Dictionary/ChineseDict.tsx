@@ -22,11 +22,13 @@ import {
   ListItem,
   Wrap,
   WrapItem,
+  IconButton,
 } from '@chakra-ui/react';
 import {
   SearchIcon,
   CloseIcon,
 } from '@chakra-ui/icons';
+import { FaVolumeUp } from 'react-icons/fa';
 
 // Import API functions
 import { 
@@ -37,6 +39,7 @@ import {
 import {
   fetchDictionary,
 } from '../../api/vocabApi';
+import { playTextToSpeech } from '../../utils/utils';
 
 import HantuStrokeRenderer from './HantuStrokeRenderer';
 
@@ -530,7 +533,17 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
                       <CardBody>
                         <Flex justify="space-between" align="flex-start">
                           <Box>
-                            <Text fontSize="xl" fontWeight="bold">{item.word}</Text>
+                            <Flex align="center" gap={2}>
+                              <Text fontSize="xl" fontWeight="bold">{item.word}</Text>
+                              <IconButton
+                                aria-label="Phát âm"
+                                icon={<FaVolumeUp />}
+                                onClick={() => playTextToSpeech(item.word, 'zh-CN')}
+                                colorScheme="blue"
+                                variant="ghost"
+                                size="sm"
+                              />
+                            </Flex>
                             <Text fontSize="md" fontStyle="italic" color="gray.600">{item.pinyin}</Text>
                             <Text color="blue.600" fontWeight="semibold">{item.cn_vi}</Text>
                             {renderWordTypes(item.kind)}
@@ -619,7 +632,17 @@ const ChineseDict: React.FC<ChineseDictProps> = ({
                     <CardBody>
                       <Flex justify="space-between" align="flex-start">
                         <Box>
-                          <Text fontSize="xl" fontWeight="bold">{item.word}</Text>
+                          <Flex align="center" gap={2}>
+                            <Text fontSize="xl" fontWeight="bold">{item.word}</Text>
+                            <IconButton
+                              aria-label="Phát âm"
+                              icon={<FaVolumeUp />}
+                              onClick={() => playTextToSpeech(item.word, 'zh-CN')}
+                              colorScheme="blue"
+                              variant="ghost"
+                              size="sm"
+                            />
+                          </Flex>
                           <Text fontSize="md" fontStyle="italic" color="gray.600">{item.pinyin}</Text>
                           <Text color="blue.600" fontWeight="semibold">{item.cn_vi}</Text>
                         </Box>

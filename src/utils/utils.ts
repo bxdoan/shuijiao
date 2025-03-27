@@ -163,3 +163,28 @@ export const qrCodeUrl = (bankDetails: {
 }) => {
   return `https://img.vietqr.io/image/${bankDetails.bankId}-${bankDetails.accountNumber}-${bankDetails.template}.png?amount=${bankDetails.amount}&addInfo=${encodeURIComponent(bankDetails.transferContent)}&accountName=${encodeURIComponent(bankDetails.accountHolder)}`;
 }
+
+export const playTextToSpeech = (text: string, lang: string = 'zh-CN') => {
+  // Cancel any ongoing speech
+  window.speechSynthesis.cancel();
+  
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  
+  // Set voice properties for better quality
+  utterance.rate = 0.8; // Slightly slower rate for better clarity
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  // Get available voices and select the best one for the language
+  const voices = window.speechSynthesis.getVoices();
+  const preferredVoice = voices.find(voice => 
+    voice.lang.startsWith(lang) && voice.localService
+  );
+  
+  if (preferredVoice) {
+    utterance.voice = preferredVoice;
+  }
+  
+  window.speechSynthesis.speak(utterance);
+};

@@ -13,20 +13,12 @@ import {
   AccordionPanel,
   AccordionIcon,
   HStack,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
-  Spinner,
-  Flex,
   Button,
 } from '@chakra-ui/react';
 import { fetchDictionary } from '../../api/vocabApi';
 import { useNavigate } from 'react-router-dom';
 import { FaBookOpen } from 'react-icons/fa';
+import WordPopover from '../Common/WordPopover';
 
 interface HSKVocabularyBoxProps {
   levelHSK: {
@@ -70,7 +62,6 @@ const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
   const navigate = useNavigate();
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const popoverBgColor = useColorModeValue('white', 'gray.700');
   
   // State lưu trữ dữ liệu từ vựng đã tìm kiếm
   const [wordData, setWordData] = useState<Record<string, WordData>>({});
@@ -227,14 +218,10 @@ const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
               <AccordionPanel pb={4}>
                 <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={2}>
                   {levelHSK[level].map((word, index) => (
-                    <Popover 
+                    <WordPopover
                       key={`${level}-${index}`}
-                      isLazy
-                      placement="top"
-                      onOpen={() => handleWordClick(word)}
-                      onClose={handlePopoverClose}
-                    >
-                      <PopoverTrigger>
+                      word={word}
+                      trigger={
                         <Box 
                           p={2} 
                           borderWidth="1px" 
@@ -250,59 +237,11 @@ const HSKVocabularyBox: React.FC<HSKVocabularyBoxProps> = ({ levelHSK }) => {
                         >
                           <Text fontSize="md" textAlign="center">{word}</Text>
                         </Box>
-                      </PopoverTrigger>
-                      <PopoverContent 
-                        bg={popoverBgColor} 
-                        borderColor="gray.200" 
-                        boxShadow="xl"
-                        _dark={{
-                          borderColor: "gray.600"
-                        }}
-                      >
-                        <PopoverArrow />
-                        <PopoverCloseButton />
-                        <PopoverHeader fontWeight="semibold" borderBottomWidth="1px">
-                          {word}
-                        </PopoverHeader>
-                        <PopoverBody p={3}>
-                          {wordData[word] ? (
-                            wordData[word].isLoading ? (
-                              <Flex justify="center" py={2}>
-                                <Spinner size="sm" color="blue.500" mr={2} />
-                                <Text>Đang tải...</Text>
-                              </Flex>
-                            ) : (
-                              <Box>
-                                <Text fontStyle="italic" color="gray.600" mb={1}>
-                                  {wordData[word].pinyin}
-                                </Text>
-                                <Text fontWeight="medium" color="blue.600" mb={2}>
-                                  {wordData[word].cn_vi}
-                                </Text>
-                                {wordData[word].example && (
-                                  <Box 
-                                    mt={2} 
-                                    borderLeft="2px" 
-                                    borderColor="blue.500" 
-                                    pl={2}
-                                    fontSize="sm"
-                                  >
-                                    <Text fontWeight="semibold">{wordData[word].example.e}</Text>
-                                    <Text fontStyle="italic">{wordData[word].example.p}</Text>
-                                    <Text color="blue.600">{wordData[word].example.m}</Text>
-                                  </Box>
-                                )}
-                              </Box>
-                            )
-                          ) : (
-                            <Flex justify="center" py={2}>
-                              <Spinner size="sm" color="blue.500" mr={2} />
-                              <Text>Đang tải...</Text>
-                            </Flex>
-                          )}
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Popover>
+                      }
+                      onOpen={() => handleWordClick(word)}
+                      onClose={handlePopoverClose}
+                      wordData={wordData[word]}
+                    />
                   ))}
                 </SimpleGrid>
               </AccordionPanel>

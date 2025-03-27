@@ -41,6 +41,7 @@ import {
   Notebook
 } from '../../types';
 import { ShareModal } from '../../components/Common/ShareModal';
+import { playTextToSpeech } from '../../utils/utils';
 
 interface FlashCardProps {
   category?: string;
@@ -268,9 +269,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
   };
 
   const playPronunciation = (word: string) => {
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'zh-CN';
-    window.speechSynthesis.speak(utterance);
+    playTextToSpeech(word, 'zh-CN');
   };
 
   // Hàm xử lý nút quay lại
