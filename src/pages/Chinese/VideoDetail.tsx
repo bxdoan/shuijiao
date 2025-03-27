@@ -39,7 +39,7 @@ const VideoDetailPage: React.FC = () => {
   const { data: relatedData, isLoading: isLoadingRelated } = useRelatedVideos(
     videoType,
     Number(id),
-    12
+    13
   );
 
   // Xác định video tiếp theo từ danh sách liên quan

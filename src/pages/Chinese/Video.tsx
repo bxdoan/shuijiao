@@ -28,7 +28,7 @@ const VideoPage: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 11;
+  const ITEMS_PER_PAGE = 12;
 
   const videoTypes = useMemo(() => [
     { name: 'Tất cả', type: 'Chinese', param: 'all' },
