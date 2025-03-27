@@ -16,7 +16,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import NewsFilter from '../../components/News/NewsFilter';
 import NewsCard from '../../components/News/NewsCard';
 import ScrollToTopBottom from '../../components/Common/ScrollToTopBottom';
-import { DonationBoxCompact } from '../../components/Common/DonationBox';
+// import { DonationBoxCompact } from '../../components/Common/DonationBox';
 import { NewsFilterParams, NewsItem } from '../../types';
 import { useNews } from '../../hooks/useNews';
 import SEO from '../../components/Common/SEO';

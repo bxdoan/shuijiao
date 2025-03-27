@@ -24,7 +24,7 @@ import {
 import { RepeatIcon, CopyIcon, CloseIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import { fetchGoogleTranslation, getChinesePinyin } from '../api/translateApi';
 import SEO from '../components/Common/SEO';
-import { DonationBox } from '../components/Common/DonationBox';
+// import { DonationBox } from '../components/Common/DonationBox';
 
 // Animation keyframes
 const rotateAnimation = keyframes`

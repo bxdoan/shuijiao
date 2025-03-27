@@ -21,7 +21,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useVideo } from '../../hooks/useVideo';
 import VideoCard from '../../components/Video/VideoCard';
 import SEO from '../../components/Common/SEO';
-import { DonationVideoBox } from '../../components/Common/DonationBox';
+// import { DonationVideoBox } from '../../components/Common/DonationBox';
 
 const VideoPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

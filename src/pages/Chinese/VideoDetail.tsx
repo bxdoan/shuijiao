@@ -26,7 +26,7 @@ import {
 } from '../../hooks/useVideo';
 import VideoCard from '../../components/Video/VideoCard';
 import SEO from '../../components/Common/SEO';
-import { DonationVideoBox } from '../../components/Common/DonationBox';
+// import { DonationVideoBox } from '../../components/Common/DonationBox';
 
 const VideoDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

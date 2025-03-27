@@ -34,7 +34,7 @@ import { NewsDetail, NewsFilterParams, NewsItem } from '../types';
 import * as utils from '../utils/utils';
 import NewsRelatedList from '../components/News/NewsRelatedList';
 import { ShareModal } from '../components/Common/ShareModal';
-import DonationBox from '../components/Common/DonationBox';
+// import DonationBox from '../components/Common/DonationBox';
 import HSKVocabularyBox from '../components/Vocabulary/HSKVocab';
 import IELTSVocabularyBox from '../components/Vocabulary/IELTSVocab';
 import SEO from '../components/Common/SEO';

@@ -30,7 +30,7 @@ import { FaBookOpen } from 'react-icons/fa';
 
 import SEO from '../../components/Common/SEO';
 import { HSK_LEVEL_COLORS } from '../../constant/hsk';
-import { DonationBoxCompact } from '../../components/Common/DonationBox';
+// import { DonationBoxCompact } from '../../components/Common/DonationBox';
 
 const LearnHSK = () => {
   const { level } = useParams();
