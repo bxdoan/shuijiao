@@ -31,7 +31,11 @@ import {
     FaShare
 } from 'react-icons/fa';
 
-import { fetchDictionary, fetchVocabularyItems } from '../../api/newsApi';
+import {fetchDictionary} from '../../api/newsApi';
+import { 
+  fetchVocabularyItems,
+  fetchHSKVocabulary 
+} from '../../api/vocabApi';
 import SEO from '../../components/Common/SEO';
 import { 
   Notebook
@@ -40,12 +44,14 @@ import { ShareModal } from '../../components/Common/ShareModal';
 
 interface FlashCardProps {
   category?: string;
+  hsk?: string;
   words?: string[];
   routeBack?: string;
 }
 
 const ChineseFlashCard: React.FC<FlashCardProps> = ({ 
   category,
+  hsk,
   words: propWords,
   routeBack,
 }) => {
@@ -75,7 +81,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
 
   useEffect(() => {
     const loadVocabularyItems = async () => {
-      if (!category) {
+      if (!category && !hsk) {
         const wordsParam = searchParams.get('words');
         if (!wordsParam) {
           navigate('/zh');
@@ -96,9 +102,21 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
           const currentShowWords = buildWords.slice(startIndex, endIndex);
           setWordsShow(currentShowWords);
           setMoreData(currentShowWords);
+          setTotalItems(buildWords.length);
         } catch (error) {
           console.error('Error decoding words:', error);
           navigate('/zh');
+        }
+      } else if (hsk) {
+        try {
+          const response = await fetchHSKVocabulary(
+            hsk, currentPage, WORDS_PER_PAGE
+          );
+          setWordsShow(response.result);
+          setMoreData(response.result);
+          setTotalItems(response.total);
+        } catch (error) {
+          console.error('Error loading HSK vocabulary items:', error);
         }
       } else {
         try {
@@ -116,11 +134,11 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
     };
 
     loadVocabularyItems();
-  }, [category, currentPage, searchParams, navigate]);
+  }, [category, hsk, currentPage, searchParams, navigate]);
 
 
   const loadWordData = useCallback(async () => {
-    if (category) return;
+    if (category || hsk) return;
 
     const promises = wordsShow.map(async (word: Notebook) => {
       try {
@@ -158,14 +176,14 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
       });
       return newWords;
     });
-  }, [category, wordsShow]);
+  }, [category, hsk, wordsShow]);
 
   useEffect(() => {
     loadWordData();
   }, [loadWordData]);
 
   const handleNextPage = () => {
-    if (currentPage * WORDS_PER_PAGE < (category ? totalItems : wordsParams.length)) {
+    if (currentPage * WORDS_PER_PAGE < (totalItems ? totalItems : wordsParams.length)) {
       setCurrentPage(prev => prev + 1);
       setIsLoading(true);
     }
@@ -178,37 +196,75 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
     }
   };
 
-  const handleNextWord = () => {
+  const handleNextWord = async () => {
     if (currentIndex < wordsShow.length - 1) {
       setCurrentIndex(prev => prev + 1);
       setShowMeaning(autoShowMeaning);
+    } else if (currentIndex === wordsShow.length - 1 && (category || hsk)) {
+
+      const nextPage = Math.floor(currentIndex / WORDS_PER_PAGE) + 2;
+      try {
+        const response = await (category ? 
+          fetchVocabularyItems(category, nextPage, WORDS_PER_PAGE) :
+          fetchHSKVocabulary(hsk, nextPage, WORDS_PER_PAGE)
+        );
+        
+        // Append new words to existing list
+        setWordsShow(prev => [...prev, ...response.result]);
+        setMoreData(prev => [...prev, ...response.result]);
+        setTotalItems(response.total);
+      } catch (error) {
+        console.error('Error fetching next page:', error);
+      }
     }
   };
 
-  const handlePrevWord = () => {
+  const handlePrevWord = async () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
       setShowMeaning(autoShowMeaning);
+    } else if (currentIndex === 0 && currentPage > 1) {
+      // If we're at the first word and not on first page, fetch previous page
+      const prevPage = currentPage - 1;
+      try {
+        const response = await (category ? 
+          fetchVocabularyItems(category, prevPage, WORDS_PER_PAGE) :
+          fetchHSKVocabulary(hsk!, prevPage, WORDS_PER_PAGE)
+        );
+        
+        // Prepend previous words to current list
+        setWordsShow(prev => [...response.result, ...prev]);
+        setMoreData(prev => [...response.result, ...prev]);
+        setCurrentIndex(WORDS_PER_PAGE - 1); // Set to last word of previous page
+      } catch (error) {
+        console.error('Error fetching previous page:', error);
+      }
     }
   };
 
   const toggleFlashcardMode = async () => {
-    if (category) {
+    setIsLoading(true);
+    setIsFlashcardMode(!isFlashcardMode);
+    setCurrentIndex(0);
+    setShowMeaning(false);
+    
+    if (category || hsk) {
       try {
-        const response = await fetchVocabularyItems(
-          category, 1, totalItems
-        );    
+        // Fetch first page only
+        const response = await (category ? 
+          fetchVocabularyItems(category, 1, WORDS_PER_PAGE) :
+          fetchHSKVocabulary(hsk!, 1, WORDS_PER_PAGE)
+        );
         setWordsShow(response.result);
         setMoreData(response.result);
+        setTotalItems(response.total);
       } catch (error) {
         console.error('Error fetching vocabulary items:', error);
       }
     } else {
       setWordsShow(wordsParams);
     }
-    setIsFlashcardMode(!isFlashcardMode);
-    setCurrentIndex(0);
-    setShowMeaning(false);
+    setIsLoading(false);
   };
 
   const playPronunciation = (word: string) => {
@@ -237,7 +293,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
     );
   }
 
-  const currentWord = category ? wordsShow[currentIndex] : wordsParams[currentIndex];
+  const currentWord = category || hsk ? wordsShow[currentIndex] : wordsParams[currentIndex];
   const currentMoreWord = moreData[currentIndex];
 
   return (
@@ -260,7 +316,9 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                 variant="ghost"
                 size="sm"
               />
-              <Heading size="lg">Học từ vựng với Flashcard</Heading>
+              <Heading size="lg">
+                {hsk ? `Học từ vựng HSK ${hsk}` : "Học từ vựng với Flashcard"}
+              </Heading>
             </HStack>
             <HStack spacing={2}>
               <Button
@@ -284,7 +342,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
             isOpen={isShareModalOpen}
             onClose={() => setIsShareModalOpen(false)}
             title="Chia sẻ bộ từ vựng"
-            shareText={`Học từ vựng tiếng Trung với Shuijiao - ${category ? `Chủ đề: ${category}` : 'Từ vựng tùy chọn'}`}
+            shareText={`Học từ vựng tiếng Trung với Shuijiao - ${hsk ? `HSK ${hsk}` : category ? `Chủ đề: ${category}` : 'Từ vựng tùy chọn'}`}
           />
 
           {isFlashcardMode ? (
@@ -303,7 +361,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                 <VStack spacing={4} align="center">
                   <HStack width="100%" justify="space-between" mb={2}>
                     <Text fontSize="sm" color="gray.500" fontWeight="bold">
-                      {currentIndex + 1} / {category ? totalItems : wordsParams.length}
+                      {currentIndex + 1} / {totalItems ? totalItems : wordsParams.length}
                     </Text>
                     <VStack spacing={2} align="flex-end">
                       <IconButton
@@ -361,7 +419,7 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                         e.stopPropagation();
                         handleNextWord();
                       }}
-                      isDisabled={currentIndex === wordsShow.length - 1}
+                      isDisabled={currentIndex === totalItems - 1}
                     >
                       Từ tiếp
                     </Button>
@@ -424,11 +482,15 @@ const ChineseFlashCard: React.FC<FlashCardProps> = ({
                 >
                   Trang trước
                 </Button>
-                <Text fontWeight="bold">Trang {currentPage} / {Math.ceil((category ? totalItems : wordsParams.length) / WORDS_PER_PAGE)}</Text>
+                <Text 
+                  fontWeight="bold"
+                >
+                  Trang {currentPage} / {Math.ceil(totalItems / WORDS_PER_PAGE)}
+                </Text>
                 <Button
                   rightIcon={<ChevronRightIcon />}
                   onClick={handleNextPage}
-                  isDisabled={currentPage * WORDS_PER_PAGE >= (category ? totalItems : wordsParams.length)}
+                  isDisabled={currentPage * WORDS_PER_PAGE >= totalItems}
                 >
                   Trang sau
                 </Button>

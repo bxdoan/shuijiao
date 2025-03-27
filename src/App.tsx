@@ -21,7 +21,10 @@ import VideoDetailPage from './pages/Chinese/VideoDetail';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 import ChineseVocabulary from './pages/Chinese/Vocabulary';
-import ChineseVocabularyDetail from './pages/Chinese/VocabularyDetail';
+import { 
+  ChineseVocabularyDetail, 
+  ChineseVocabularyHSK 
+} from './pages/Chinese/VocabularyDetail';
 
 // Create a client with default options
 const queryClient = new QueryClient({
@@ -62,6 +65,7 @@ function App() {
                   <Route path="/en/r/:newsId" element={<NewsDetailPage />} />
                   <Route path="/zh/vocab" element={<ChineseVocabulary />} />
                   <Route path="/zh/vocab/:category" element={<ChineseVocabularyDetail />} />
+                  <Route path="/zh/vocab/hsk/:level" element={<ChineseVocabularyHSK />} />
                 </Routes>
               </Box>
               <Footer />

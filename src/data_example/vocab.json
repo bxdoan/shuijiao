@@ -1,0 +1,51 @@
+[
+    {
+        "id": "1",
+        "hsk": "1",
+        "n_vi": "HSK 1",
+        "n_en": "HSK 1",
+        "notebooks_count": 519
+    },
+    {
+        "id": "2",
+        "hsk": "2",
+        "n_vi": "HSK 2",
+        "n_en": "HSK 2",
+        "notebooks_count": 863
+    },
+    {
+        "id": "3",
+        "hsk": "3",
+        "n_vi": "HSK 3",
+        "n_en": "HSK 3",
+        "notebooks_count": 1208
+    },
+    {
+        "id": "4",
+        "hsk": "4",
+        "n_vi": "HSK 4",
+        "n_en": "HSK 4",
+        "notebooks_count": 1451
+    },
+    {
+        "id": "5",
+        "hsk": "5",
+        "n_vi": "HSK 5",
+        "n_en": "HSK 5",
+        "notebooks_count": 2152
+    },
+    {
+        "id": "6",
+        "hsk": "6",
+        "n_vi": "HSK 6",
+        "n_en": "HSK 6",
+        "notebooks_count": 3404
+    },
+    {
+        "id": "7",
+        "hsk": "7-9",
+        "n_vi": "HSK 7-9",
+        "n_en": "HSK 7-9",
+        "notebooks_count": 4661
+    }
+]
