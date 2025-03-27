@@ -19,6 +19,7 @@ const HantuStrokeRenderer: React.FC<HantuStrokeRendererProps> = ({ strokesData, 
   const [strokes, setStrokes] = useState<string[]>([]);
   const [medians, setMedians] = useState<string[]>([]);
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState<number>(-1);
+  const [animationKey, setAnimationKey] = useState<number>(0);
   
   // Parse stroke data when strokesData changes
   useEffect(() => {
@@ -121,6 +122,29 @@ const HantuStrokeRenderer: React.FC<HantuStrokeRendererProps> = ({ strokesData, 
     }
   }, [currentStrokeIndex]);
   
+  // Add this function to handle refresh
+  const handleRefresh = () => {
+    setVisibleStrokes(0);
+    setCurrentStrokeIndex(-1);
+    setAnimationKey(prev => prev + 1); // Increment key to force animation reset
+    
+    // Restart the animation
+    const totalStrokes = Math.max(strokes.length, medians.length);
+    let strokeIndex = 0;
+    
+    const intervalId = setInterval(() => {
+      setVisibleStrokes((prev: number) => {
+        strokeIndex = prev + 1;
+        if (strokeIndex >= totalStrokes) {
+          clearInterval(intervalId);
+        }
+        return strokeIndex;
+      });
+    }, 700);
+    
+    return () => clearInterval(intervalId);
+  };
+  
   if (!strokesData || (strokes.length === 0 && medians.length === 0)) return null;
   
   const keyframes = `
@@ -151,13 +175,14 @@ const HantuStrokeRenderer: React.FC<HantuStrokeRendererProps> = ({ strokesData, 
           top="0"
           right="0"
           zIndex="1"
-          onClick={() => window.location.reload()}
+          onClick={handleRefresh}
         />
         <style dangerouslySetInnerHTML={{ __html: keyframes }} />
         <svg 
           viewBox="0 0 1024 1024" 
           width="200" 
           height="200"
+          key={animationKey}
         >
           <defs>
             <filter id="blur">
