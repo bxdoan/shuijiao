@@ -177,8 +177,8 @@ const ContactPage: React.FC = () => {
               <ContactBox 
                 icon={<FaPhone size={18} />}
                 title="Điện thoại"
-                value="+84 904 195 065"
-                link="tel:+84904195065"
+                value="+84 915 670 892"
+                link="tel:+84915670892"
                 color="green"
               />
               
@@ -193,8 +193,8 @@ const ContactPage: React.FC = () => {
               <ContactBox 
                 icon={<SiZalo size={18} />}
                 title="Zalo"
-                value="0904195065"
-                link="https://zalo.me/0904195065"
+                value="0915670892"
+                link="https://zalo.me/0915670892"
                 color="purple"
               />
               
