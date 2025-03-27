@@ -49,9 +49,11 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 
 import SEO from '../../components/Common/SEO';
 import { 
-    fetchDictionary, 
     translateSentences 
 } from '../../api/newsApi';
+import {
+  fetchDictionary,
+} from '../../api/vocabApi';
 import { getChinesePinyin } from '../../api/translateApi';
 import { HSK_LEVEL_COLORS } from '../../constant/hsk';
 import { DonationBox } from '../../components/Common/DonationBox';

@@ -24,7 +24,7 @@ import {
   Flex,
   Button,
 } from '@chakra-ui/react';
-import { fetchDictionary } from '../../api/newsApi';
+import { fetchDictionary } from '../../api/vocabApi';
 import { useNavigate } from 'react-router-dom';
 import { FaBookOpen } from 'react-icons/fa';
 

@@ -1,7 +1,47 @@
 import {
   VocabularyCategoryResponse,
-  VocabularyResponse
+  VocabularyResponse,
+  SearchResponse,
+  KanjiResponse
 } from '../types';
+
+
+// Common search function for vocabulary and kanji
+export const fetchDictionary = async (
+    term: string,
+    targetLang: string = 'vi',
+    type: string = 'word',
+    page: number = 1,
+    limit: number = 50
+): Promise<SearchResponse | KanjiResponse | null> => {
+    if (!term.trim()) return null;
+  
+    try {
+      const response = await fetch(
+        `https://api.hanzii.net/api/search/${targetLang}/${encodeURIComponent(term)}?type=${type}&page=${page}&limit=${limit}`,
+        {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json, text/plain, */*',
+            'authorization': '37783281518601508919736764542798',
+            'origin': 'https://hanzii.net',
+            'referer': 'https://hanzii.net/'
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const data = await response.json();
+      return data;
+      
+    } catch (error) {
+      console.error(`Error searching for ${type} ${term} ${targetLang} ${page} ${limit}:`, error);
+      return null;
+    }
+};
 
 export const fetchVocabularyCategories = async (): Promise<VocabularyCategoryResponse> => {
     const response = await fetch('https://api.hanzii.net/api/category/premium', {

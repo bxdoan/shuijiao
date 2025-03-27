@@ -31,7 +31,7 @@ import {
     FaShare
 } from 'react-icons/fa';
 
-import {fetchDictionary} from '../../api/newsApi';
+import {fetchDictionary} from '../../api/vocabApi';
 import { 
   fetchVocabularyItems,
   fetchHSKVocabulary 

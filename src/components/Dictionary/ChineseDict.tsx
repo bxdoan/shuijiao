@@ -30,11 +30,13 @@ import {
 
 // Import API functions
 import { 
-  fetchDictionary,
   fetchSuggestions,
   SearchResponse, 
   KanjiResponse,
 } from '../../api/newsApi';
+import {
+  fetchDictionary,
+} from '../../api/vocabApi';
 
 import HantuStrokeRenderer from './HantuStrokeRenderer';
 

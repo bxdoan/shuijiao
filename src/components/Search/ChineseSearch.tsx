@@ -36,11 +36,12 @@ import HantuStrokeRenderer from '../Dictionary/HantuStrokeRenderer';
 
 // Import API functions
 import { 
-  fetchDictionary,
   SearchResponse, 
   KanjiResponse,
 } from '../../api/newsApi';
-
+import {
+  fetchDictionary,
+} from '../../api/vocabApi';
 
 interface ChineseSearchProps {
   targetLang?: string;
