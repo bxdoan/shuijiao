@@ -38,7 +38,7 @@ import {
   FaBookOpen,
   FaExternalLinkAlt,
   FaCommentAlt,
-  FaFileAlt
+  FaFileAlt,
 } from 'react-icons/fa';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
@@ -51,7 +51,7 @@ import {
 } from '../../api/vocabApi';
 import { getChinesePinyin } from '../../api/translateApi';
 import { HSK_LEVEL_COLORS } from '../../constant/hsk';
-import { DonationBox } from '../../components/Common/DonationBox';
+// import { DonationBox } from '../../components/Common/DonationBox';
 import { ShareModal } from '../../components/Common/ShareModal';
 import WordPopover from '../../components/Common/WordPopover';
 import { 
@@ -309,13 +309,19 @@ const HSKDetails = () => {
           {/* Breadcrumbs */}
           <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} fontSize="sm">
             <BreadcrumbItem>
-              <BreadcrumbLink as={RouterLink} to="/zh">Trang chủ</BreadcrumbLink>
+              <BreadcrumbLink as={RouterLink} to="/zh">
+                <Text fontWeight="bold">Trang chủ</Text>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink as={RouterLink} to={`/zh/vi/hsk/${level}`}>HSK {level}</BreadcrumbLink>
+              <BreadcrumbLink as={RouterLink} to={`/zh/vi/hsk/${level}`}>
+                <Text fontWeight="bold">HSK {level}</Text>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink>{lesson.episode}</BreadcrumbLink>
+              <BreadcrumbLink>
+                <Text fontWeight="bold">{lesson.episode}</Text>
+              </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
           
@@ -329,6 +335,9 @@ const HSKDetails = () => {
               as="h1" 
               size="xl" 
               mb={4}
+              bgGradient="linear(to-r, blue.500, purple.500)" 
+              bgClip="text"
+              lineHeight="1.4"
             >
               {lesson.title}
             </Heading>
@@ -349,7 +358,13 @@ const HSKDetails = () => {
                 />
               </AspectRatio>
               <Box p={5}>
-                <Text fontWeight="medium" mb={4}>{lesson.description}</Text>
+                <Text 
+                  fontWeight="bold" 
+                  mb={4} 
+                  color={sentenceColor}
+                >
+                  {lesson.description}
+                </Text>
                 
                 {/* Navigation buttons for lessons */}
                 <Flex justify="space-between" w="100%" mt={4}>
@@ -541,7 +556,7 @@ const HSKDetails = () => {
           )}
           
           {/* Box ủng hộ dự án */}
-          <Box mt={6}>
+          {/* <Box mt={6}>
             <DonationBox 
               title="Ủng hộ dự án Shuijiao"
               description="Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ để chúng tôi có thể phát triển thêm nhiều tính năng mới."
@@ -550,7 +565,7 @@ const HSKDetails = () => {
               accountHolder="Bui Xuan Doan"
               transferMessage="Ho tro Shuijiao"
             />
-          </Box>
+          </Box> */}
         </VStack>
       </Container>
     </Box>

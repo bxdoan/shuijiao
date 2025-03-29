@@ -28,7 +28,9 @@ import {
   SearchIcon,
   CloseIcon,
 } from '@chakra-ui/icons';
-import { FaVolumeUp } from 'react-icons/fa';
+import { 
+  FaVolumeUp
+} from 'react-icons/fa';
 
 // Import API functions
 import { 

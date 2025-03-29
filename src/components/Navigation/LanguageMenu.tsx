@@ -30,7 +30,7 @@ export const LanguageMenu = () => {
   const getMenuItems = () => {
     if (learnLang === 'zh') {
       return (
-        <HStack spacing="4" ml={4}>
+        <HStack spacing="1" ml={1}>
           <Button
           as={Link}
           to="/zh"
@@ -81,7 +81,7 @@ export const LanguageMenu = () => {
       );
     } else {
       return (
-        <HStack spacing="4" ml={4}>
+        <HStack spacing="1" ml={1}>
            <Button
           as={Link}
           to="/en"

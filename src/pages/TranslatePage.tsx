@@ -21,8 +21,16 @@ import {
   Tooltip,
   keyframes,
 } from '@chakra-ui/react';
-import { RepeatIcon, CopyIcon, CloseIcon, ArrowRightIcon } from '@chakra-ui/icons';
-import { fetchGoogleTranslation, getChinesePinyin } from '../api/translateApi';
+import { 
+  RepeatIcon, 
+  CopyIcon, 
+  CloseIcon, 
+  ArrowRightIcon
+} from '@chakra-ui/icons';
+import { 
+  fetchGoogleTranslation, 
+  getChinesePinyin 
+} from '../api/translateApi';
 import SEO from '../components/Common/SEO';
 // import { DonationBox } from '../components/Common/DonationBox';
 
@@ -389,7 +397,6 @@ const TranslatePage: React.FC = () => {
             left={{ base: "50%", md: "50%" }}
             bottom={{ base: "calc(50% + 3px)", md: "auto" }} /* Đặt ở giữa theo chiều dọc trên mobile */
             transform={{ base: "translateX(-50%)", md: "translate(-50%, -50%)" }}
-            zIndex={2}
             display="block"
           >
             <IconButton
