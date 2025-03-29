@@ -12,7 +12,8 @@ import {
   Text,
   Flex,
   Grid,
-  GridItem
+  GridItem,
+  Divider
 } from '@chakra-ui/react';
 import { 
   ChevronDownIcon,
@@ -23,6 +24,7 @@ import {
 } from 'react-router-dom';
 import { 
   FaGraduationCap,
+  FaFileAlt
 } from 'react-icons/fa';
 import { HSK_LEVELS } from '../../constant/hsk';
 
@@ -30,6 +32,7 @@ export const LearnMenu = () => {
   const location = useLocation();
   // Check if current path is HSK related
   const isHSKPath = location.pathname.includes('/zh/vi/hsk/');
+  const isDocsPath = location.pathname.includes('/zh/docs');
   
   // Get current HSK level if on HSK path
   const currentLevel = isHSKPath ? location.pathname.split('/')[4] : null;
@@ -39,7 +42,7 @@ export const LearnMenu = () => {
       <MenuButton
         as={Button}
         rightIcon={<ChevronDownIcon />}
-        variant={isHSKPath ? "solid" : "ghost"}
+        variant={isHSKPath || isDocsPath ? "solid" : "ghost"}
         colorScheme="yellow"
         size="md"
       >
@@ -55,12 +58,33 @@ export const LearnMenu = () => {
         p={1}
         minWidth="250px"
       >
-       
+        {/* Tài Liệu Menu Item */}
+        <MenuItem 
+          as={Link} 
+          to="/zh/docs"
+          _hover={{ bg: 'red.600' }}
+          color={isDocsPath ? "yellow.300" : "white"}
+          fontWeight={isDocsPath ? "bold" : "medium"}
+          bg="red.700"
+          height="100%"
+          px={2}
+          py={1}
+          borderRadius="md"
+          mb={2}
+        >
+          <Flex align="center" justify="center">
+            <Icon as={FaFileAlt} mr={1} color="blue.300" />
+            <Text fontSize="sm">Tài Liệu</Text>
+          </Flex>
+        </MenuItem>
+
+        <Divider borderColor="red.600" mb={2} />
+
         {/* HSK Submenu */}
         <MenuGroup 
           title="Học HSK" 
-          color="yellow.300"
-          fontWeight="bold"
+          color="white"
+          fontWeight={isHSKPath ? "bold" : "medium"}
           fontSize="sm"
           pl={3}
           pb={2}
@@ -76,7 +100,7 @@ export const LearnMenu = () => {
                     as={Link} 
                     to={`/zh/vi/hsk/${level.level}`}
                     _hover={{ bg: 'red.600' }}
-                    color="white"
+                    color={currentLevel === level.level ? "yellow.300" : "white"} 
                     fontWeight={currentLevel === level.level ? "bold" : "medium"}
                     bg="red.700"
                     height="100%"
@@ -101,7 +125,7 @@ export const LearnMenu = () => {
                     as={Link} 
                     to={`/zh/vi/hsk/${level.level}`}
                     _hover={{ bg: 'red.600' }}
-                    color="white"
+                    color={currentLevel === level.level ? "yellow.300" : "white"} 
                     fontWeight={currentLevel === level.level ? "bold" : "medium"}
                     bg="red.700"
                     height="100%"

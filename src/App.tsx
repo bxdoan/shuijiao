@@ -18,6 +18,8 @@ import HSKDetails from './pages/Chinese/HSKDetail';
 import ChineseFlashCard from './pages/Chinese/FlashCard';
 import VideoPage from './pages/Chinese/Video';
 import VideoDetailPage from './pages/Chinese/VideoDetail';
+import Docs from './pages/Chinese/Docs';
+import DocDetail from './pages/Chinese/DocDetail';
 import SEO from './components/Common/SEO';
 import theme from './theme';
 import ChineseVocabulary from './pages/Chinese/Vocabulary';
@@ -66,6 +68,8 @@ function App() {
                   <Route path="/zh/vocab" element={<ChineseVocabulary />} />
                   <Route path="/zh/vocab/:category" element={<ChineseVocabularyDetail />} />
                   <Route path="/zh/vocab/hsk/:level" element={<ChineseVocabularyHSK />} />
+                  <Route path="/zh/docs" element={<Docs />} />
+                  <Route path="/zh/docs/:id" element={<DocDetail />} />
                 </Routes>
               </Box>
               <Footer />

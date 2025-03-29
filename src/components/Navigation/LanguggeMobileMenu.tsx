@@ -24,7 +24,8 @@ import {
   FaNewspaper,
   FaGraduationCap,
   FaVideo,
-  FaList
+  FaList,
+  FaFileAlt,
 } from 'react-icons/fa';
 
 import { HSK_LEVELS } from '../../constant/hsk';
@@ -115,6 +116,19 @@ export const LanguggeMobileMenu = ({ onCloseDrawer }: LanguggeMobileMenuProps) =
             Từ điển Hán Việt
           </Button>
           
+          <Button
+            as={Link}
+            to="/zh/docs"
+            variant="ghost"
+            colorScheme="yellow"
+            size="md"
+            justifyContent="flex-start"
+            leftIcon={<FaFileAlt />}
+            onClick={onCloseDrawer}
+          >
+            Tài liệu
+          </Button>
+          
           <Accordion allowToggle defaultIndex={isHSKPath ? [0] : undefined}>
             <AccordionItem border="none">
               <h2>
@@ -143,7 +157,7 @@ export const LanguggeMobileMenu = ({ onCloseDrawer }: LanguggeMobileMenuProps) =
                       as={Link}
                       to={`/zh/vi/hsk/${level.level}`}
                       variant={currentLevel === level.level ? "solid" : "ghost"}
-                      colorScheme={level.color}
+                      colorScheme="white"
                       size="sm"
                       justifyContent="flex-start"
                       leftIcon={<FaGraduationCap />}

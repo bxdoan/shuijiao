@@ -37,7 +37,9 @@ import {
   FaArrowLeft,
   FaBookOpen,
   FaExternalLinkAlt,
-  FaCommentAlt } from 'react-icons/fa';
+  FaCommentAlt,
+  FaFileAlt
+} from 'react-icons/fa';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 import SEO from '../../components/Common/SEO';
@@ -395,6 +397,18 @@ const HSKDetails = () => {
               borderWidth="1px" 
               borderColor={borderColor}
             >
+              <Button 
+                leftIcon={<FaFileAlt />}
+                colorScheme="blue"
+                size="md"
+                width="full"
+                mb={4}
+                as={RouterLink}
+                to={`/zh/docs/${level}`}
+              >
+                Tài liệu HSK {level}
+              </Button>
+
               <Heading as="h2" size="md" mb={4}>
                 Từ vựng trong bài
               </Heading>
